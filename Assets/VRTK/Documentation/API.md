@@ -2604,6 +2604,7 @@ A collection of scripts that provide the ability to interact with game objects w
  * [Controller Haptics](#controller-haptics-vrtk_controllerhaptics)
  * [Interact Object Appearance](#interact-object-appearance-vrtk_interactobjectappearance)
  * [Interact Touch](#interact-touch-vrtk_interacttouch)
+ * [Interact Near Touch](#interact-near-touch-vrtk_interactneartouch)
  * [Interact Grab](#interact-grab-vrtk_interactgrab)
  * [Interact Use](#interact-use-vrtk_interactuse)
  * [Interactable Object](#interactable-object-vrtk_interactableobject)
@@ -3227,7 +3228,7 @@ The Interact Touch script is usually applied to a Controller and provides a coll
 
 Colliders are created for the controller and by default the selected controller SDK will have a set of colliders for the given default controller of that SDK.
 
-A custom collider can be provided by the Custom Rigidbody Object parameter.
+A custom collider can be provided by the Custom Collider Container parameter.
 
 ### Inspector Parameters
 
@@ -3358,6 +3359,35 @@ The GetControllerType method is a shortcut to retrieve the current controller ty
 ### Example
 
 `VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the highlighting of objects that have the `VRTK_InteractableObject` script added to them to show the ability to highlight interactable objects when they are touched by the controllers.
+
+---
+
+## Interact Near Touch (VRTK_InteractNearTouch)
+
+### Overview
+
+The Interact Near Touch script is usually applied to a Controller and provides a collider to know when the controller is nearly touching something.
+
+Colliders are created for the controller and by default will be a sphere.
+
+A custom collider can be provided by the Custom Collider Container parameter.
+
+### Inspector Parameters
+
+ * **Collider Radius:** The radius of the auto generated collider if a `Custom Collider Container` is not supplied.
+ * **Custom Collider Container:** An optional GameObject that contains the compound colliders to represent the near touching object. If this is empty then the collider will be auto generated at runtime.
+ * **Interact Touch:** The Interact Touch script to associate the near touches with. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+
+### Class Events
+
+ * `ControllerNearTouchInteractableObject` - Emitted when a valid object is near touched.
+ * `ControllerNearUntouchInteractableObject` - Emitted when a valid object is no longer being near touched.
+
+### Unity Events
+
+Adding the `VRTK_InteractNearTouch_UnityEvents` component to `VRTK_InteractNearTouch` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
 
 ---
 
@@ -3574,6 +3604,7 @@ The highlighting of an Interactable Object is defaulted to use the `VRTK_Materia
 ### Inspector Parameters
 
  * **Disable When Idle:** If this is checked then the interactable object script will be disabled when the object is not being interacted with. This will eliminate the potential number of calls the interactable objects make each frame.
+ * **Allowed Near Touch Controllers:** Determines which controller can initiate a near touch action.
  * **Touch Highlight Color:** The colour to highlight the object when it is touched. This colour will override any globally set colour (for instance on the `VRTK_InteractTouch` script).
  * **Allowed Touch Controllers:** Determines which controller can initiate a touch action.
  * **Ignored Colliders:** An array of colliders on the object to ignore when being touched.
@@ -3609,6 +3640,8 @@ The highlighting of an Interactable Object is defaulted to use the `VRTK_Materia
 
  * `InteractableObjectEnabled` - Emitted when the object script is enabled;
  * `InteractableObjectDisabled` - Emitted when the object script is disabled;
+ * `InteractableObjectNearTouched` - Emitted when another object near touches the current object.
+ * `InteractableObjectNearUntouched` - Emitted when the other object stops near touching the current object.
  * `InteractableObjectTouched` - Emitted when another object touches the current object.
  * `InteractableObjectUntouched` - Emitted when the other object stops touching the current object.
  * `InteractableObjectGrabbed` - Emitted when another object grabs the current object (e.g. a controller).
@@ -3631,6 +3664,17 @@ Adding the `VRTK_InteractableObject_UnityEvents` component to `VRTK_Interactable
  * `GameObject interactingObject` - The object that is initiating the interaction (e.g. a controller).
 
 ### Class Methods
+
+#### IsNearTouched/0
+
+  > `public virtual bool IsNearTouched()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the object is currently being near touched.
+
+The IsNearTouched method is used to determine if the object is currently being near touched.
 
 #### IsTouched/0
 
@@ -3665,6 +3709,28 @@ The IsGrabbed method is used to determine if the object is currently being grabb
 
 The IsUsing method is used to determine if the object is currently being used.
 
+#### StartNearTouching/1
+
+  > `public virtual void StartNearTouching(VRTK_InteractNearTouch currentNearTouchingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractNearTouch currentNearTouchingObject` - The object that is currently nearly touching this object.
+ * Returns
+   * _none_
+
+The StartNearTouching method is called automatically when the object is initially nearly touched.
+
+#### StopNearTouching/1
+
+  > `public virtual void StopNearTouching(VRTK_InteractNearTouch previousNearTouchingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractNearTouch previousNearTouchingObject` - The object that was previously nearly touching this object.
+ * Returns
+   * _none_
+
+The StopNearTouching method is called automatically when the object has stopped being nearly touched.
+
 #### StartTouching/1
 
   > `public virtual void StartTouching(VRTK_InteractTouch currentTouchingObject = null)`
@@ -3674,7 +3740,7 @@ The IsUsing method is used to determine if the object is currently being used.
  * Returns
    * _none_
 
-The StartTouching method is called automatically when the object is touched initially. It is also a virtual method to allow for overriding in inherited classes.
+The StartTouching method is called automatically when the object is touched initially.
 
 #### StopTouching/1
 
@@ -3685,7 +3751,7 @@ The StartTouching method is called automatically when the object is touched init
  * Returns
    * _none_
 
-The StopTouching method is called automatically when the object has stopped being touched. It is also a virtual method to allow for overriding in inherited classes.
+The StopTouching method is called automatically when the object has stopped being touched.
 
 #### Grabbed/1
 
@@ -3696,7 +3762,7 @@ The StopTouching method is called automatically when the object has stopped bein
  * Returns
    * _none_
 
-The Grabbed method is called automatically when the object is grabbed initially. It is also a virtual method to allow for overriding in inherited classes.
+The Grabbed method is called automatically when the object is grabbed initially.
 
 #### Ungrabbed/1
 
@@ -3707,7 +3773,7 @@ The Grabbed method is called automatically when the object is grabbed initially.
  * Returns
    * _none_
 
-The Ungrabbed method is called automatically when the object has stopped being grabbed. It is also a virtual method to allow for overriding in inherited classes.
+The Ungrabbed method is called automatically when the object has stopped being grabbed.
 
 #### StartUsing/1
 
@@ -3718,7 +3784,7 @@ The Ungrabbed method is called automatically when the object has stopped being g
  * Returns
    * _none_
 
-The StartUsing method is called automatically when the object is used initially. It is also a virtual method to allow for overriding in inherited classes.
+The StartUsing method is called automatically when the object is used initially.
 
 #### StopUsing/2
 
@@ -3730,7 +3796,7 @@ The StartUsing method is called automatically when the object is used initially.
  * Returns
    * _none_
 
-The StopUsing method is called automatically when the object has stopped being used. It is also a virtual method to allow for overriding in inherited classes.
+The StopUsing method is called automatically when the object has stopped being used.
 
 #### ToggleHighlight/1
 
@@ -3786,6 +3852,17 @@ The ZeroVelocity method resets the velocity and angular velocity to zero on the 
    * _none_
 
 The SaveCurrentState method stores the existing object parent and the object's rigidbody kinematic setting.
+
+#### GetNearTouchingObjects/0
+
+  > `public virtual List<GameObject> GetNearTouchingObjects()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `List<GameObject>` - A list of game object of that are currently nearly touching the current object.
+
+The GetNearTouchingObjects method is used to return the collecetion of valid game objects that are currently nearly touching this object.
 
 #### GetTouchingObjects/0
 
