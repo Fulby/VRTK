@@ -136,6 +136,38 @@ namespace VRTK
         }
 
         /// <summary>
+        /// The ColliderExclude method reduces the colliders in the setA array by those matched in the setB array.
+        /// </summary>
+        /// <param name="setA">The array that contains all of the relevant colliders.</param>
+        /// <param name="setB">The array that contains the colliders to remove from setA.</param>
+        /// <returns>A Collider array that is a subset of setA that doesn't contain the colliders from setB.</returns>
+        public static Collider[] ColliderExclude(Collider[] setA, Collider[] setB)
+        {
+            return setA.Except(setB).ToArray<Collider>();
+        }
+
+        /// <summary>
+        /// The GetCollidersInGameObjects method iterates through a GameObject array and returns all of the unique found colliders for all GameObejcts.
+        /// </summary>
+        /// <param name="gameObjects">An array of GameObjects to get the colliders for.</param>
+        /// <param name="searchChildren">If this is `true` then the given GameObjects will also have their child GameObjects searched for colliders.</param>
+        /// <param name="includeInactive">If this is `true` then the inactive GameObjects in the array will also be checked for Colliders. Only relevant if `searchChildren` is `true`.</param>
+        /// <returns>An array of Colliders that are found in the given GameObject array.</returns>
+        public static Collider[] GetCollidersInGameObjects(GameObject[] gameObjects, bool searchChildren, bool includeInactive)
+        {
+            HashSet<Collider> foundColliders = new HashSet<Collider>();
+            for (int i = 0; i < gameObjects.Length; i++)
+            {
+                Collider[] gameObjectColliders = (searchChildren ? gameObjects[i].GetComponentsInChildren<Collider>(includeInactive) : gameObjects[i].GetComponents<Collider>());
+                for (int j = 0; j < gameObjectColliders.Length; j++)
+                {
+                    foundColliders.Add(gameObjectColliders[j]);
+                }
+            }
+            return foundColliders.ToArray();
+        }
+
+        /// <summary>
         /// The CloneComponent method takes a source component and copies it to the given destination game object.
         /// </summary>
         /// <param name="source">The component to copy.</param>
@@ -321,7 +353,7 @@ namespace VRTK
             float gpuTimeLastFrame;
             return (XRStats.TryGetGPUTimeLastFrame(out gpuTimeLastFrame) ? gpuTimeLastFrame : 0f);
 #else
-            return VRStats.gpuTimeLastFrame;
+            return XRStats.gpuTimeLastFrame;
 #endif
         }
 
@@ -331,12 +363,24 @@ namespace VRTK
         /// <param name="vectorA">The Vector2 to compare against.</param>
         /// <param name="vectorB">The Vector2 to compare with</param>
         /// <param name="compareFidelity">The number of decimal places to use when doing the comparison on the float elements within the Vector2.</param>
-        /// <returns>Returns true if the given Vector2 objects match based on the given fidelity.</returns>
+        /// <returns>Returns `true` if the given Vector2 objects match based on the given fidelity.</returns>
         public static bool Vector2ShallowCompare(Vector2 vectorA, Vector2 vectorB, int compareFidelity)
         {
             Vector2 distanceVector = vectorA - vectorB;
             return (Math.Round(Mathf.Abs(distanceVector.x), compareFidelity, MidpointRounding.AwayFromZero) < float.Epsilon &&
                     Math.Round(Mathf.Abs(distanceVector.y), compareFidelity, MidpointRounding.AwayFromZero) < float.Epsilon);
+        }
+
+        /// <summary>
+        /// The Vector3ShallowCompare method compares two given Vector3 objects based on the given threshold, which is the equavelent of checking the distance between two Vector3 objects are above the threshold distance.
+        /// </summary>
+        /// <param name="vectorA">The Vector3 to compare against.</param>
+        /// <param name="vectorB">The Vector3 to compare with</param>
+        /// <param name="threshold">The distance in which the two Vector3 objects can be within to be considered true</param>
+        /// <returns>Returns `true` if the given Vector3 objects are within the given threshold distance.</returns>
+        public static bool Vector3ShallowCompare(Vector3 vectorA, Vector3 vectorB, float threshold)
+        {
+            return (Vector3.Distance(vectorA, vectorB) < threshold);
         }
 
         /// <summary>
@@ -360,6 +404,167 @@ namespace VRTK
         {
             transform.localScale = Vector3.one;
             transform.localScale = new Vector3(globalScale.x / transform.lossyScale.x, globalScale.y / transform.lossyScale.y, globalScale.z / transform.lossyScale.z);
+        }
+
+        /// <summary>
+        /// The VectorHeading method calculates the current heading of the target position in relation to the origin position.
+        /// </summary>
+        /// <param name="originPosition">The point to use as the originating position for the heading calculation.</param>
+        /// <param name="targetPosition">The point to use as the target position for the heading calculation.</param>
+        /// <returns>A Vector3 containing the heading changes of the target position in relation to the origin position.</returns>
+        public static Vector3 VectorHeading(Vector3 originPosition, Vector3 targetPosition)
+        {
+            return targetPosition - originPosition;
+        }
+
+        /// <summary>
+        /// The VectorDirection method calculates the direction the target position is in relation to the origin position.
+        /// </summary>
+        /// <param name="originPosition">The point to use as the originating position for the direction calculation.</param>
+        /// <param name="targetPosition">The point to use as the target position for the direction calculation.</param>
+        /// <returns>A Vector3 containing the direction of the target position in relation to the origin position.</returns>
+        public static Vector3 VectorDirection(Vector3 originPosition, Vector3 targetPosition)
+        {
+            Vector3 heading = VectorHeading(originPosition, targetPosition);
+            return heading * DividerToMultiplier(heading.magnitude);
+        }
+
+        /// <summary>
+        /// The DividerToMultiplier method takes a number to be used in a division and converts it to be used for multiplication. (e.g. 2 / 2 becomes 2 * 0.5)
+        /// </summary>
+        /// <param name="value">The number to convert into the multplier value.</param>
+        /// <returns>The calculated number that can replace the divider number in a multiplication sum.</returns>
+        public static float DividerToMultiplier(float value)
+        {
+            return (value != 0f ? 1f / value : 1f);
+        }
+
+        /// <summary>
+        /// The NormalizeValue method takes a given value between a specified range and returns the normalized value between 0f and 1f.
+        /// </summary>
+        /// <param name="value">The actual value to normalize.</param>
+        /// <param name="minValue">The minimum value the actual value can be.</param>
+        /// <param name="maxValue">The maximum value the actual value can be.</param>
+        /// <param name="threshold">The threshold to force to the minimum or maximum value if the normalized value is within the threhold limits.</param>
+        /// <returns></returns>
+        public static float NormalizeValue(float value, float minValue, float maxValue, float threshold = 0f)
+        {
+            float normalizedMax = maxValue - minValue;
+            float normalizedValue = normalizedMax - (maxValue - value);
+            float result = normalizedValue * DividerToMultiplier(normalizedMax); ;
+            result = (result < threshold ? 0f : result);
+            result = (result > 1f - threshold ? 1f : result);
+            return Mathf.Clamp(result, 0f, 1f);
+        }
+
+        /// <summary>
+        /// The AxisDirection method returns the relevant direction Vector3 based on the axis index in relation to x,y,z.
+        /// </summary>
+        /// <param name="axisIndex">The axis index of the axis. `0 = x` `1 = y` `2 = z`</param>
+        /// <param name="givenTransform">An optional Transform to get the Axis Direction for. If this is `null` then the World directions will be used.</param>
+        /// <returns>The direction Vector3 based on the given axis index.</returns>
+        public static Vector3 AxisDirection(int axisIndex, Transform givenTransform = null)
+        {
+            Vector3[] worldDirections = (givenTransform != null ? new Vector3[] { givenTransform.right, givenTransform.up, givenTransform.forward } : new Vector3[] { Vector3.right, Vector3.up, Vector3.forward });
+            return worldDirections[(int)Mathf.Clamp(axisIndex, 0f, worldDirections.Length)];
+        }
+
+        /// <summary>
+        /// The AddListValue method adds the given value to the given list. If `preventDuplicates` is `true` then the given value will only be added if it doesn't already exist in the given list.
+        /// </summary>
+        /// <typeparam name="TValue">The datatype for the list value.</typeparam>
+        /// <param name="list">The list to retrieve the value from.</param>
+        /// <param name="value">The value to attempt to add to the list.</param>
+        /// <param name="preventDuplicates">If this is `false` then the value provided will always be appended to the list. If this is `true` the value provided will only be added to the list if it doesn't already exist.</param>
+        /// <returns>Returns `true` if the given value was successfully added to the list. Returns `false` if the given value already existed in the list and `preventDuplicates` is `true`.</returns>
+        public static bool AddListValue<TValue>(List<TValue> list, TValue value, bool preventDuplicates = false)
+        {
+            if (list != null && (!preventDuplicates || !list.Contains(value)))
+            {
+                list.Add(value);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// The GetDictionaryValue method attempts to retrieve a value from a given dictionary for the given key. It removes the need for a double dictionary lookup to ensure the key is valid and has the option of also setting the missing key value to ensure the dictionary entry is valid.
+        /// </summary>
+        /// <typeparam name="TKey">The datatype for the dictionary key.</typeparam>
+        /// <typeparam name="TValue">The datatype for the dictionary value.</typeparam>
+        /// <param name="dictionary">The dictionary to retrieve the value from.</param>
+        /// <param name="key">The key to retrieve the value for.</param>
+        /// <param name="defaultValue">The value to utilise when either setting the missing key (if `setMissingKey` is `true`) or the default value to return when no key is found (if `setMissingKey` is `false`).</param>
+        /// <param name="setMissingKey">If this is `true` and the given key is not present, then the dictionary value for the given key will be set to the `defaultValue` parameter. If this is `false` and the given key is not present then the `defaultValue` parameter will be returned as the value.</param>
+        /// <returns>The found value for the given key in the given dictionary, or the default value if no key is found.</returns>
+        public static TValue GetDictionaryValue<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default(TValue), bool setMissingKey = false)
+        {
+            bool keyExists;
+            return GetDictionaryValue(dictionary, key, out keyExists, defaultValue, setMissingKey);
+        }
+
+        /// <summary>
+        /// The GetDictionaryValue method attempts to retrieve a value from a given dictionary for the given key. It removes the need for a double dictionary lookup to ensure the key is valid and has the option of also setting the missing key value to ensure the dictionary entry is valid.
+        /// </summary>
+        /// <typeparam name="TKey">The datatype for the dictionary key.</typeparam>
+        /// <typeparam name="TValue">The datatype for the dictionary value.</typeparam>
+        /// <param name="dictionary">The dictionary to retrieve the value from.</param>
+        /// <param name="key">The key to retrieve the value for.</param>
+        /// <param name="keyExists">Sets the given parameter to `true` if the key exists in the given dictionary or sets to `false` if the key didn't existing in the given dictionary.</param>
+        /// <param name="defaultValue">The value to utilise when either setting the missing key (if `setMissingKey` is `true`) or the default value to return when no key is found (if `setMissingKey` is `false`).</param>
+        /// <param name="setMissingKey">If this is `true` and the given key is not present, then the dictionary value for the given key will be set to the `defaultValue` parameter. If this is `false` and the given key is not present then the `defaultValue` parameter will be returned as the value.</param>
+        /// <returns>The found value for the given key in the given dictionary, or the default value if no key is found.</returns>
+        public static TValue GetDictionaryValue<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey key, out bool keyExists, TValue defaultValue = default(TValue), bool setMissingKey = false)
+        {
+            keyExists = false;
+            if (dictionary == null)
+            {
+                return defaultValue;
+            }
+
+            TValue outputValue;
+            if (dictionary.TryGetValue(key, out outputValue))
+            {
+                keyExists = true;
+            }
+            else
+            {
+                if (setMissingKey)
+                {
+                    dictionary.Add(key, defaultValue);
+                }
+                outputValue = defaultValue;
+            }
+            return outputValue;
+        }
+
+        /// <summary>
+        /// The AddDictionaryValue method attempts to add a value for the given key in the given dictionary if the key does not already exist. If `overwriteExisting` is `true` then it always set the value even if they key exists.
+        /// </summary>
+        /// <typeparam name="TKey">The datatype for the dictionary key.</typeparam>
+        /// <typeparam name="TValue">The datatype for the dictionary value.</typeparam>
+        /// <param name="dictionary">The dictionary to set the value for.</param>
+        /// <param name="key">The key to set the value for.</param>
+        /// <param name="value">The value to set at the given key in the given dictionary.</param>
+        /// <param name="overwriteExisting">If this is `true` then the value for the given key will always be set to the provided value. If this is `false` then the value for the given key will only be set if the given key is not found in the given dictionary.</param>
+        /// <returns>Returns `true` if the given value was successfully added to the dictionary at the given key. Returns `false` if the given key already existed in the dictionary and `overwriteExisting` is `false`.</returns>
+        public static bool AddDictionaryValue<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey key, TValue value, bool overwriteExisting = false)
+        {
+            if (dictionary != null)
+            {
+                if (overwriteExisting)
+                {
+                    dictionary[key] = value;
+                    return true;
+                }
+                else
+                {
+                    bool keyExists;
+                    GetDictionaryValue(dictionary, key, out keyExists, value, true);
+                    return !keyExists;
+                }
+            }
+            return false;
         }
 
         /// <summary>

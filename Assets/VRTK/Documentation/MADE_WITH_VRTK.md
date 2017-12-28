@@ -56,6 +56,10 @@ A collection of titles that have been made with VRTK.
 | SteamHammerVR - The Rogue Apprentice | [Steam Store Page](http://store.steampowered.com/app/517460) |
 | Holomeld | [Steam Store Page](http://store.steampowered.com/app/647790) |
 | Cloudborn | [Steam Store Page](http://store.steampowered.com/app/677040) |
+| Captain 13 Beyond the Hero | [Steam Store Page](http://store.steampowered.com/app/704350) |
+| VoxVR | [Steam Store Page](http://store.steampowered.com/app/502480) |
+| VR Hybrid War 2117 | [Steam Store Page](http://store.steampowered.com/app/741360) |
+| VR Shoot Around | [Steam Store Page](http://store.steampowered.com/app/671740) |
 
 ## Oculus Home
 
@@ -65,6 +69,13 @@ A collection of titles that have been made with VRTK.
 | Power Solitaire VR | [Oculus Home Store Page](https://www.oculus.com/experiences/rift/1119889274794166) |
 | Magic Table Chess | [Oculus Home Store Page](https://www.oculus.com/experiences/rift/804448142992694) |
 | Captain 13 - Beyond the Hero | [Oculus Home Store Page](https://www.oculus.com/experiences/rift/1482797975114864) |
+| Yanone - Letter Splatter | [Oculus Home Store Page](https://www.oculus.com/experiences/rift/1944077818952678/) |
+
+## Playstation Store
+
+| Name | Link |
+|-------------------------------------------------|-------------------------------------------------------------------------------------------|
+| League of War: VR Arena | [Playstation Store Page](https://store.playstation.com/en-gb/product/EP3275-CUSA10058_00-0000000000000001) |
 
 ## Itch.io
 

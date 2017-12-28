@@ -7,13 +7,16 @@ This file describes all of the public methods, variables and events utilised by 
    * [Pointer Renderers](#pointer-renderers-vrtksourcescriptspointerspointerrenderers)
  * [Locomotion](#locomotion-vrtksourcescriptslocomotion)
    * [Object Control Actions](#object-control-actions-vrtksourcescriptslocomotionobjectcontrolactions)
- * [Interactions](#interactions-vrtksourcescriptsinteractions)
-   * [Highlighters](#highlighters-vrtksourcescriptsinteractionshighlighters)
+ * [Highlighters](#highlighters-vrtksourcescriptsinteractionshighlighters)
+ * [Interactors](#interactors-vrtksourcescriptsinteractionsinteractors)
+ * [Interactables](#interactables-vrtksourcescriptsinteractionsinteractables)
    * [Grab Attach Mechanics](#grab-attach-mechanics-vrtksourcescriptsinteractionsgrabattachmechanics)
    * [Secondary Controller Grab Actions](#secondary-controller-grab-actions-vrtksourcescriptsinteractionssecondarycontrollergrabactions)
+   * [Controllables](#controllables-vrtksourcescriptsinteractionscontrollables)
+     * [Physics Controllables](#physics-controllables-vrtksourcescriptsinteractionscontrollablesphysics)
+     * [Artificial Controllables](#artificial-controllables-vrtksourcescriptsinteractionscontrollablesartificial)
  * [Presence](#presence-vrtksourcescriptspresence)
  * [UI](#ui-vrtksourcescriptsui)
- * [3D Controls](#3d-controls-vrtksourcescriptscontrols3d)
  * [Utilities](#utilities-vrtksourcescriptsutilities)
  * [Base SDK](#base-sdk-vrtksourcesdkbase)
    * [Fallback SDK](#fallback-sdk-vrtksourcesdkfallback)
@@ -31,101 +34,78 @@ This file describes all of the public methods, variables and events utilised by 
 
 A collection of pre-defined usable prefabs have been included to allow for each drag-and-drop set up of common elements.
 
- * [Unity SDK CameraRig](#unity-sdk-camerarig-sdk_unitycamerarig)
- * [VR Simulator CameraRig](#vr-simulator-camerarig-sdk_inputsimulator)
+ * [SDK Setup Switcher](#sdk-setup-switcher-vrtk_sdksetupswitcher)
+ * [Console Viewer Canvas](#console-viewer-canvas-vrtk_consoleviewer)
  * [Frames Per Second Canvas](#frames-per-second-canvas-vrtk_framespersecondviewer)
  * [Desktop Camera](#desktop-camera-vrtk_desktopcamera)
+ * [Controller Rigidbody Activator](#controller-rigidbody-activator-vrtk_controllerrigidbodyactivator)
  * [Object Tooltip](#object-tooltip-vrtk_objecttooltip)
  * [Controller Tooltips](#controller-tooltips-vrtk_controllertooltips)
- * [Controller Rigidbody Activator](#controller-rigidbody-activator-vrtk_controllerrigidbodyactivator)
  * [Snap Drop Zone](#snap-drop-zone-vrtk_snapdropzone)
- * [Radial Menu](#radial-menu-vrtk_radialmenu)
- * [Radial Menu Controller](#radial-menu-controller-vrtk_radialmenucontroller)
- * [Independent Radial Menu Controller](#independent-radial-menu-controller-vrtk_independentradialmenucontroller)
  * [Destination Point](#destination-point-vrtk_destinationpoint)
  * [Pointer Direction Indicator](#pointer-direction-indicator-vrtk_pointerdirectionindicator)
- * [Console Viewer Canvas](#console-viewer-canvas-vrtk_consoleviewer)
- * [Panel Menu Controller](#panel-menu-controller-vrtk_panelmenucontroller)
- * [Panel Menu Item Controller](#panel-menu-item-controller-vrtk_panelmenuitemcontroller)
- * [Avatar Hand Controller](#avatar-hand-controller-vrtk_avatarhandcontroller)
+ * [Radial Menu](#radial-menu-vrtk_radialmenu)
+ * [Independent Radial Menu](#independent-radial-menu-vrtk_independentradialmenucontroller)
+ * [Panel Menu](#panel-menu-vrtk_panelmenucontroller)
+ * [Panel Menu Item](#panel-menu-item-vrtk_panelmenuitemcontroller)
+ * [Avatar Hands](#avatar-hands-vrtk_avatarhandcontroller)
 
 ---
 
-## Unity SDK CameraRig (SDK_UnityCameraRig)
+## SDK Setup Switcher (VRTK_SDKSetupSwitcher)
 
 ### Overview
 
-The `[UnityBase_CameraRig]` prefab is a default camera rig set up for use with the Unity SDK support.
+Provides a GUI overlay to allow switching the loaded VRTK_SDKSetup of the the current VRTK_SDKManager.
 
-The Unity CameraRig also utilises the Unity Controller Tracker and Headset Tracker to enable GameObject tracking of it's position/rotation to the available connected VR device via the `UnityEngine.VR` library.
-
-### Inspector Parameters
-
- * **Lock Physics Update Rate To Render Frequency:** Automatically set the Unity Physics Fixed Timestep value based on the HMD render frequency.
+**Prefab Usage:**
+ * Place the `VRTK/Prefabs/SDKSetupSwitcher/SDKSetupSwitcher` prefab into the scene hierarchy.
 
 ---
 
-## VR Simulator CameraRig (SDK_InputSimulator)
+## Console Viewer Canvas (VRTK_ConsoleViewer)
 
 ### Overview
 
-The `[VRSimulator_CameraRig]` prefab is a mock Camera Rig set up that can be used to develop with VRTK without the need for VR Hardware.
+Adds an in-scene representation of the Unity console on a world space canvas.
 
-Use the mouse and keyboard to move around both play area and hands and interacting with objects without the need of a hmd or VR controls.
+**Prefab Usage:**
+ * Place the `VRTK/Prefabs/ConsoleViewerCanvas/ConsoleViewerCanvas` prefab into the scene hierarchy.
+
+  > It is also possible to interact with the `ConsoleViewerCanvas` with a `VRTK_UIPointer`.
 
 ### Inspector Parameters
 
- * **Show Control Hints:** Show control information in the upper left corner of the screen.
- * **Hide Hands At Switch:** Hide hands when disabling them.
- * **Reset Hands At Switch:** Reset hand position and rotation when enabling them.
- * **Mouse Movement Input:** Whether mouse movement always acts as input or requires a button press.
- * **Lock Mouse To View:** Lock the mouse cursor to the game window when the mouse movement key is pressed.
- * **Hand Move Multiplier:** Adjust hand movement speed.
- * **Hand Rotation Multiplier:** Adjust hand rotation speed.
- * **Player Move Multiplier:** Adjust player movement speed.
- * **Player Rotation Multiplier:** Adjust player rotation speed.
- * **Player Sprint Multiplier:** Adjust player sprint speed.
- * **Mouse Movement Key:** Key used to enable mouse input if a button press is required.
- * **Toggle Control Hints:** Key used to toggle control hints on/off.
- * **Change Hands:** Key used to switch between left and righ hand.
- * **Hands On Off:** Key used to switch hands On/Off.
- * **Rotation Position:** Key used to switch between positional and rotational movement.
- * **Change Axis:** Key used to switch between X/Y and X/Z axis.
- * **Distance Pickup Left:** Key used to distance pickup with left hand.
- * **Distance Pickup Right:** Key used to distance pickup with right hand.
- * **Distance Pickup Modifier:** Key used to enable distance pickup.
- * **Move Forward:** Key used to move forward.
- * **Move Left:** Key used to move to the left.
- * **Move Backward:** Key used to move backwards.
- * **Move Right:** Key used to move to the right.
- * **Sprint:** Key used to sprint.
- * **Trigger Alias:** Key used to simulate trigger button.
- * **Grip Alias:** Key used to simulate grip button.
- * **Touchpad Alias:** Key used to simulate touchpad button.
- * **Button One Alias:** Key used to simulate button one.
- * **Button Two Alias:** Key used to simulate button two.
- * **Start Menu Alias:** Key used to simulate start menu button.
- * **Touch Modifier:** Key used to switch between button touch and button press mode.
- * **Hair Touch Modifier:** Key used to switch between hair touch mode.
-
-### Class Variables
-
- * `public enum MouseInputMode` - Mouse input mode types
-   * `Always` - Mouse movement is always treated as mouse input.
-   * `RequiresButtonPress` - Mouse movement is only treated as movement when a button is pressed.
+ * **Font Size:** The size of the font the log text is displayed in.
+ * **Info Message:** The colour of the text for an info log message.
+ * **Assert Message:** The colour of the text for an assertion log message.
+ * **Warning Message:** The colour of the text for a warning log message.
+ * **Error Message:** The colour of the text for an error log message.
+ * **Exception Message:** The colour of the text for an exception log message.
 
 ### Class Methods
 
-#### FindInScene/0
+#### SetCollapse/1
 
-  > `public static GameObject FindInScene()`
+  > `public virtual void SetCollapse(bool state)`
+
+ * Parameters
+   * `bool state` - The state of whether to collapse the output messages, true will collapse and false will not collapse.
+ * Returns
+   * _none_
+
+The SetCollapse method determines whether the console will collapse same message output into the same line. A state of `true` will collapse messages and `false` will print the same message for each line.
+
+#### ClearLog/0
+
+  > `public virtual void ClearLog()`
 
  * Parameters
    * _none_
  * Returns
-   * `GameObject` - Returns the found `[VRSimulator_CameraRig]` GameObject if it is found. If it is not found then it prints a debug log error.
+   * _none_
 
-The FindInScene method is used to find the `[VRSimulator_CameraRig]` GameObject within the current scene.
+The ClearLog method clears the current log view of all messages
 
 ---
 
@@ -136,7 +116,7 @@ The FindInScene method is used to find the `[VRSimulator_CameraRig]` GameObject 
 Provides a frames per second text element to the HMD view. To use the prefab it must be placed into the scene then the headset camera needs attaching to the canvas:
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/FramesPerSecondCanvas` prefab in the scene hierarchy.
+ * Place the `VRTK/Prefabs/FramesPerSecondCanvas/FramesPerSecondCanvas` prefab in the scene hierarchy.
 
   > This script is largely based on the script at: http://talesfromtherift.com/vr-fps-counter/ So all credit to Peter Koch for his work. Twitter: @peterept
 
@@ -163,7 +143,7 @@ Provides a frames per second text element to the HMD view. To use the prefab it 
 Allows rendering a separate camera that is shown on the desktop only, without changing what's seen in VR headsets.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/DesktopCamera` prefab in the scene.
+ * Place the `VRTK/Prefabs/DesktopCamera/DesktopCamera` prefab in the scene.
 
 ### Inspector Parameters
 
@@ -174,6 +154,41 @@ Allows rendering a separate camera that is shown on the desktop only, without ch
 
 ---
 
+## Controller Rigidbody Activator (VRTK_ControllerRigidbodyActivator)
+
+### Overview
+
+Provides a simple trigger collider volume that when a controller enters will enable the rigidbody on the controller.
+
+**Prefab Usage:**
+ * Place the `VRTK/Prefabs/ControllerRigidbodyActivator/ControllerRigidbodyActivator` prefab in the scene at the location where the controller rigidbody should be automatically activated.
+ * The prefab contains a default sphere collider to determine ths collision, this collider component can be customised in the inspector or can be replaced with another collider component (set to `Is Trigger`).
+
+  > If the prefab is placed as a child of the target Interactable Object then the collider volume on the prefab will trigger collisions on the Interactable Object.
+
+### Inspector Parameters
+
+ * **Is Enabled:** If this is checked then the Collider will have it's Rigidbody toggled on and off during a collision.
+ * **Activate Interact Touch:** If this is checked then the Rigidbody Activator will activate the rigidbody and colliders on the Interact Touch script.
+ * **Activate Tracked Collider:** If this is checked then the Rigidbody Activator will activate the rigidbody and colliders on the Controller Tracked Collider script.
+
+### Class Events
+
+ * `ControllerRigidbodyOn` - Emitted when the controller rigidbody is turned on.
+ * `ControllerRigidbodyOff` - Emitted when the controller rigidbody is turned off.
+
+### Unity Events
+
+Adding the `VRTK_ControllerRigidbodyActivator_UnityEvents` component to `VRTK_ControllerRigidbodyActivator` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * ` interactingObject` - The object that touching the activator.
+
+---
+
 ## Object Tooltip (VRTK_ObjectTooltip)
 
 ### Overview
@@ -181,7 +196,7 @@ Allows rendering a separate camera that is shown on the desktop only, without ch
 Adds a World Space Canvas that can be used to provide additional information about an object by providing a piece of text with a line drawn to a destination point.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/ObjectTooltip` prefab into the scene hierarchy, preferably as a child of the GameObject it is associated with.
+ * Place the `VRTK/Prefabs/ObjectTooltip/ObjectTooltip` prefab into the scene hierarchy, preferably as a child of the GameObject it is associated with.
  * Set the `Draw Line To` option to the Transform component of the GameObject the Tooltip will be assoicated with.
 
 ### Inspector Parameters
@@ -249,7 +264,7 @@ The UpdateText method allows the tooltip text to be updated at runtime.
 Adds a collection of Object Tooltips to the Controller providing information to what the controller buttons may do.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/ControllerTooltips` prefab as a child of the relevant controller script alias GameObject in the scene hierarchy.
+ * Place the `VRTK/Prefabs/ControllerTooltips/ControllerTooltips` prefab as a child of the relevant controller script alias GameObject in the scene hierarchy.
  * If no `Button Transform Settings` are provided in the inspector at Edit time then the button transforms will attempt to be set to the transforms of the current SDK default controller model.
  * If one of the `Button Text Settings` text options are not provided, then the tooltip for that specific button will be hidden.
 
@@ -275,8 +290,6 @@ Adds a collection of Object Tooltips to the Controller providing information to 
  * **Controller Events:** The controller to read the controller events from. If this is blank then it will attempt to get a controller events script from the same or parent GameObject.
  * **Headset Controller Aware:** The headset controller aware script to use to see if the headset is looking at the controller. If this is blank then it will attempt to get a controller events script from the same or parent GameObject.
  * **Hide When Not In View:** If this is checked then the tooltips will be hidden when the headset is not looking at the controller.
- * **Retry Init Max Tries:** The total number of initialisation attempts to make when waiting for the button transforms to initialise.
- * **Retry Init Counter:** The amount of seconds to wait before re-attempting to initialise the controller tooltips if the button transforms have not been initialised yet.
 
 ### Class Events
 
@@ -336,39 +349,6 @@ The ToggleTips method will display the controller tooltips if the state is `true
 
 ---
 
-## Controller Rigidbody Activator (VRTK_ControllerRigidbodyActivator)
-
-### Overview
-
-Provides a simple trigger collider volume that when a controller enters will enable the rigidbody on the controller.
-
-**Prefab Usage:**
- * Place the `VRTK/Prefabs/ControllerRigidbodyActivator` prefab in the scene at the location where the controller rigidbody should be automatically activated.
- * The prefab contains a default sphere collider to determine ths collision, this collider component can be customised in the inspector or can be replaced with another collider component (set to `Is Trigger`).
-
-  > If the prefab is placed as a child of the target interactable game object then the collider volume on the prefab will trigger collisions on the interactable object.
-
-### Inspector Parameters
-
- * **Is Enabled:** If this is checked then the collider will have it's rigidbody toggled on and off during a collision.
-
-### Class Events
-
- * `ControllerRigidbodyOn` - Emitted when the controller rigidbody is turned on.
- * `ControllerRigidbodyOff` - Emitted when the controller rigidbody is turned off.
-
-### Unity Events
-
-Adding the `VRTK_ControllerRigidbodyActivator_UnityEvents` component to `VRTK_ControllerRigidbodyActivator` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * ` interactingObject` - The object that touching the activator.
-
----
-
 ## Snap Drop Zone (VRTK_SnapDropZone)
 
 ### Overview
@@ -376,7 +356,7 @@ Adding the `VRTK_ControllerRigidbodyActivator_UnityEvents` component to `VRTK_Co
 Provides a predefined zone where a valid interactable object can be dropped and upon dropping it snaps to the set snap drop zone transform position, rotation and scale.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/SnapDropZone` prefab into the scene hierarchy.
+ * Place the `VRTK/Prefabs/SnapDropZone/SnapDropZone` prefab into the scene hierarchy.
  * Provide the SnapDropZone with an optional `Highlight Object Prefab` to generate an object outline in the scene that determines the final position, rotation and scale of the snapped object.
  * If no `VRTK_BaseHighlighter` derivative is applied to the SnapDropZone then the default MaterialColorSwap Highlighter will be used.
  * The collision zone that activates the SnapDropZone is a `Sphere Collider` by default but can be amended or replaced on the SnapDropZone GameObject.
@@ -538,6 +518,168 @@ The GetCurrentSnappedInteractableObject method returns the Interactable Object s
 
 ---
 
+## Destination Point (VRTK_DestinationPoint)
+ > extends [VRTK_DestinationMarker](#destination-marker-vrtk_destinationmarker)
+
+### Overview
+
+Allows for a specific scene marker or specific area within the scene that can be teleported to.
+
+**Prefab Usage:**
+ * Place the `VRTK/Prefabs/DestinationPoint/DestinationPoint` prefab at the desired location within the scene.
+ * Uncheck the `Enable Teleport` checkbox to lock the destination point and prevent teleporting to it.
+ * Uncheck the `Snap To Point` checkbox to provide a destination area rather than a specific point to teleport to.
+
+### Inspector Parameters
+
+ * **Default Cursor Object:** The GameObject to use to represent the default cursor state.
+ * **Hover Cursor Object:** The GameObject to use to represent the hover cursor state.
+ * **Locked Cursor Object:** The GameObject to use to represent the locked cursor state.
+ * **Destination Location:** An optional transform to determine the destination location for the destination marker. This can be useful to offset the destination location from the destination point. If this is left empty then the destiantion point transform will be used.
+ * **Snap To Point:** If this is checked then after teleporting, the play area will be snapped to the origin of the destination point. If this is false then it's possible to teleport to anywhere within the destination point collider.
+ * **Hide Pointer Cursor On Hover:** If this is checked, then the pointer cursor will be hidden when a valid destination point is hovered over.
+ * **Hide Direction Indicator On Hover:** If this is checked, then the pointer direction indicator will be hidden when a valid destination point is hovered over. A pointer direction indicator will always be hidden if snap to rotation is set.
+ * **Snap To Rotation:** Determines if the play area will be rotated to the rotation of the destination point upon the destination marker being set.
+ * **Teleporter:** The scene teleporter that is used. If this is not specified then it will be auto looked up in the scene.
+
+### Class Variables
+
+ * `public enum RotationTypes` - Allowed snap to rotation types.
+   * `NoRotation` - No rotation information will be emitted in the destination set payload.
+   * `RotateWithNoHeadsetOffset` - The destination point's rotation will be emitted without taking into consideration the current headset rotation.
+   * `RotateWithHeadsetOffset` - The destination point's rotation will be emitted and will take into consideration the current headset rotation.
+
+### Class Events
+
+ * `DestinationPointEnabled` - Emitted when the destination point is enabled.
+ * `DestinationPointDisabled` - Emitted when the destination point is disabled.
+ * `DestinationPointLocked` - Emitted when the destination point is locked.
+ * `DestinationPointUnlocked` - Emitted when the destination point is unlocked.
+ * `DestinationPointReset` - Emitted when the destination point is reset.
+
+### Unity Events
+
+Adding the `VRTK_DestinationPoint_UnityEvents` component to `VRTK_DestinationPoint` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Class Methods
+
+#### ResetDestinationPoint/0
+
+  > `public virtual void ResetDestinationPoint()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ResetDestinationPoint resets the destination point back to the default state.
+
+### Example
+
+`044_CameraRig_RestrictedTeleportZones` uses the `VRTK_DestinationPoint` prefab to set up a collection of pre-defined teleport locations.
+
+---
+
+## Pointer Direction Indicator (VRTK_PointerDirectionIndicator)
+
+### Overview
+
+Adds a Pointer Direction Indicator to a pointer renderer and determines a given world rotation that can be used by a Destiantion Marker.
+
+**Prefab Usage:**
+ * Place the `VRTK/Prefabs/PointerDirectionIndicator/PointerDirectionIndicator` prefab into the scene hierarchy.
+ * Attach the `PointerDirectionIndicator` scene GameObejct to the `Direction Indicator` inspector parameter on a `VRTK_BasePointerRenderer` component.
+
+  > This can be useful for rotating the play area upon teleporting to face the user in a new direction without expecting them to physically turn in the play space.
+
+### Inspector Parameters
+
+ * **Touchpad Deadzone:** The touchpad axis needs to be above this deadzone for it to register as a valid touchpad angle.
+ * **Coordinate Axis:** The axis to use for the direction coordinates.
+ * **Include Headset Offset:** If this is checked then the reported rotation will include the offset of the headset rotation in relation to the play area.
+ * **Display On Invalid Location:** If this is checked then the direction indicator will be displayed when the location is invalid.
+ * **Use Pointer Color:** If this is checked then the pointer valid/invalid colours will also be used to change the colour of the direction indicator.
+ * **Indicator Visibility:** Determines when the direction indicator will be visible.
+
+### Class Variables
+
+ * `public enum VisibilityState` - States of Direction Indicator Visibility.
+   * `OnWhenPointerActive` - Only shows the direction indicator when the pointer is active.
+   * `AlwaysOnWithPointerCursor` - Only shows the direction indicator when the pointer cursor is visible or if the cursor is hidden and the pointer is active.
+
+### Class Events
+
+ * `PointerDirectionIndicatorPositionSet` - Emitted when the object tooltip is reset.
+
+### Unity Events
+
+Adding the `VRTK_PointerDirectionIndicator_UnityEvents` component to `VRTK_PointerDirectionIndicator` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Class Methods
+
+#### Initialize/1
+
+  > `public virtual void Initialize(VRTK_ControllerEvents events)`
+
+ * Parameters
+   * `VRTK_ControllerEvents events` - The Controller Events script that is used to control the direction indicator's rotation.
+ * Returns
+   * _none_
+
+The Initialize method is used to set up the direction indicator.
+
+#### SetPosition/2
+
+  > `public virtual void SetPosition(bool active, Vector3 position)`
+
+ * Parameters
+   * `bool active` - Determines if the direction indicator GameObject should be active or not.
+   * `Vector3 position` - The position to set the direction indicator to.
+ * Returns
+   * _none_
+
+The SetPosition method is used to set the world position of the direction indicator.
+
+#### GetRotation/0
+
+  > `public virtual Quaternion GetRotation()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Quaternion` - The reported rotation of the direction indicator.
+
+The GetRotation method returns the current reported rotation of the direction indicator.
+
+#### SetMaterialColor/2
+
+  > `public virtual void SetMaterialColor(Color color, bool validity)`
+
+ * Parameters
+   * `Color color` - The colour to update the direction indicatormaterial to.
+   * `bool validity` - Determines if the colour being set is based from a valid location or invalid location.
+ * Returns
+   * _none_
+
+The SetMaterialColor method sets the current material colour on the direction indicator.
+
+#### GetControllerEvents/0
+
+  > `public virtual VRTK_ControllerEvents GetControllerEvents()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_ControllerEvents` - The associated Controller Events script.
+
+The GetControllerEvents method returns the associated Controller Events script with the Pointer Direction Indicator script.
+
+---
+
 ## Radial Menu (VRTK_RadialMenu)
 
 ### Overview
@@ -545,7 +687,7 @@ The GetCurrentSnappedInteractableObject method returns the Interactable Object s
 Provides a UI element into the world space that can be dropped into a Controller GameObject and used to create and use Radial Menus from the touchpad.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/RadialMenu` prefab as a child of a Controller script alias GameObject.
+ * Place the `VRTK/Prefabs/RadialMenu/RadialMenu` prefab as a child of a Controller script alias GameObject.
 
 ### Inspector Parameters
 
@@ -695,35 +837,15 @@ The AddButton method is used to add a new button to the menu.
 
 ---
 
-## Radial Menu Controller (VRTK_RadialMenuController)
-
-### Overview
-
-Allows the RadialMenu to be anchored to controller object.
-
-**Prefab Usage:**
- * Place the `VRTK/Prefabs/RadialMenu` prefab as a child of a Controller script alias GameObject.
- * The Radial Menu should automatically find the `VRTK_ControllerEvents` component in the parent hierarchy, if one is not found but required then the `Events` parameter on the `VRTK_RadialMenuController` script can be populated.
-
-### Inspector Parameters
-
- * **Events:** The controller to listen to the controller events on.
-
-### Example
-
-`VRTK/Examples/030_Controls_RadialTouchpadMenu` displays a radial menu for each controller. The left controller uses the `Hide On Release` variable, so it will only be visible if the left touchpad is being touched. It also uses the `Execute On Unclick` variable to delay execution until the touchpad button is unclicked. The example scene also contains a demonstration of anchoring the RadialMenu to an interactable cube instead of a controller.
-
----
-
-## Independent Radial Menu Controller (VRTK_IndependentRadialMenuController)
- > extends [VRTK_RadialMenuController](#radial-menu-controller-vrtk_radialmenucontroller)
+## Independent Radial Menu (VRTK_IndependentRadialMenuController)
+ > extends VRTK_RadialMenuController
 
 ### Overview
 
 Allows the RadialMenu to be anchored to any object, not just a controller.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/RadialMenu` prefab as a child of the GameObject to associate the Radial Menu with.
+ * Place the `VRTK/Prefabs/RadialMenu/RadialMenu` prefab as a child of the GameObject to associate the Radial Menu with.
  * Position and scale the menu by adjusting the transform of the `RadialMenu` empty.
  * Replace `VRTK_RadialMenuController` with `VRTK_IndependentRadialMenuController` that is located on the `RadialMenu/RadialMenuUI/Panel` GameObject.
  * Ensure the parent object has the `VRTK_InteractableObject` script.
@@ -758,210 +880,14 @@ The UpdateEventsManager method is used to update the events within the menu cont
 
 ---
 
-## Destination Point (VRTK_DestinationPoint)
- > extends [VRTK_DestinationMarker](#destination-marker-vrtk_destinationmarker)
-
-### Overview
-
-Allows for a specific scene marker or specific area within the scene that can be teleported to.
-
-**Prefab Usage:**
- * Place the `VRTK/Prefabs/DestinationPoint` prefab at the desired location within the scene.
- * Uncheck the `Enable Teleport` checkbox to lock the destination point and prevent teleporting to it.
- * Uncheck the `Snap To Point` checkbox to provide a destination area rather than a specific point to teleport to.
-
-### Inspector Parameters
-
- * **Default Cursor Object:** The GameObject to use to represent the default cursor state.
- * **Hover Cursor Object:** The GameObject to use to represent the hover cursor state.
- * **Locked Cursor Object:** The GameObject to use to represent the locked cursor state.
- * **Destination Location:** An optional transform to determine the destination location for the destination marker. This can be useful to offset the destination location from the destination point. If this is left empty then the destiantion point transform will be used.
- * **Snap To Point:** If this is checked then after teleporting, the play area will be snapped to the origin of the destination point. If this is false then it's possible to teleport to anywhere within the destination point collider.
- * **Hide Pointer Cursor On Hover:** If this is checked, then the pointer cursor will be hidden when a valid destination point is hovered over.
- * **Hide Direction Indicator On Hover:** If this is checked, then the pointer direction indicator will be hidden when a valid destination point is hovered over. A pointer direction indicator will always be hidden if snap to rotation is set.
- * **Snap To Rotation:** Determines if the play area will be rotated to the rotation of the destination point upon the destination marker being set.
- * **Teleporter:** The scene teleporter that is used. If this is not specified then it will be auto looked up in the scene.
-
-### Class Variables
-
- * `public enum RotationTypes` - Allowed snap to rotation types.
-   * `NoRotation` - No rotation information will be emitted in the destination set payload.
-   * `RotateWithNoHeadsetOffset` - The destination point's rotation will be emitted without taking into consideration the current headset rotation.
-   * `RotateWithHeadsetOffset` - The destination point's rotation will be emitted and will take into consideration the current headset rotation.
-
-### Class Events
-
- * `DestinationPointEnabled` - Emitted when the destination point is enabled.
- * `DestinationPointDisabled` - Emitted when the destination point is disabled.
- * `DestinationPointLocked` - Emitted when the destination point is locked.
- * `DestinationPointUnlocked` - Emitted when the destination point is unlocked.
- * `DestinationPointReset` - Emitted when the destination point is reset.
-
-### Unity Events
-
-Adding the `VRTK_DestinationPoint_UnityEvents` component to `VRTK_DestinationPoint` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Class Methods
-
-#### ResetDestinationPoint/0
-
-  > `public virtual void ResetDestinationPoint()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ResetDestinationPoint resets the destination point back to the default state.
-
-### Example
-
-`044_CameraRig_RestrictedTeleportZones` uses the `VRTK_DestinationPoint` prefab to set up a collection of pre-defined teleport locations.
-
----
-
-## Pointer Direction Indicator (VRTK_PointerDirectionIndicator)
-
-### Overview
-
-Adds a Pointer Direction Indicator to a pointer renderer and determines a given world rotation that can be used by a Destiantion Marker.
-
-**Prefab Usage:**
- * Place the `VRTK/Prefabs/PointerDirectionIndicator` prefab into the scene hierarchy.
- * Attach the `PointerDirectionIndicator` scene GameObejct to the `Direction Indicator` inspector parameter on a `VRTK_BasePointerRenderer` component.
-
-  > This can be useful for rotating the play area upon teleporting to face the user in a new direction without expecting them to physically turn in the play space.
-
-### Inspector Parameters
-
- * **Touchpad Deadzone:** The touchpad axis needs to be above this deadzone for it to register as a valid touchpad angle.
- * **Include Headset Offset:** If this is checked then the reported rotation will include the offset of the headset rotation in relation to the play area.
- * **Display On Invalid Location:** If this is checked then the direction indicator will be displayed when the location is invalid.
- * **Use Pointer Color:** If this is checked then the pointer valid/invalid colours will also be used to change the colour of the direction indicator.
- * **Indicator Visibility:** Determines when the direction indicator will be visible.
-
-### Class Variables
-
- * `public enum VisibilityState` - States of Direction Indicator Visibility.
-   * `OnWhenPointerActive` - Only shows the direction indicator when the pointer is active.
-   * `AlwaysOnWithPointerCursor` - Only shows the direction indicator when the pointer cursor is visible or if the cursor is hidden and the pointer is active.
-
-### Class Events
-
- * `PointerDirectionIndicatorPositionSet` - Emitted when the object tooltip is reset.
-
-### Unity Events
-
-Adding the `VRTK_PointerDirectionIndicator_UnityEvents` component to `VRTK_PointerDirectionIndicator` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Class Methods
-
-#### Initialize/1
-
-  > `public virtual void Initialize(VRTK_ControllerEvents events)`
-
- * Parameters
-   * `VRTK_ControllerEvents events` - The Controller Events script that is used to control the direction indicator's rotation.
- * Returns
-   * _none_
-
-The Initialize method is used to set up the direction indicator.
-
-#### SetPosition/2
-
-  > `public virtual void SetPosition(bool active, Vector3 position)`
-
- * Parameters
-   * `bool active` - Determines if the direction indicator GameObject should be active or not.
-   * `Vector3 position` - The position to set the direction indicator to.
- * Returns
-   * _none_
-
-The SetPosition method is used to set the world position of the direction indicator.
-
-#### GetRotation/0
-
-  > `public virtual Quaternion GetRotation()`
-
- * Parameters
-   * _none_
- * Returns
-   * `Quaternion` - The reported rotation of the direction indicator.
-
-The GetRotation method returns the current reported rotation of the direction indicator.
-
-#### SetMaterialColor/2
-
-  > `public virtual void SetMaterialColor(Color color, bool validity)`
-
- * Parameters
-   * `Color color` - The colour to update the direction indicatormaterial to.
-   * `bool validity` - Determines if the colour being set is based from a valid location or invalid location.
- * Returns
-   * _none_
-
-The SetMaterialColor method sets the current material colour on the direction indicator.
-
----
-
-## Console Viewer Canvas (VRTK_ConsoleViewer)
-
-### Overview
-
-Adds an in-scene representation of the Unity console on a world space canvas.
-
-**Prefab Usage:**
- * Place the `VRTK/Prefabs/ConsoleViewerCanvas` prefab into the scene hierarchy.
-
-  > It is also possible to interact with the `ConsoleViewerCanvas` with a `VRTK_UIPointer`.
-
-### Inspector Parameters
-
- * **Font Size:** The size of the font the log text is displayed in.
- * **Info Message:** The colour of the text for an info log message.
- * **Assert Message:** The colour of the text for an assertion log message.
- * **Warning Message:** The colour of the text for a warning log message.
- * **Error Message:** The colour of the text for an error log message.
- * **Exception Message:** The colour of the text for an exception log message.
-
-### Class Methods
-
-#### SetCollapse/1
-
-  > `public virtual void SetCollapse(bool state)`
-
- * Parameters
-   * `bool state` - The state of whether to collapse the output messages, true will collapse and false will not collapse.
- * Returns
-   * _none_
-
-The SetCollapse method determines whether the console will collapse same message output into the same line. A state of `true` will collapse messages and `false` will print the same message for each line.
-
-#### ClearLog/0
-
-  > `public virtual void ClearLog()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ClearLog method clears the current log view of all messages
-
----
-
-## Panel Menu Controller (VRTK_PanelMenuController)
+## Panel Menu (VRTK_PanelMenuController)
 
 ### Overview
 
 Adds a top-level controller to handle the display of up to four child PanelMenuItemController items which are displayed as a canvas UI panel.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/PanelMenu` prefab as a child of the `VRTK_InteractableObject` the panel menu is for.
+ * Place the `VRTK/Prefabs/PanelMenu/PanelMenu` prefab as a child of the `VRTK_InteractableObject` the panel menu is for.
  * Optionally remove the panel control menu item child GameObjects if they are not required, e.g. `PanelTopControls`.
  * Set the panel menu item controllers on the `VRTK_PanelMenuController` script to determine which panel control menu items are available.
  * The available panel control menu items can be activated by pressing the corresponding direction on the touchpad.
@@ -1027,15 +953,16 @@ The HideMenuImmediate method is used to immediately hide the menu.
 
 ---
 
-## Panel Menu Item Controller (VRTK_PanelMenuItemController)
+## Panel Menu Item (VRTK_PanelMenuItemController)
 
 ### Overview
 
-The panel item controller class that intercepts the controller events sent from a [PanelMenuController] and passes them onto additional custom event subscriber scripts, which then carry out the required custom UI actions.
+Intercepts the controller events sent from a `VRTK_PanelMenuController` and passes them onto additional custom event subscriber scripts, which then carry out the required custom UI actions.
 
   > This script is not directly part of a prefab but is a helper associated to the `PanelMenu` prefab.
-This script should be attached to a VRTK_InteractableObject > [PanelMenuController] > [panel items container] > child GameObject (See the [PanelMenuController] class for more details on setup structure.).
-To show / hide a UI panel, you must first pick up the VRTK_InteractableObject and then by pressing the touchpad top/bottom/left/right you can open/close the child UI panel that has been assigned via the Unity Editor panel.
+
+* Place the `VRTK/Prefabs/PanelMenu/VRTK_PanelMenuItemController` script on the child GameObject of any Panel Item Container which is contained within the `PanelMenuController` prefab within the scene.
+* Pick up the VRTK_InteractableObject show/hide the panel menu by pressing the touchpad top/bottom/left/right you can open/close the child UI panel that has been assigned via the Unity Editor panel.
 
 ### Class Events
 
@@ -1147,14 +1074,14 @@ The TriggerPressed method is used when the control action button is pressed.
 
 ---
 
-## Avatar Hand Controller (VRTK_AvatarHandController)
+## Avatar Hands (VRTK_AvatarHandController)
 
 ### Overview
 
 Provides a custom controller hand model with psuedo finger functionality.
 
 **Prefab Usage:**
- * Place the `VRTK/Prefabs/AvatarHands/VRTK_BasicHand` prefab as a child of either the left or right script alias.
+ * Place the `VRTK/Prefabs/AvatarHands/BasicHands/VRTK_BasicHand` prefab as a child of either the left or right script alias.
  * If the prefab is being used in the left hand then check the `Mirror Model` parameter.
  * By default, the avatar hand controller will detect which controller is connected and represent it accordingly.
  * Optionally, use SDKTransformModify scripts to adjust the hand orientation based on different controller types.
@@ -1194,6 +1121,7 @@ Provides a custom controller hand model with psuedo finger functionality.
  * **Touch Overrides:** Finger axis overrides on an Interact Touch event.
  * **Grab Overrides:** Finger axis overrides on an Interact Grab event.
  * **Use Overrides:** Finger axis overrides on an Interact Use event.
+ * **Hand Model:** The Transform that contains the avatar hand model. If this is left blank then a child GameObject named `Model` will be searched for to use as the Transform.
  * **Controller Events:** The controller to listen for the events on. If this is left blank as it will be auto populated by finding the Controller Events script on the parent GameObject.
  * **Interact Near Touch:** An optional Interact NearTouch to listen for near touch events on. If this is left blank as it will attempt to be auto populated by finding the Interact NearTouch script on the parent GameObject.
  * **Interact Touch:** An optional Interact Touch to listen for touch events on. If this is left blank as it will attempt to be auto populated by finding the Interact Touch script on the parent GameObject.
@@ -1333,7 +1261,8 @@ Provides a basis of being able to emit a pointer from a specified GameObject.
  * **Select After Hover Duration:** The amount of time the pointer can be over the same collider before it automatically attempts to select it. 0f means no selection attempt will be made.
  * **Interact With Objects:** If this is checked then the pointer will be an extension of the controller and able to interact with Interactable Objects.
  * **Grab To Pointer Tip:** If `Interact With Objects` is checked and this is checked then when an object is grabbed with the pointer touching it, the object will attach to the pointer tip and not snap to the controller.
- * **Controller:** An optional controller that will be used to toggle the pointer. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Attached To:** An optional GameObject that determines what the pointer is to be attached to. If this is left blank then the GameObject the script is on will be used.
+ * **Controller Events:** An optional Controller Events that will be used to toggle the pointer. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
  * **Interact Use:** An optional InteractUse script that will be used when using interactable objects with pointer. If this is left blank then it will attempt to get the InteractUse script from the same GameObject and if it cannot find one then it will attempt to get it from the attached controller.
  * **Custom Origin:** A custom transform to use as the origin of the pointer. If no pointer origin transform is provided then the transform the script is attached to is used.
 
@@ -1631,7 +1560,7 @@ The ToggleVisibility method enables or disables the play area cursor renderers t
 
 # Pointer Renderers (VRTK/Source/Scripts/Pointers/PointerRenderers)
 
-This directory contains scripts that are used to provide different renderers for the VRTK_Pointer.
+A collection of scripts that are used to provide different renderers for the VRTK_Pointer.
 
  * [Base Pointer Renderer](#base-pointer-renderer-vrtk_basepointerrenderer)
  * [Straight Pointer Renderer](#straight-pointer-renderer-vrtk_straightpointerrenderer)
@@ -1964,6 +1893,8 @@ A collection of scripts that provide varying methods of moving the user around t
  * [Player Climb](#player-climb-vrtk_playerclimb)
  * [Slingshot Jump](#slingshot-jump-vrtk_slingshotjump)
  * [Step Multiplier](#step-multiplier-vrtk_stepmultiplier)
+ * [Tunnel Overlay](#tunnel-overlay-vrtk_tunneloverlay)
+ * [Drag World](#drag-world-vrtk_dragworld)
 
 ---
 
@@ -2133,6 +2064,7 @@ Updates the `x/y/z` position of the SDK Camera Rig with an optional screen fade.
 ### Inspector Parameters
 
  * **Snap To Nearest Floor:** If this is checked, then the teleported Y position will snap to the nearest available below floor. If it is unchecked, then the teleported Y position will be where ever the destination Y position is.
+ * **Apply Playarea Parent Offset:** If this is checked then the teleported Y position will also be offset by the play area parent Transform Y position (if the play area has a parent).
  * **Custom Raycast:** A custom raycaster to use when raycasting to find floors.
 
 ### Example
@@ -2299,6 +2231,7 @@ Provides the ability to control a GameObject's position based on the position of
 
 ### Inspector Parameters
 
+ * **Coordinate Axis:** The axis to use for the direction coordinates.
  * **Primary Activation Button:** An optional button that has to be engaged to allow the touchpad control to activate.
  * **Action Modifier Button:** An optional button that when engaged will activate the modifier on the touchpad control action.
  * **Axis Deadzone:** A deadzone threshold on the touchpad that will ignore input if the touch position is within the specified deadzone. Between `0f` and `1f`.
@@ -2612,9 +2545,87 @@ Multiplies each real world step within the play area to enable further distances
 
 ---
 
+## Tunnel Overlay (VRTK_TunnelOverlay)
+
+### Overview
+
+Applys a tunnel overlay effect to the active VR camera when the play area is moving or rotating to reduce potential nausea caused by simulation sickness.
+
+**Script Usage:**
+ * Place the `VRTK_TunnelOverlay` script on any active scene GameObject.
+
+  > This implementation is based on a project made by SixWays at https://github.com/SixWays/UnityVrTunnelling
+
+### Inspector Parameters
+
+ * **Minimum Rotation:** Minimum rotation speed for the effect to activate (degrees per second).
+ * **Maximum Rotation:** Maximum rotation speed for the effect have its max settings applied (degrees per second).
+ * **Minimum Speed:** Minimum movement speed for the effect to activate.
+ * **Maximum Speed:** Maximum movement speed where the effect will have its max settings applied.
+ * **Effect Color:** The color to use for the tunnel effect.
+ * **Effect Skybox:** An optional skybox texture to use for the tunnel effect.
+ * **Initial Effect Size:** The initial amount of screen coverage the tunnel to consume without any movement.
+ * **Maximum Effect Size:** Screen coverage at the maximum tracked values.
+ * **Feather Size:** Feather effect size around the cut-off as fraction of screen.
+ * **Smoothing Time:** Smooth out radius over time.
+
+---
+
+## Drag World (VRTK_DragWorld)
+
+### Overview
+
+Provides the ability to move, rotate and scale the PlayArea by dragging the world with the controllers.
+
+**Script Usage:**
+ * Place the `VRTK_DragWorld` script on any active scene GameObject.
+
+  > If only one controller is being used to track the rotation mechanism, then the rotation will be based on the perpendicual (yaw) axis angular velocity of the tracking controller.
+  > If both controllers are being used to track the rotation mechanism, then the rotation will be based on pushing one controller forward, whilst pulling the other controller backwards.
+
+### Inspector Parameters
+
+ * **Movement Activation Button:** The controller button to press to activate the movement mechanism.
+ * **Movement Activation Requirement:** The controller(s) on which the activation button is to be pressed to consider the movement mechanism active.
+ * **Movement Tracking Controller:** The controller(s) on which to track position of to determine if a valid move has taken place.
+ * **Movement Multiplier:** The amount to multply the movement by.
+ * **Movement Position Lock:** The axes to lock to prevent movement across.
+ * **Rotation Activation Button:** The controller button to press to activate the rotation mechanism.
+ * **Rotation Activation Requirement:** The controller(s) on which the activation button is to be pressed to consider the rotation mechanism active.
+ * **Rotation Tracking Controller:** The controller(s) on which to determine how rotation should occur. `BothControllers` requires both controllers to be pushed/pulled to rotate, whereas any other setting will base rotation on the rotation of the activating controller.
+ * **Rotation Multiplier:** The amount to multply the rotation angle by.
+ * **Rotation Activation Threshold:** The threshold the rotation angle has to be above to consider a valid rotation amount.
+ * **Scale Activation Button:** The controller button to press to activate the scale mechanism.
+ * **Scale Activation Requirement:** The controller(s) on which the activation button is to be pressed to consider the scale mechanism active.
+ * **Scale Tracking Controller:** The controller(s) on which to determine how scaling should occur.
+ * **Scale Multiplier:** The amount to multply the scale factor by.
+ * **Scale Activation Threshold:** The threshold the distance between the scale objects has to be above to consider a valid scale operation.
+ * **Minimum Scale:** the minimum scale amount that can be applied.
+ * **Maximum Scale:** the maximum scale amount that can be applied.
+ * **Controlling Transform:** The transform to apply the control mechanisms to. If this is left blank then the PlayArea will be controlled.
+ * **Use Offset Transform:** Uses the specified `Offset Transform` when dealing with rotational offsets.
+ * **Offset Transform:** The transform to use when dealing with rotational offsets. If this is left blank then the Headset will be used as the offset.
+
+### Class Variables
+
+ * `public enum ActivationRequirement` - The controller on which to determine as the activation requirement for the control mechanism.
+   * `LeftControllerOnly` - Only pressing the activation button on the left controller will activate the mechanism, if the right button is held down then the mechanism will not be activated.
+   * `RightControllerOnly` - Only pressing the activation button on the right controller will activate the mechanism, if the left button is held down then the mechanism will not be activated.
+   * `LeftController` - Pressing the activation button on the left controller is all that is required to activate the mechanism.
+   * `RightController` - Pressing the activation button on the right controller is all that is required to activate the mechanism.
+   * `EitherController` - Pressing the activation button on the either controller is all that is required to activate the mechanism.
+   * `BothControllers` - Pressing the activation button on both controllers is required to activate the mechanism.
+ * `public enum TrackingController` - The controllers which to track when performing the mechanism.
+   * `LeftController` - Only track the left controller.
+   * `RightController` - Only track the right controller.
+   * `EitherController` - Track either the left or the right controller.
+   * `BothControllers` - Only track both controllers at the same time.
+
+---
+
 # Object Control Actions (VRTK/Source/Scripts/Locomotion/ObjectControlActions)
 
-This directory contains scripts that are used to provide different actions when using Object Control.
+A collection of scripts that are used to provide different actions when using Object Control.
 
  * [Base Object Control Action](#base-object-control-action-vrtk_baseobjectcontrolaction)
  * [Slide Object Control Action](#slide-object-control-action-vrtk_slideobjectcontrolaction)
@@ -2782,2007 +2793,9 @@ To enable the Warp Object Control Action, ensure one of the `TouchpadControlOpti
 
 ---
 
-# Interactions (VRTK/Source/Scripts/Interactions)
-
-A collection of scripts that provide the ability to interact with game objects with the controllers.
-
- * [Controller Events](#controller-events-vrtk_controllerevents)
- * [Controller Highlighter](#controller-highlighter-vrtk_controllerhighlighter)
- * [Controller Haptics](#controller-haptics-vrtk_controllerhaptics)
- * [Interact Object Appearance](#interact-object-appearance-vrtk_interactobjectappearance)
- * [Interact Object Highlighter](#interact-object-highlighter-vrtk_interactobjecthighlighter)
- * [Interact Touch](#interact-touch-vrtk_interacttouch)
- * [Interact Near Touch](#interact-near-touch-vrtk_interactneartouch)
- * [Interact Grab](#interact-grab-vrtk_interactgrab)
- * [Interact Use](#interact-use-vrtk_interactuse)
- * [Interactable Object](#interactable-object-vrtk_interactableobject)
- * [Object Appearance](#object-appearance-vrtk_objectappearance)
- * [Interact Haptics](#interact-haptics-vrtk_interacthaptics)
- * [Object Auto Grab](#object-auto-grab-vrtk_objectautograb)
- * [Object Touch Auto Interact](#object-touch-auto-interact-vrtk_objecttouchautointeract)
-
----
-
-## Controller Events (VRTK_ControllerEvents)
-
-### Overview
-
-A relationship to a physical VR controller and emits events based on the inputs of the controller.
-
-**Script Usage:**
- * Place the `VRTK_ControllerEvents` script on the controller script alias GameObject of the controller to track (e.g. Right Controller Script Alias).
-
-### Inspector Parameters
-
- * **Axis Fidelity:** The amount of fidelity in the changes on the axis, which is defaulted to 1. Any number higher than 2 will probably give too sensitive results.
- * **Sense Axis Force Zero Threshold:** The level on a sense axis to reach before the sense axis is forced to 0f
- * **Sense Axis Press Threshold:** The amount of pressure required to be applied to a sense button before considering the sense button pressed.
- * **Trigger Click Threshold:** The level on the trigger axis to reach before a click is registered.
- * **Trigger Force Zero Threshold:** The level on the trigger axis to reach before the axis is forced to 0f.
- * **Trigger Axis Zero On Untouch:** If this is checked then the trigger axis will be forced to 0f when the trigger button reports an untouch event.
- * **Grip Click Threshold:** The level on the grip axis to reach before a click is registered.
- * **Grip Force Zero Threshold:** The level on the grip axis to reach before the axis is forced to 0f.
- * **Grip Axis Zero On Untouch:** If this is checked then the grip axis will be forced to 0f when the grip button reports an untouch event.
-
-### Class Variables
-
- * `public enum ButtonAlias` - Button types
-   * `Undefined` - No button specified.
-   * `TriggerHairline` - The trigger is squeezed past the current hairline threshold.
-   * `TriggerTouch` - The trigger is squeezed a small amount.
-   * `TriggerPress` - The trigger is squeezed about half way in.
-   * `TriggerClick` - The trigger is squeezed all the way down.
-   * `GripHairline` - The grip is squeezed past the current hairline threshold.
-   * `GripTouch` - The grip button is touched.
-   * `GripPress` - The grip button is pressed.
-   * `GripClick` - The grip button is pressed all the way down.
-   * `TouchpadTouch` - The touchpad is touched (without pressing down to click).
-   * `TouchpadPress` - The touchpad is pressed (to the point of hearing a click).
-   * `ButtonOneTouch` - The button one is touched.
-   * `ButtonOnePress` - The button one is pressed.
-   * `ButtonTwoTouch` - The button two is touched.
-   * `ButtonTwoPress` - The button two is pressed.
-   * `StartMenuPress` - The start menu is pressed.
-   * `TouchpadSense` - The touchpad sense touch is active.
-   * `TriggerSense` - The trigger sense touch is active.
-   * `MiddleFingerSense` - The middle finger sense touch is active.
-   * `RingFingerSense` - The ring finger sense touch is active.
-   * `PinkyFingerSense` - The pinky finger sense touch is active.
- * `public enum AxisType` - Axis Types
-   * `Digital` - A digital axis with a binary result of 0f not pressed or 1f is pressed.
-   * `Axis` - An analog axis ranging from no squeeze at 0f to full squeeze at 1f.
-   * `SenseAxis` - A cap sens axis ranging from not near at 0f to touching at 1f.
- * `public bool triggerPressed` - This will be true if the trigger is squeezed about half way in. Default: `false`
- * `public bool triggerTouched` - This will be true if the trigger is squeezed a small amount. Default: `false`
- * `public bool triggerHairlinePressed` - This will be true if the trigger is squeezed a small amount more from any previous squeeze on the trigger. Default: `false`
- * `public bool triggerClicked` - This will be true if the trigger is squeezed all the way down. Default: `false`
- * `public bool triggerAxisChanged` - This will be true if the trigger has been squeezed more or less. Default: `false`
- * `public bool triggerSenseAxisChanged` - This will be true if the trigger sense is being touched more or less. Default: `false`
- * `public bool gripPressed` - This will be true if the grip is squeezed about half way in. Default: `false`
- * `public bool gripTouched` - This will be true if the grip is touched. Default: `false`
- * `public bool gripHairlinePressed` - This will be true if the grip is squeezed a small amount more from any previous squeeze on the grip. Default: `false`
- * `public bool gripClicked` - This will be true if the grip is squeezed all the way down. Default: `false`
- * `public bool gripAxisChanged` - This will be true if the grip has been squeezed more or less. Default: `false`
- * `public bool touchpadPressed` - This will be true if the touchpad is held down. Default: `false`
- * `public bool touchpadTouched` - This will be true if the touchpad is being touched. Default: `false`
- * `public bool touchpadAxisChanged` - This will be true if the touchpad touch position has changed. Default: `false`
- * `public bool touchpadSenseAxisChanged` - This will be true if the touchpad sense is being touched more or less. Default: `false`
- * `public bool buttonOnePressed` - This will be true if button one is held down. Default: `false`
- * `public bool buttonOneTouched` - This will be true if button one is being touched. Default: `false`
- * `public bool buttonTwoPressed` - This will be true if button two is held down. Default: `false`
- * `public bool buttonTwoTouched` - This will be true if button two is being touched. Default: `false`
- * `public bool startMenuPressed` - This will be true if start menu is held down. Default: `false`
- * `public bool middleFingerSenseAxisChanged` - This will be true if the middle finger sense is being touched more or less. Default: `false`
- * `public bool ringFingerSenseAxisChanged` - This will be true if the ring finger sense is being touched more or less. Default: `false`
- * `public bool pinkyFingerSenseAxisChanged` - This will be true if the pinky finger sense is being touched more or less. Default: `false`
- * `public bool controllerVisible` - This will be true if the controller model alias renderers are visible. Default: `true`
-
-### Class Events
-
- * `TriggerPressed` - Emitted when the trigger is squeezed about half way in.
- * `TriggerReleased` - Emitted when the trigger is released under half way.
- * `TriggerTouchStart` - Emitted when the trigger is squeezed a small amount.
- * `TriggerTouchEnd` - Emitted when the trigger is no longer being squeezed at all.
- * `TriggerHairlineStart` - Emitted when the trigger is squeezed past the current hairline threshold.
- * `TriggerHairlineEnd` - Emitted when the trigger is released past the current hairline threshold.
- * `TriggerClicked` - Emitted when the trigger is squeezed all the way down.
- * `TriggerUnclicked` - Emitted when the trigger is no longer being held all the way down.
- * `TriggerAxisChanged` - Emitted when the amount of squeeze on the trigger changes.
- * `TriggerSenseAxisChanged` - Emitted when the amount of touch on the trigger sense changes.
- * `GripPressed` - Emitted when the grip is squeezed about half way in.
- * `GripReleased` - Emitted when the grip is released under half way.
- * `GripTouchStart` - Emitted when the grip is squeezed a small amount.
- * `GripTouchEnd` - Emitted when the grip is no longer being squeezed at all.
- * `GripHairlineStart` - Emitted when the grip is squeezed past the current hairline threshold.
- * `GripHairlineEnd` - Emitted when the grip is released past the current hairline threshold.
- * `GripClicked` - Emitted when the grip is squeezed all the way down.
- * `GripUnclicked` - Emitted when the grip is no longer being held all the way down.
- * `GripAxisChanged` - Emitted when the amount of squeeze on the grip changes.
- * `TouchpadPressed` - Emitted when the touchpad is pressed (to the point of hearing a click).
- * `TouchpadReleased` - Emitted when the touchpad has been released after a pressed state.
- * `TouchpadTouchStart` - Emitted when the touchpad is touched (without pressing down to click).
- * `TouchpadTouchEnd` - Emitted when the touchpad is no longer being touched.
- * `TouchpadAxisChanged` - Emitted when the touchpad is being touched in a different location.
- * `TouchpadSenseAxisChanged` - Emitted when the amount of touch on the touchpad sense changes.
- * `ButtonOneTouchStart` - Emitted when button one is touched.
- * `ButtonOneTouchEnd` - Emitted when button one is no longer being touched.
- * `ButtonOnePressed` - Emitted when button one is pressed.
- * `ButtonOneReleased` - Emitted when button one is released.
- * `ButtonTwoTouchStart` - Emitted when button two is touched.
- * `ButtonTwoTouchEnd` - Emitted when button two is no longer being touched.
- * `ButtonTwoPressed` - Emitted when button two is pressed.
- * `ButtonTwoReleased` - Emitted when button two is released.
- * `StartMenuPressed` - Emitted when start menu is pressed.
- * `StartMenuReleased` - Emitted when start menu is released.
- * `MiddleFingerSenseAxisChanged` - Emitted when the amount of touch on the middle finger sense changes.
- * `RingFingerSenseAxisChanged` - Emitted when the amount of touch on the ring finger sense changes.
- * `PinkyFingerSenseAxisChanged` - Emitted when the amount of touch on the pinky finger sense changes.
- * `ControllerEnabled` - Emitted when the controller is enabled.
- * `ControllerDisabled` - Emitted when the controller is disabled.
- * `ControllerIndexChanged` - Emitted when the controller index changed.
- * `ControllerModelAvailable` - Emitted when the controller model becomes available.
- * `ControllerVisible` - Emitted when the controller is set to visible.
- * `ControllerHidden` - Emitted when the controller is set to hidden.
-
-### Unity Events
-
-Adding the `VRTK_ControllerEvents_UnityEvents` component to `VRTK_ControllerEvents` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `VRTK_ControllerReference controllerReference` - The reference for the controller that initiated the event.
- * `float buttonPressure` - The amount of pressure being applied to the button pressed. `0f` to `1f`.
- * `Vector2 touchpadAxis` - The position the touchpad is touched at. `(0,0)` to `(1,1)`.
- * `float touchpadAngle` - The rotational position the touchpad is being touched at, 0 being top, 180 being bottom and all other angles accordingly. `0f` to `360f`.
-
-### Class Methods
-
-#### SetControllerEvent/0
-
-  > `public virtual ControllerInteractionEventArgs SetControllerEvent()`
-
- * Parameters
-   * _none_
- * Returns
-   * `ControllerInteractionEventArgs` - The payload for a Controller Event.
-
-The SetControllerEvent/0 method is used to set the Controller Event payload.
-
-#### SetControllerEvent/3
-
-  > `public virtual ControllerInteractionEventArgs SetControllerEvent(ref bool buttonBool, bool value = false, float buttonPressure = 0f)`
-
- * Parameters
-   * `ref bool buttonBool` - The state of the pressed button if required.
-   * `bool value` - The value to set the `buttonBool` reference to.
-   * `float buttonPressure` - The pressure of the button pressed if required.
- * Returns
-   * `ControllerInteractionEventArgs` - The payload for a Controller Event.
-
-The SetControllerEvent/3 method is used to set the Controller Event payload.
-
-#### GetControllerType/0
-
-  > `public virtual SDK_BaseController.ControllerType GetControllerType()`
-
- * Parameters
-   * _none_
- * Returns
-   * `SDK_BaseController.ControllerType` - The type of controller that the Controller Events is attached to.
-
-The GetControllerType method is a shortcut to retrieve the current controller type the Controller Events is attached to.
-
-#### GetTouchpadAxis/0
-
-  > `public virtual Vector2 GetTouchpadAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `Vector2` - A two dimensional vector containing the `x` and `y` position of where the touchpad is being touched. `(0,0)` to `(1,1)`.
-
-The GetTouchpadAxis method returns the coordinates of where the touchpad is being touched and can be used for directional input via the touchpad. The `x` value is the horizontal touch plane and the `y` value is the vertical touch plane.
-
-#### GetTouchpadAxisAngle/0
-
-  > `public virtual float GetTouchpadAxisAngle()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing the angle of where the touchpad is being touched. `0f` to `360f`.
-
-The GetTouchpadAxisAngle method returns the angle of where the touchpad is currently being touched with the top of the touchpad being `0` degrees and the bottom of the touchpad being `180` degrees.
-
-#### GetTriggerAxis/0
-
-  > `public virtual float GetTriggerAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing the amount of squeeze that is being applied to the trigger. `0f` to `1f`.
-
-The GetTriggerAxis method returns a float that represents how much the trigger is being squeezed. This can be useful for using the trigger axis to perform high fidelity tasks or only activating the trigger press once it has exceeded a given press threshold.
-
-#### GetGripAxis/0
-
-  > `public virtual float GetGripAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing the amount of squeeze that is being applied to the grip. `0f` to `1f`.
-
-The GetGripAxis method returns a float that represents how much the grip is being squeezed. This can be useful for using the grip axis to perform high fidelity tasks or only activating the grip press once it has exceeded a given press threshold.
-
-#### GetHairTriggerDelta/0
-
-  > `public virtual float GetHairTriggerDelta()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing the difference in the trigger pressure from the hairline threshold start to current position.
-
-The GetHairTriggerDelta method returns a float representing the difference in how much the trigger is being pressed in relation to the hairline threshold start.
-
-#### GetHairGripDelta/0
-
-  > `public virtual float GetHairGripDelta()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing the difference in the trigger pressure from the hairline threshold start to current position.
-
-The GetHairTriggerDelta method returns a float representing the difference in how much the trigger is being pressed in relation to the hairline threshold start.
-
-#### GetTouchpadSenseAxis/0
-
-  > `public virtual float GetTouchpadSenseAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing how much the touch sensor is being touched.
-
-The GetTouchpadSenseAxis method returns a float representing how much of the touch sensor is being touched.
-
-#### GetTriggerSenseAxis/0
-
-  > `public virtual float GetTriggerSenseAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing how much the touch sensor is being touched.
-
-The GetTriggerSenseAxis method returns a float representing how much of the touch sensor is being touched.
-
-#### GetMiddleFingerSenseAxis/0
-
-  > `public virtual float GetMiddleFingerSenseAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing how much the touch sensor is being touched.
-
-The GetMiddleFingerSenseAxis method returns a float representing how much of the touch sensor is being touched.
-
-#### GetRingFingerSenseAxis/0
-
-  > `public virtual float GetRingFingerSenseAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing how much the touch sensor is being touched.
-
-The GetRingFingerSenseAxis method returns a float representing how much of the touch sensor is being touched.
-
-#### GetPinkyFingerSenseAxis/0
-
-  > `public virtual float GetPinkyFingerSenseAxis()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - A float representing how much the touch sensor is being touched.
-
-The GetPinkyFingerSenseAxis method returns a float representing how much of the touch sensor is being touched.
-
-#### AnyButtonPressed/0
-
-  > `public virtual bool AnyButtonPressed()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if any of the controller buttons are currently being pressed.
-
-The AnyButtonPressed method returns true if any of the controller buttons are being pressed and this can be useful to determine if an action can be taken whilst the user is using the controller.
-
-#### IsButtonPressed/1
-
-  > `public virtual bool IsButtonPressed(ButtonAlias button)`
-
- * Parameters
-   * `ButtonAlias button` - The button to check if it's being pressed.
- * Returns
-   * `bool` - Returns `true` if the button is being pressed.
-
-The IsButtonPressed method takes a given button alias and returns a boolean whether that given button is currently being pressed or not.
-
-#### SubscribeToButtonAliasEvent/3
-
-  > `public virtual void SubscribeToButtonAliasEvent(ButtonAlias givenButton, bool startEvent, ControllerInteractionEventHandler callbackMethod)`
-
- * Parameters
-   * `ButtonAlias givenButton` - The Button Alias to register the event on.
-   * `bool startEvent` - If this is `true` then the start event related to the button is used (e.g. `OnPress`). If this is `false` then the end event related to the button is used (e.g. `OnRelease`).
-   * `ControllerInteractionEventHandler callbackMethod` - The method to subscribe to the event.
- * Returns
-   * _none_
-
-The SubscribeToButtonAliasEvent method makes it easier to subscribe to a button event on either the start or end action. Upon the event firing, the given callback method is executed.
-
-#### UnsubscribeToButtonAliasEvent/3
-
-  > `public virtual void UnsubscribeToButtonAliasEvent(ButtonAlias givenButton, bool startEvent, ControllerInteractionEventHandler callbackMethod)`
-
- * Parameters
-   * `ButtonAlias givenButton` - The Button Alias to unregister the event on.
-   * `bool startEvent` - If this is `true` then the start event related to the button is used (e.g. `OnPress`). If this is `false` then the end event related to the button is used (e.g. `OnRelease`).
-   * `ControllerInteractionEventHandler callbackMethod` - The method to unsubscribe from the event.
- * Returns
-   * _none_
-
-The UnsubscribeToButtonAliasEvent method makes it easier to unsubscribe to from button event on either the start or end action.
-
-#### SubscribeToAxisAliasEvent/3
-
-  > `public virtual void SubscribeToAxisAliasEvent(SDK_BaseController.ButtonTypes buttonType, AxisType axisType, ControllerInteractionEventHandler callbackMethod)`
-
- * Parameters
-   * `SDK_BaseController.ButtonTypes buttonType` - The button to listen for axis changes on.
-   * `AxisType axisType` - The type of axis change to listen for.
-   * `ControllerInteractionEventHandler callbackMethod` - The method to subscribe to the event.
- * Returns
-   * _none_
-
-The SubscribeToAxisAliasEvent method makes it easier to subscribe to axis changes on a given button for a given axis type.
-
-#### UnsubscribeToAxisAliasEvent/3
-
-  > `public virtual void UnsubscribeToAxisAliasEvent(SDK_BaseController.ButtonTypes buttonType, AxisType axisType, ControllerInteractionEventHandler callbackMethod)`
-
- * Parameters
-   * `SDK_BaseController.ButtonTypes buttonType` - The button to unregister for axis changes on.
-   * `AxisType axisType` - The type of axis change to unregister on.
-   * `ControllerInteractionEventHandler callbackMethod` - The method to unsubscribe from the event.
- * Returns
-   * _none_
-
-The UnsubscribeToAxisAliasEvent method makes it easier to unsubscribe from axis changes on a given button for a given axis type.
-
-### Example
-
-`VRTK/Examples/002_Controller_Events` shows how the events are utilised and listened to. The accompanying example script can be viewed in `VRTK/Examples/ExampleResources/Scripts/VRTK_ControllerEvents_ListenerExample.cs`.
-
----
-
-## Controller Highlighter (VRTK_ControllerHighlighter)
-
-### Overview
-
-Enables highlighting of controller elements.
-
-**Optional Components:**
- * `VRTK_BaseHighlighter` - The highlighter to use when highligting the controller. If one is not already injected in the `Controller Highlighter` parameter then the component on the same GameObject will be used.
-
-**Script Usage:**
- * Place the `VRTK_ControllerHighlighter` script on either:
-   * The controller script alias GameObject of the controller to affect (e.g. Right Controller Script Alias).
-   * Any other scene GameObject and provide the controller script alias GameObject to the `Controller Alias` parameter of this script.
- * The Model Element Paths will be auto populated at runtime based on the SDK Setup Model Alias being used (except if a custom Model Alias for the SDK Setup is provided).
- * The Highlighter used by the Controller Highlighter will be selected in the following order:
-   * The provided Base Highlighter in the `Controller Highlighter` parameter.
-   * If the above is not provided, then the first active Base Highlighter found on the actual controller GameObject will be used.
-   * If the above is not found, then a Material Color Swap Highlighter will be created on the actual controller GameObject at runtime.
-
-### Inspector Parameters
-
- * **Transition Duration:** The amount of time to take to transition to the set highlight colour.
- * **Highlight Controller:** The colour to set the entire controller highlight colour to.
- * **Highlight Body:** The colour to set the body highlight colour to.
- * **Highlight Trigger:** The colour to set the trigger highlight colour to.
- * **Highlight Grip:** The colour to set the grip highlight colour to.
- * **Highlight Touchpad:** The colour to set the touchpad highlight colour to.
- * **Highlight Button One:** The colour to set the button one highlight colour to.
- * **Highlight Button Two:** The colour to set the button two highlight colour to.
- * **Highlight System Menu:** The colour to set the system menu highlight colour to.
- * **Highlight Start Menu:** The colour to set the start menu highlight colour to.
- * **Model Element Paths:** A collection of strings that determine the path to the controller model sub elements for identifying the model parts at runtime. If the paths are left empty they will default to the model element paths of the selected SDK Bridge.
- * **Element Highlighter Overrides:** A collection of highlighter overrides for each controller model sub element. If no highlighter override is given then highlighter on the Controller game object is used.
- * **Controller Alias:** An optional GameObject to specify which controller to apply the script methods to. If this is left blank then this script is required to be placed on a controller script alias GameObject and it will use the Actual Controller GameObject linked to the controller script alias.
- * **Model Container:** An optional GameObject to specifiy where the controller models are. If this is left blank then the controller Model Alias object will be used.
- * **Controller Highlighter:** An optional Highlighter to use when highlighting the controller element. If this is left blank, then the first active highlighter on the same GameObject will be used, if one isn't found then a Material Color Swap Highlighter will be created at runtime.
-
-### Class Methods
-
-#### ConfigureControllerPaths/0
-
-  > `public virtual void ConfigureControllerPaths()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ConfigureControllerPaths method is used to set up the model element paths.
-
-#### PopulateHighlighters/0
-
-  > `public virtual void PopulateHighlighters()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The PopulateHighlighters method sets up the highlighters on the controller model.
-
-#### HighlightController/2
-
-  > `public virtual void HighlightController(Color color, float fadeDuration = 0f)`
-
- * Parameters
-   * `Color color` - The Color to highlight the controller to.
-   * `float fadeDuration` - The duration in seconds to fade from the initial color to the target color.
- * Returns
-   * _none_
-
-The HighlightController method attempts to highlight all sub models of the controller.
-
-#### UnhighlightController/0
-
-  > `public virtual void UnhighlightController()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The UnhighlightController method attempts to remove the highlight from all sub models of the controller.
-
-#### HighlightElement/3
-
-  > `public virtual void HighlightElement(SDK_BaseController.ControllerElements elementType, Color color, float fadeDuration = 0f)`
-
- * Parameters
-   * `SDK_BaseController.ControllerElements elementType` - The element type on the controller.
-   * `Color color` - The Color to highlight the controller element to.
-   * `float fadeDuration` - The duration in seconds to fade from the initial color to the target color.
- * Returns
-   * _none_
-
-The HighlightElement method attempts to highlight a specific controller element.
-
-#### UnhighlightElement/1
-
-  > `public virtual void UnhighlightElement(SDK_BaseController.ControllerElements elementType)`
-
- * Parameters
-   * `SDK_BaseController.ControllerElements elementType` - The element type on the controller.
- * Returns
-   * _none_
-
-The UnhighlightElement method attempts to remove the highlight from the specific controller element.
-
-### Example
-
-`VRTK/Examples/035_Controller_OpacityAndHighlighting` demonstrates the ability to change the opacity of a controller model and to highlight specific elements of a controller such as the buttons or even the entire controller model.
-
----
-
-## Controller Haptics (VRTK_ControllerHaptics)
-
-### Overview
-
-A collection of static methods for calling haptic functions on a given controller.
-
-**Script Usage:**
-  > There is no requirement to add this script to a GameObject as all of the public methods are static and can be called directly e.g. `VRTK_ControllerHaptics.TriggerHapticPulse(ref, 1f)`.
-
-### Class Methods
-
-#### TriggerHapticPulse/2
-
-  > `public static void TriggerHapticPulse(VRTK_ControllerReference controllerReference, float strength)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
-   * `float strength` - The intensity of the rumble of the controller motor. `0` to `1`.
- * Returns
-   * _none_
-
-The TriggerHapticPulse/2 method calls a single haptic pulse call on the controller for a single tick.
-
-#### TriggerHapticPulse/4
-
-  > `public static void TriggerHapticPulse(VRTK_ControllerReference controllerReference, float strength, float duration, float pulseInterval)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
-   * `float strength` - The intensity of the rumble of the controller motor. `0` to `1`.
-   * `float duration` - The length of time the rumble should continue for.
-   * `float pulseInterval` - The interval to wait between each haptic pulse.
- * Returns
-   * _none_
-
-The TriggerHapticPulse/4 method calls a haptic pulse for a specified amount of time rather than just a single tick. Each pulse can be separated by providing a `pulseInterval` to pause between each haptic pulse.
-
-#### TriggerHapticPulse/2
-
-  > `public static void TriggerHapticPulse(VRTK_ControllerReference controllerReference, AudioClip clip)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
-   * `AudioClip clip` - The audio clip to use for the haptic pattern.
- * Returns
-   * _none_
-
-The TriggerHapticPulse/2 method calls a haptic pulse based on a given audio clip.
-
-#### CancelHapticPulse/1
-
-  > `public static void CancelHapticPulse(VRTK_ControllerReference controllerReference)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to cancel the haptic feedback on.
- * Returns
-   * _none_
-
-The CancelHapticPulse method cancels the existing running haptic pulse on the given controller index.
-
----
-
-## Interact Object Appearance (VRTK_InteractObjectAppearance)
-
-### Overview
-
-Determine whether the `Object To Affect` should be visible or hidden by default or on interaction (near touch, touch, grab, use).
-
-**Required Components:**
- * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Object To Monitor` parameter.
-
-**Script Usage:**
- * Place the `VRTK_InteractObjectAppearance` script on either:
-   * The GameObject of the Interactable Object to detect interactions on.
-   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Object To Monitor` parameter of this script.
- * Optionally provide a GameObject to the `Object To Affect` parameter to determine which GameObject to affect the appearance of.
-
-### Inspector Parameters
-
- * **Object To Affect:** The GameObject to affect the appearance of. If this is null then then the interacting object will be used (usually the controller).
- * **Game Object Active By Default:** If this is checked then the `Object To Affect` will be an active GameObject when the script is enabled. If it's unchecked then it will be disabled. This only takes effect if `Affect Interacting Object` is unticked.
- * **Renderer Visible By Default:** If this is checked then the `Object To Affect` will have visible renderers when the script is enabled. If it's unchecked then it will have it's renderers disabled. This only takes effect if `Affect Interacting Object` is unticked.
- * **Game Object Active On Near Touch:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is near touched. If it's unchecked then it will be disabled on near touch.
- * **Renderer Visible On Near Touch:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is near touched. If it's unchecked then it will have it's renderers disabled on near touch.
- * **Near Touch Appearance Delay:** The amount of time to wait before the near touch appearance settings are applied after the near touch event.
- * **Near Untouch Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the near untouch event.
- * **Valid Near Touch Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the near touch and near untouch event.
- * **Game Object Active On Touch:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is touched. If it's unchecked then it will be disabled on touch.
- * **Renderer Visible On Touch:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is touched. If it's unchecked then it will have it's renderers disabled on touch.
- * **Touch Appearance Delay:** The amount of time to wait before the touch appearance settings are applied after the touch event.
- * **Untouch Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the untouch event.
- * **Valid Touch Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the touch/untouch event.
- * **Game Object Active On Grab:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is grabbed. If it's unchecked then it will be disabled on grab.
- * **Renderer Visible On Grab:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is grabbed. If it's unchecked then it will have it's renderers disabled on grab.
- * **Grab Appearance Delay:** The amount of time to wait before the grab appearance settings are applied after the grab event.
- * **Ungrab Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the ungrab event.
- * **Valid Grab Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the grab/ungrab event.
- * **Game Object Active On Use:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is used. If it's unchecked then it will be disabled on use.
- * **Renderer Visible On Use:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is used. If it's unchecked then it will have it's renderers disabled on use.
- * **Use Appearance Delay:** The amount of time to wait before the use appearance settings are applied after the use event.
- * **Unuse Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the unuse event.
- * **Valid Use Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the use/unuse event.
-
-### Class Variables
-
- * `public enum ValidInteractingObject` - The valid interacting object.
-   * `Anything` - Any GameObject is considered a valid interacting object.
-   * `EitherController` - Only a game controller is considered a valid interacting objcet.
-   * `NeitherController` - Any GameObject except a game controller is considered a valid interacting object.
-   * `LeftControllerOnly` - Only the left game controller is considered a valid interacting objcet.
-   * `RightControllerOnly` - Only the right game controller is considered a valid interacting objcet.
-
-### Class Events
-
- * `GameObjectEnabled` - Emitted when the GameObject on the `Object To Affect` is enabled.
- * `GameObjectDisabled` - Emitted when the GameObject on the `Object To Affect` is disabled.
- * `RenderersEnabled` - Emitted when the Renderers on the `Object To Affect` are enabled.
- * `RenderersDisabled` - Emitted when the Renderers on the `Object To Affect` are disabled.
-
-### Unity Events
-
-Adding the `VRTK_InteractObjectAppearance_UnityEvents` component to `VRTK_InteractObjectAppearance` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `GameObject affectingObject` - The GameObject that is being affected.
- * `VRTK_InteractableObject monitoringObject` - The Interactable Object that is being monitored.
- * `VRTK_InteractableObject.InteractionType interactionType` - The type of interaction initiating the event.
-
-### Example
-
-`VRTK/Examples/008_Controller_UsingAGrabbedObject` shows that the controller can be hidden when touching, grabbing and using an object.
-
----
-
-## Interact Object Highlighter (VRTK_InteractObjectHighlighter)
-
-### Overview
-
-Enable highlighting of an Interactable Object base on interaction type.
-
-**Required Components:**
- * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Object To Affect` parameter.
-
-**Script Usage:**
- * Place the `VRTK_InteractObjectHighlighter` script on either:
-   * The GameObject of the Interactable Object to detect interactions on.
-   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Object To Affect` parameter of this script.
-
-### Inspector Parameters
-
- * **Near Touch Highlight:** The colour to highlight the object on the near touch interaction.
- * **Touch Highlight:** The colour to highlight the object on the touch interaction.
- * **Grab Highlight:** The colour to highlight the object on the grab interaction.
- * **Use Highlight:** The colour to highlight the object on the use interaction.
- * **Object To Affect:** The Interactable Object to affect the highlighter of. If this is left blank, then the Interactable Object will need to be on the current or a parent GameObject.
-
-### Class Events
-
- * `InteractObjectHighlighterHighlighted` - Emitted when the object is highlighted
- * `InteractObjectHighlighterUnhighlighted` - Emitted when the object is unhighlighted
-
-### Unity Events
-
-Adding the `VRTK_InteractObjectHighlighter_UnityEvents` component to `VRTK_InteractObjectHighlighter` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `VRTK_InteractableObject affectedObject` - The GameObject that is being highlighted.
- * `GameObject affectingObject` - The GameObject is initiating the highlight via an interaction.
-
-### Class Methods
-
-#### GetCurrentHighlightColor/0
-
-  > `public virtual Color GetCurrentHighlightColor()`
-
- * Parameters
-   * _none_
- * Returns
-   * `Color` - The Color that the Interactable Object is being highlighted to.
-
-The GetCurrentHighlightColor returns the colour that the Interactable Object is currently being highlighted to.
-
----
-
-## Interact Touch (VRTK_InteractTouch)
-
-### Overview
-
-Determines if a GameObject can initiate a touch with an Interactable Object.
-
-**Required Components:**
- * `Rigidbody` - A Unity kinematic Rigidbody to determine when collisions happen between the Interact Touch GameObject and other valid colliders.
-
-**Script Usage:**
- * Place the `VRTK_InteractTouch` script on the controller script alias GameObject of the controller to track (e.g. Right Controller Script Alias).
-
-### Inspector Parameters
-
- * **Custom Collider Container:** An optional GameObject that contains the compound colliders to represent the touching object. If this is empty then the collider will be auto generated at runtime to match the SDK default controller.
-
-### Class Events
-
- * `ControllerStartTouchInteractableObject` - Emitted when the touch of a valid object has started.
- * `ControllerTouchInteractableObject` - Emitted when a valid object is touched.
- * `ControllerStartUntouchInteractableObject` - Emitted when the untouch of a valid object has started.
- * `ControllerUntouchInteractableObject` - Emitted when a valid object is no longer being touched.
- * `ControllerRigidbodyActivated` - Emitted when the controller rigidbody is activated.
- * `ControllerRigidbodyDeactivated` - Emitted when the controller rigidbody is deactivated.
-
-### Unity Events
-
-Adding the `VRTK_InteractTouch_UnityEvents` component to `VRTK_InteractTouch` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `VRTK_ControllerReference controllerReference` - The reference to the controller doing the interaction.
- * `GameObject target` - The GameObject of the Interactable Object that is being interacted with.
-
-### Class Methods
-
-#### ForceTouch/1
-
-  > `public virtual void ForceTouch(GameObject obj)`
-
- * Parameters
-   * `GameObject obj` - The GameObject to attempt to force touch.
- * Returns
-   * _none_
-
-The ForceTouch method will attempt to force the Interact Touch onto the given GameObject.
-
-#### GetTouchedObject/0
-
-  > `public virtual GameObject GetTouchedObject()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The GameObject of what is currently being touched by this Interact Touch.
-
-The GetTouchedObject method returns the current GameObject being touched by the Interact Touch.
-
-#### IsObjectInteractable/1
-
-  > `public virtual bool IsObjectInteractable(GameObject obj)`
-
- * Parameters
-   * `GameObject obj` - The GameObject to check to see if it's a valid Interactable Object.
- * Returns
-   * `bool` - Returns `true` if the given GameObjectis a valid Interactable Object.
-
-The IsObjectInteractable method is used to check if a given GameObject is a valid Interactable Object.
-
-#### ToggleControllerRigidBody/2
-
-  > `public virtual void ToggleControllerRigidBody(bool state, bool forceToggle = false)`
-
- * Parameters
-   * `bool state` - The state of whether the rigidbody is on or off. `true` toggles the rigidbody on and `false` turns it off.
-   * `bool forceToggle` - Determines if the rigidbody has been forced into it's new state by another script. This can be used to override other non-force settings. Defaults to `false`
- * Returns
-   * _none_
-
-The ToggleControllerRigidBody method toggles the Interact Touch rigidbody's ability to detect collisions. If it is true then the controller rigidbody will collide with other collidable GameObjects.
-
-#### IsRigidBodyActive/0
-
-  > `public virtual bool IsRigidBodyActive()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the rigidbody on the Interact TOuch is currently active and able to affect other scene rigidbodies.
-
-The IsRigidBodyActive method checks to see if the rigidbody on the Interact Touch is active and can affect other rigidbodies in the scene.
-
-#### IsRigidBodyForcedActive/0
-
-  > `public virtual bool IsRigidBodyForcedActive()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the rigidbody is active and has been forced into the active state.
-
-The IsRigidBodyForcedActive method checks to see if the rigidbody on the Interact Touch has been forced into the active state.
-
-#### ForceStopTouching/0
-
-  > `public virtual void ForceStopTouching()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ForceStopTouching method will stop the Interact Touch from touching an Interactable Object even if the Interact Touch is physically touching the Interactable Object.
-
-#### ControllerColliders/0
-
-  > `public virtual Collider[] ControllerColliders()`
-
- * Parameters
-   * _none_
- * Returns
-   * `Collider[]` - An array of colliders that are associated with the controller.
-
-The ControllerColliders method retrieves all of the associated colliders on the Interact Touch.
-
-#### GetControllerType/0
-
-  > `public virtual SDK_BaseController.ControllerType GetControllerType()`
-
- * Parameters
-   * _none_
- * Returns
-   * `SDK_BaseController.ControllerType` - The type of controller that the Interact Touch is attached to.
-
-The GetControllerType method is a shortcut to retrieve the current controller type the Interact Touch is attached to.
-
-### Example
-
-`VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the highlighting of objects that have the `VRTK_InteractableObject` script added to them to show the ability to highlight interactable objects when they are touched by the controllers.
-
----
-
-## Interact Near Touch (VRTK_InteractNearTouch)
-
-### Overview
-
-Determines if a GameObject can initiate a near touch with an Interactable Object.
-
-**Required Components:**
- * `VRTK_InteractTouch` - The touch component to determine the actual interacting GameObject that will deal with the near touch interaction. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
-
-**Script Usage:**
- * Place the `VRTK_InteractNearTouch` script on either:
-   * The Interact Touch GameObject.
-   * Any other scene GameObject and provide a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter of this script.
-
-### Inspector Parameters
-
- * **Collider Radius:** The radius of the auto generated collider if a `Custom Collider Container` is not supplied.
- * **Custom Collider Container:** An optional GameObject that contains the compound colliders to represent the near touching object. If this is empty then the collider will be auto generated at runtime.
- * **Interact Touch:** The Interact Touch script to associate the near touches with. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
-
-### Class Events
-
- * `ControllerNearTouchInteractableObject` - Emitted when a valid object is near touched.
- * `ControllerNearUntouchInteractableObject` - Emitted when a valid object is no longer being near touched.
-
-### Unity Events
-
-Adding the `VRTK_InteractNearTouch_UnityEvents` component to `VRTK_InteractNearTouch` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Class Methods
-
-#### GetNearTouchedObjects/0
-
-  > `public virtual List<GameObject> GetNearTouchedObjects()`
-
- * Parameters
-   * _none_
- * Returns
-   * `List<GameObject>` - A list of GameObjects that are being near touched.
-
-The GetNearTouchedObjects method returns all of the GameObjects that are currently being near touched.
-
-#### ForceNearTouch/1
-
-  > `public virtual void ForceNearTouch(GameObject obj)`
-
- * Parameters
-   * `GameObject obj` - The GameObject to attempt to force near touch.
- * Returns
-   * _none_
-
-The ForceNearTouch method will attempt to force the controller to near touch the given GameObject.
-
-#### ForceStopNearTouching/1
-
-  > `public virtual void ForceStopNearTouching(GameObject obj = null)`
-
- * Parameters
-   * `GameObject obj` - An optional GameObject to only include in the force stop. If this is null then all near touched GameObjects will be force stopped.
- * Returns
-   * _none_
-
-The ForceStopNearTouching method will stop the Interact Touch GameObject from near touching an Interactable Object even if the Interact Touch GameObject is physically touching the Interactable Object still.
-
-#### GetNearTouchedObjects/0
-
-  > `public virtual List<GameObject> GetNearTouchedObjects()`
-
- * Parameters
-   * _none_
- * Returns
-   * `List<GameObject>` - A list of GameObjects that are being near touched.
-
-The GetNearTouchedObjects method returns all of the GameObjects that are currently being near touched.
-
----
-
-## Interact Grab (VRTK_InteractGrab)
-
-### Overview
-
-Determines if the Interact Touch can initiate a grab with the touched Interactable Object.
-
-**Required Components:**
- * `VRTK_InteractTouch` - The touch component to determine when a valid touch has taken place to denote a grab can occur. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
-
-**Optional Components:**
- * `VRTK_ControllerEvents` - The events component to listen for the button presses on. This must be applied on the same GameObject as this script if one is not provided via the `Controller Events` parameter.
-
-**Script Usage:**
- * Place the `VRTK_InteractGrab` script on either:
-   * The GameObject with the Interact Touch and Controller Events scripts.
-   * Any other scene GameObject and provide a valid `VRTK_ControllerEvents` component to the `Controller Events` parameter and a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter of this script.
-
-### Inspector Parameters
-
- * **Grab Button:** The button used to grab/release a touched Interactable Object.
- * **Grab Precognition:** An amount of time between when the grab button is pressed to when the controller is touching an Interactable Object to grab it.
- * **Throw Multiplier:** An amount to multiply the velocity of any Interactable Object being thrown.
- * **Create Rigid Body When Not Touching:** If this is checked and the Interact Touch is not touching an Interactable Object when the grab button is pressed then a rigid body is added to the interacting object to allow it to push other rigid body objects around.
- * **Controller Attach Point:** The rigidbody point on the controller model to snap the grabbed Interactable Object to. If blank it will be set to the SDK default.
- * **Controller Events:** The Controller Events to listen for the events on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
- * **Interact Touch:** The Interact Touch to listen for touches on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
-
-### Class Events
-
- * `GrabButtonPressed` - Emitted when the grab button is pressed.
- * `GrabButtonReleased` - Emitted when the grab button is released.
- * `ControllerStartGrabInteractableObject` - Emitted when a grab of a valid object is started.
- * `ControllerGrabInteractableObject` - Emitted when a valid object is grabbed.
- * `ControllerStartUngrabInteractableObject` - Emitted when a ungrab of a valid object is started.
- * `ControllerUngrabInteractableObject` - Emitted when a valid object is released from being grabbed.
-
-### Unity Events
-
-Adding the `VRTK_InteractGrab_UnityEvents` component to `VRTK_InteractGrab` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Class Methods
-
-#### IsGrabButtonPressed/0
-
-  > `public virtual bool IsGrabButtonPressed()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the grab alias button is being held down.
-
-The IsGrabButtonPressed method determines whether the current grab alias button is being pressed down.
-
-#### ForceRelease/1
-
-  > `public virtual void ForceRelease(bool applyGrabbingObjectVelocity = false)`
-
- * Parameters
-   * `bool applyGrabbingObjectVelocity` - If this is true then upon releasing the Interactable Object any velocity on the Interact Touch GameObject will be applied to the Interactable Object to essentiall throw it. Defaults to `false`.
- * Returns
-   * _none_
-
-The ForceRelease method will force the Interact Grab to stop grabbing the currently grabbed Interactable Object.
-
-#### AttemptGrab/0
-
-  > `public virtual void AttemptGrab()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The AttemptGrab method will attempt to grab the currently touched Interactable Object without needing to press the grab button on the controller.
-
-#### GetGrabbedObject/0
-
-  > `public virtual GameObject GetGrabbedObject()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The game object of what is currently being grabbed by this controller.
-
-The GetGrabbedObject method returns the current Interactable Object being grabbed by the this Interact Grab.
-
-### Example
-
-`VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the grabbing of interactable objects that have the `VRTK_InteractableObject` script attached to them. The objects can be picked up and thrown around.
-
-`VRTK/Examples/013_Controller_UsingAndGrabbingMultipleObjects` demonstrates that each controller can grab and use objects independently and objects can also be toggled to their use state simultaneously.
-
-`VRTK/Examples/014_Controller_SnappingObjectsOnGrab` demonstrates the different mechanisms for snapping a grabbed object to the controller.
-
----
-
-## Interact Use (VRTK_InteractUse)
-
-### Overview
-
-Determines if the Interact Touch can initiate a use interaction with the touched Interactable Object.
-
-**Required Components:**
- * `VRTK_InteractTouch` - The touch component to determine when a valid touch has taken place to denote a use interaction can occur. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
-
-**Optional Components:**
- * `VRTK_ControllerEvents` - The events component to listen for the button presses on. This must be applied on the same GameObject as this script if one is not provided via the `Controller Events` parameter.
- * `VRTK_InteractGrab` - The grab component to determine when a valid grab has taken place. This must be applied on the same GameObject as this script if one is not provided via the `Interact Grab` parameter.
-
-**Script Usage:**
- * Place the `VRTK_InteractUse` script on either:
-   * The GameObject with the Interact Touch and Controller Events scripts.
-   * Any other scene GameObject and provide a valid `VRTK_ControllerEvents` component to the `Controller Events` parameter and a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter of this script.
-
-### Inspector Parameters
-
- * **Use Button:** The button used to use/unuse a touched Interactable Object.
- * **Controller Events:** The Controller Events to listen for the events on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
- * **Interact Touch:** The Interact Touch to listen for touches on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
- * **Interact Grab:** The Interact Grab to listen for grab actions on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
-
-### Class Events
-
- * `UseButtonPressed` - Emitted when the use toggle alias button is pressed.
- * `UseButtonReleased` - Emitted when the use toggle alias button is released.
- * `ControllerStartUseInteractableObject` - Emitted when a use of a valid object is started.
- * `ControllerUseInteractableObject` - Emitted when a valid object starts being used.
- * `ControllerStartUnuseInteractableObject` - Emitted when a unuse of a valid object is started.
- * `ControllerUnuseInteractableObject` - Emitted when a valid object stops being used.
-
-### Unity Events
-
-Adding the `VRTK_InteractUse_UnityEvents` component to `VRTK_InteractUse` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Class Methods
-
-#### IsUseButtonPressed/0
-
-  > `public virtual bool IsUseButtonPressed()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the use alias button is being held down.
-
-The IsUsebuttonPressed method determines whether the current use alias button is being pressed down.
-
-#### GetUsingObject/0
-
-  > `public virtual GameObject GetUsingObject()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The GameObject of what is currently being used by this Interact Use.
-
-The GetUsingObject method returns the current GameObject being used by the Interact Use.
-
-#### ForceStopUsing/0
-
-  > `public virtual void ForceStopUsing()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ForceStopUsing method will force the Interact Use to stop using the currently touched Interactable Object and will also stop the Interactable Object's using action.
-
-#### ForceResetUsing/0
-
-  > `public virtual void ForceResetUsing()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ForceResetUsing will force the Interact Use to stop using the currently touched Interactable Object but the Interactable Object will continue with it's existing using action.
-
-#### AttemptUse/0
-
-  > `public virtual void AttemptUse()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The AttemptUse method will attempt to use the currently touched Interactable Object without needing to press the use button on the controller.
-
-### Example
-
-`VRTK/Examples/006_Controller_UsingADoor` simulates using a door object to open and close it. It also has a cube on the floor that can be grabbed to show how interactable objects can be usable or grabbable.
-
-`VRTK/Examples/008_Controller_UsingAGrabbedObject` shows that objects can be grabbed with one button and used with another (e.g. firing a gun).
-
----
-
-## Interactable Object (VRTK_InteractableObject)
-
-### Overview
-
-Determines if the GameObject can be interacted with.
-
-**Required Components:**
- * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects.
-
-**Optional Components:**
- * `Rigidbody` - A Unity Rigidbody to allow the GameObject to be affected by the Unity Physics System (not required for Climbable Grab Attach Types).
- * `VRTK_BaseGrabAttach` - A Grab Attach mechanic for determining how the Interactable Object is grabbed by the primary interacting object.
- * `VRTK_BaseGrabAction` - A Grab Action mechanic for determining how to manipulate the Interactable Object when grabbed by the secondary interacting object.
- * `VRTK_BaseHighlighter` - The highlighter to use when highligting the Interactable Object. If one is not already injected in the `Object Highlighter` parameter then the component on the same GameObject will be used.
-
-**Script Usage:**
- * Place the `VRTK_InteractableObject` script onto the GameObject that is to be interactable.
- * Alternatively, select the GameObject and use the `Window->VRTK->Setup Interactable Object` panel to set up quickly.
- * The Highlighter used by the Interactable Object will be selected in the following order:
-   * The provided Base Highlighter in the `Object Highlighter` parameter.
-   * If the above is not provided, then the first active Base Highlighter found on the Interactable Object GameObject will be used.
-   * If the above is not found, then a Material Color Swap Highlighter will be created on the Interactable Object GameObject at runtime.
-
-**Script Dependencies:**
- * Interactions
-   * To near touch an Interactable Object the Interact NearTouch script is required on a controller Script Alias GameObject.
-   * To touch an Interactable Object the Interact NearTouch script is required on a controller Script Alias GameObject.
-   * To grab an Interactable Object the Interact Grab script is required on a controller Script Alias GameObject.
-   * To use an Interactable Object the Interact Use script is required on a controller Script Alias GameObject.
- * Highlighting
-   * To highlight an Interactable Object on a given interaction then a valid Interact Object Highlighter script must be associated with the Interactable Object.
- * Appearance
-   * To affect the appearance of an Interactable Object then a valid Interact Object Appearance script must be associated with the Interactable Object.
-
-### Inspector Parameters
-
- * **Disable When Idle:** If this is checked then the Interactable Object component will be disabled when the Interactable Object is not being interacted with.
- * **Allowed Near Touch Controllers:** Determines which controller can initiate a near touch action.
- * **Touch Highlight Color:** The Color to highlight the object when it is touched.
- * **Allowed Touch Controllers:** Determines which controller can initiate a touch action.
- * **Ignored Colliders:** An array of colliders on the GameObject to ignore when being touched.
- * **Is Grabbable:** Determines if the Interactable Object can be grabbed.
- * **Hold Button To Grab:** If this is checked then the grab button on the controller needs to be continually held down to keep grabbing. If this is unchecked the grab button toggles the grab action with one button press to grab and another to release.
- * **Stay Grabbed On Teleport:** If this is checked then the Interactable Object will stay grabbed to the controller when a teleport occurs. If it is unchecked then the Interactable Object will be released when a teleport occurs.
- * **Valid Drop:** Determines in what situation the Interactable Object can be dropped by the controller grab button.
- * **Grab Override Button:** Setting to a button will ensure the override button is used to grab this specific Interactable Object. Setting to `Undefined` will mean the `Grab Button` on the Interact Grab script will grab the object.
- * **Allowed Grab Controllers:** Determines which controller can initiate a grab action.
- * **Grab Attach Mechanic Script:** This determines how the grabbed Interactable Object will be attached to the controller when it is grabbed. If one isn't provided then the first Grab Attach script on the GameObject will be used, if one is not found and the object is grabbable then a Fixed Joint Grab Attach script will be created at runtime.
- * **Secondary Grab Action Script:** The script to utilise when processing the secondary controller action on a secondary grab attempt. If one isn't provided then the first Secondary Controller Grab Action script on the GameObject will be used, if one is not found then no action will be taken on secondary grab.
- * **Is Usable:** Determines if the Interactable Object can be used.
- * **Hold Button To Use:** If this is checked then the use button on the controller needs to be continually held down to keep using. If this is unchecked the the use button toggles the use action with one button press to start using and another to stop using.
- * **Use Only If Grabbed:** If this is checked the Interactable Object can be used only if it is currently being grabbed.
- * **Pointer Activates Use Action:** If this is checked then when a Pointer collides with the Interactable Object it will activate it's use action. If the the `Hold Button To Use` parameter is unchecked then whilst the Pointer is collising with the Interactable Object it will run the `Using` method. If `Hold Button To Use` is unchecked then the `Using` method will be run when the Pointer is deactivated. The Pointer will not emit the `Destination Set` event if it is affecting an Interactable Object with this setting checked as this prevents unwanted teleporting from happening when using an Interactable Object with a pointer.
- * **Use Override Button:** Setting to a button will ensure the override button is used to use this specific Interactable Object. Setting to `Undefined` will mean the `Use Button` on the Interact Use script will use the object.
- * **Allowed Use Controllers:** Determines which controller can initiate a use action.
- * **Object Highlighter:** An optional Highlighter to use when highlighting this Interactable Object. If this is left blank, then the first active highlighter on the same GameObject will be used, if one isn't found then a Material Color Swap Highlighter will be created at runtime.
-
-### Class Variables
-
- * `public enum InteractionType` - The interaction type.
-   * `None` - No interaction is affecting the object.
-   * `NearTouch` - The near touch interaction is affecting the object.
-   * `NearUntouch` - The near untouch interaction stopped affecting the object
-   * `Touch` - The touch interaction is affecting the object.
-   * `Untouch` - The untouch interaction stopped affecting the object
-   * `Grab` - The grab interaction is affecting the object.
-   * `Ungrab` - The ungrab interaction stopped affecting the object
-   * `Use` - The use interaction is affecting the object.
-   * `Unuse` - The unuse interaction stopped affecting the object
- * `public enum AllowedController` - Allowed controller type.
-   * `Both` - Both controllers are allowed to interact.
-   * `LeftOnly` - Only the left controller is allowed to interact.
-   * `RightOnly` - Only the right controller is allowed to interact.
- * `public enum ValidDropTypes` - The types of valid situations that the object can be released from grab.
-   * `NoDrop` - The object cannot be dropped via the controller.
-   * `DropAnywhere` - The object can be dropped anywhere in the scene via the controller.
-   * `DropValidSnapDropZone` - The object can only be dropped when it is hovering over a valid snap drop zone.
- * `public int usingState` - The current using state of the Interactable Object. `0` not being used, `1` being used. Default: `0`
- * `public bool isKinematic` - isKinematic is a pass through to the `isKinematic` getter/setter on the Interactable Object's Rigidbody component.
-
-### Class Events
-
- * `InteractableObjectEnabled` - Emitted when the Interactable Object script is enabled;
- * `InteractableObjectDisabled` - Emitted when the Interactable Object script is disabled;
- * `InteractableObjectNearTouched` - Emitted when another interacting object near touches the current Interactable Object.
- * `InteractableObjectNearUntouched` - Emitted when the other interacting object stops near touching the current Interactable Object.
- * `InteractableObjectTouched` - Emitted when another interacting object touches the current Interactable Object.
- * `InteractableObjectUntouched` - Emitted when the other interacting object stops touching the current Interactable Object.
- * `InteractableObjectGrabbed` - Emitted when another interacting object grabs the current Interactable Object.
- * `InteractableObjectUngrabbed` - Emitted when the other interacting object stops grabbing the current Interactable Object.
- * `InteractableObjectUsed` - Emitted when another interacting object uses the current Interactable Object.
- * `InteractableObjectUnused` - Emitted when the other interacting object stops using the current Interactable Object.
- * `InteractableObjectEnteredSnapDropZone` - Emitted when the Interactable Object enters a Snap Drop Zone.
- * `InteractableObjectExitedSnapDropZone` - Emitted when the Interactable Object exists a Snap Drop Zone.
- * `InteractableObjectSnappedToDropZone` - Emitted when the Interactable Object gets snapped to a Snap Drop Zone.
- * `InteractableObjectUnsnappedFromDropZone` - Emitted when the Interactable Object gets unsnapped from a Snap Drop Zone.
-
-### Unity Events
-
-Adding the `VRTK_InteractableObject_UnityEvents` component to `VRTK_InteractableObject` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `GameObject interactingObject` - The GameObject that is initiating the interaction (e.g. a controller).
-
-### Class Methods
-
-#### IsNearTouched/0
-
-  > `public virtual bool IsNearTouched()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object is currently being near touched.
-
-The IsNearTouched method is used to determine if the Interactable Object is currently being near touched.
-
-#### IsTouched/0
-
-  > `public virtual bool IsTouched()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object is currently being touched.
-
-The IsTouched method is used to determine if the Interactable Object is currently being touched.
-
-#### IsGrabbed/1
-
-  > `public virtual bool IsGrabbed(GameObject grabbedBy = null)`
-
- * Parameters
-   * `GameObject grabbedBy` - An optional GameObject to check if the Interactable Object is grabbed by that specific GameObject. Defaults to `null`
- * Returns
-   * `bool` - Returns `true` if the Interactable Object is currently being grabbed.
-
-The IsGrabbed method is used to determine if the Interactable Object is currently being grabbed.
-
-#### IsUsing/1
-
-  > `public virtual bool IsUsing(GameObject usedBy = null)`
-
- * Parameters
-   * `GameObject usedBy` - An optional GameObject to check if the Interactable Object is used by that specific GameObject. Defaults to `null`
- * Returns
-   * `bool` - Returns `true` if the Interactable Object is currently being used.
-
-The IsUsing method is used to determine if the Interactable Object is currently being used.
-
-#### StartNearTouching/1
-
-  > `public virtual void StartNearTouching(VRTK_InteractNearTouch currentNearTouchingObject = null)`
-
- * Parameters
-   * `VRTK_InteractNearTouch currentNearTouchingObject` - The interacting object that is currently nearly touching this Interactable Object.
- * Returns
-   * _none_
-
-The StartNearTouching method is called automatically when the Interactable Object is initially nearly touched.
-
-#### StopNearTouching/1
-
-  > `public virtual void StopNearTouching(VRTK_InteractNearTouch previousNearTouchingObject = null)`
-
- * Parameters
-   * `VRTK_InteractNearTouch previousNearTouchingObject` - The interacting object that was previously nearly touching this Interactable Object.
- * Returns
-   * _none_
-
-The StopNearTouching method is called automatically when the Interactable Object has stopped being nearly touched.
-
-#### StartTouching/1
-
-  > `public virtual void StartTouching(VRTK_InteractTouch currentTouchingObject = null)`
-
- * Parameters
-   * `VRTK_InteractTouch currentTouchingObject` - The interacting object that is currently touching this Interactable Object.
- * Returns
-   * _none_
-
-The StartTouching method is called automatically when the Interactable Object is touched initially.
-
-#### StopTouching/1
-
-  > `public virtual void StopTouching(VRTK_InteractTouch previousTouchingObject = null)`
-
- * Parameters
-   * `VRTK_InteractTouch previousTouchingObject` - The interacting object that was previously touching this Interactable Object.
- * Returns
-   * _none_
-
-The StopTouching method is called automatically when the Interactable Object has stopped being touched.
-
-#### Grabbed/1
-
-  > `public virtual void Grabbed(VRTK_InteractGrab currentGrabbingObject = null)`
-
- * Parameters
-   * `VRTK_InteractGrab currentGrabbingObject` - The interacting object that is currently grabbing this Interactable Object.
- * Returns
-   * _none_
-
-The Grabbed method is called automatically when the Interactable Object is grabbed initially.
-
-#### Ungrabbed/1
-
-  > `public virtual void Ungrabbed(VRTK_InteractGrab previousGrabbingObject = null)`
-
- * Parameters
-   * `VRTK_InteractGrab previousGrabbingObject` - The interacting object that was previously grabbing this Interactable Object.
- * Returns
-   * _none_
-
-The Ungrabbed method is called automatically when the Interactable Object has stopped being grabbed.
-
-#### StartUsing/1
-
-  > `public virtual void StartUsing(VRTK_InteractUse currentUsingObject = null)`
-
- * Parameters
-   * `VRTK_InteractUse currentUsingObject` - The interacting object that is currently using this Interactable Object.
- * Returns
-   * _none_
-
-The StartUsing method is called automatically when the Interactable Object is used initially.
-
-#### StopUsing/2
-
-  > `public virtual void StopUsing(VRTK_InteractUse previousUsingObject = null, bool resetUsingObjectState = true)`
-
- * Parameters
-   * `VRTK_InteractUse previousUsingObject` - The interacting object that was previously using this Interactable Object.
-   * `bool resetUsingObjectState` - Resets the using object state to reset it's using action.
- * Returns
-   * _none_
-
-The StopUsing method is called automatically when the Interactable Object has stopped being used.
-
-#### Highlight/1
-
-  > `public virtual void Highlight(Color highlightColor)`
-
- * Parameters
-   * `Color highlightColor` - The colour to apply to the highlighter.
- * Returns
-   * _none_
-
-The Highlight method turns on the highlighter attached to the Interactable Object with the given Color.
-
-#### Unhighlight/0
-
-  > `public virtual void Unhighlight()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The Unhighlight method turns off the highlighter attached to the Interactable Object.
-
-#### ResetHighlighter/0
-
-  > `public virtual void ResetHighlighter()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ResetHighlighter method is used to reset the currently attached highlighter.
-
-#### PauseCollisions/1
-
-  > `public virtual void PauseCollisions(float delay)`
-
- * Parameters
-   * `float delay` - The time in seconds to pause the collisions for.
- * Returns
-   * _none_
-
-The PauseCollisions method temporarily pauses all collisions on the Interactable Object at grab time by removing the Interactable Object's Rigidbody's ability to detect collisions.
-
-#### ZeroVelocity/0
-
-  > `public virtual void ZeroVelocity()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ZeroVelocity method resets the velocity and angular velocity to zero on the Rigidbody attached to the Interactable Object.
-
-#### SaveCurrentState/0
-
-  > `public virtual void SaveCurrentState()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The SaveCurrentState method stores the existing Interactable Object parent and the Rigidbody kinematic setting.
-
-#### GetNearTouchingObjects/0
-
-  > `public virtual List<GameObject> GetNearTouchingObjects()`
-
- * Parameters
-   * _none_
- * Returns
-   * `List<GameObject>` - A list of GameObject of that are currently nearly touching the current Interactable Object.
-
-The GetNearTouchingObjects method is used to return the collecetion of valid GameObjects that are currently nearly touching this Interactable Object.
-
-#### GetTouchingObjects/0
-
-  > `public virtual List<GameObject> GetTouchingObjects()`
-
- * Parameters
-   * _none_
- * Returns
-   * `List<GameObject>` - A list of GameObject of that are currently touching the current Interactable Object.
-
-The GetTouchingObjects method is used to return the collecetion of valid GameObjects that are currently touching this Interactable Object.
-
-#### GetGrabbingObject/0
-
-  > `public virtual GameObject GetGrabbingObject()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The GameObject of what is grabbing the current Interactable Object.
-
-The GetGrabbingObject method is used to return the GameObject that is currently grabbing this Interactable Object.
-
-#### GetSecondaryGrabbingObject/0
-
-  > `public virtual GameObject GetSecondaryGrabbingObject()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The GameObject of the secondary influencing object of the current grabbed Interactable Object.
-
-The GetSecondaryGrabbingObject method is used to return the GameObject that is currently being used to influence this Interactable Object whilst it is being grabbed by a secondary influencing.
-
-#### GetUsingObject/0
-
-  > `public virtual GameObject GetUsingObject()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The GameObject of what is using the current Interactable Object.
-
-The GetUsingObject method is used to return the GameObject that is currently using this Interactable Object.
-
-#### GetUsingScript/0
-
-  > `public virtual VRTK_InteractUse GetUsingScript()`
-
- * Parameters
-   * _none_
- * Returns
-   * `VRTK_InteractUse` - The Interact Use script of the interacting object that is using the current Interactable Object.
-
-The GetUsingScript method is used to return the Interact Use component that is currently using this Interactable Object.
-
-#### IsValidInteractableController/2
-
-  > `public virtual bool IsValidInteractableController(GameObject actualController, AllowedController controllerCheck)`
-
- * Parameters
-   * `GameObject actualController` - The GameObject of the controller that is being checked.
-   * `AllowedController controllerCheck` - The value of which controller is allowed to interact with this object.
- * Returns
-   * `bool` - Returns `true` if the interacting controller is allowed to grab the Interactable Object.
-
-The IsValidInteractableController method is used to check to see if a controller is allowed to perform an interaction with this Interactable Object as sometimes controllers are prohibited from grabbing or using an Interactable Object depedning on the use case.
-
-#### ForceStopInteracting/0
-
-  > `public virtual void ForceStopInteracting()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ForceStopInteracting method forces the Interactable Object to no longer be interacted with and will cause an interacting object to drop the Interactable Object and stop touching it.
-
-#### ForceStopSecondaryGrabInteraction/0
-
-  > `public virtual void ForceStopSecondaryGrabInteraction()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ForceStopSecondaryGrabInteraction method forces the Interactable Object to no longer be influenced by the second controller grabbing it.
-
-#### RegisterTeleporters/0
-
-  > `public virtual void RegisterTeleporters()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The RegisterTeleporters method is used to find all GameObjects that have a teleporter script and register the Interactable Object on the `OnTeleported` event.
-
-#### UnregisterTeleporters/0
-
-  > `public virtual void UnregisterTeleporters()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The UnregisterTeleporters method is used to unregister all teleporter events that are active on this Interactable Object.
-
-#### StoreLocalScale/0
-
-  > `public virtual void StoreLocalScale()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-the StoreLocalScale method saves the current transform local scale values.
-
-#### ToggleSnapDropZone/2
-
-  > `public virtual void ToggleSnapDropZone(VRTK_SnapDropZone snapDropZone, bool state)`
-
- * Parameters
-   * `VRTK_SnapDropZone snapDropZone` - The Snap Drop Zone object that is being interacted with.
-   * `bool state` - The state of whether the Interactable Object is fixed in or removed from the Snap Drop Zone. `true` denotes the Interactable Object is snapped to the Snap Drop Zone and `false` denotes it has been removed from the Snap Drop Zone.
- * Returns
-   * _none_
-
-The ToggleSnapDropZone method is used to set the state of whether the Interactable Object is in a Snap Drop Zone or not.
-
-#### IsInSnapDropZone/0
-
-  > `public virtual bool IsInSnapDropZone()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object is currently snapped in a Snap Drop Zone, returns `false` if it is not.
-
-The IsInSnapDropZone method determines whether the Interactable Object is currently snapped to a Snap Drop Zone.
-
-#### SetSnapDropZoneHover/2
-
-  > `public virtual void SetSnapDropZoneHover(VRTK_SnapDropZone snapDropZone, bool state)`
-
- * Parameters
-   * `VRTK_SnapDropZone snapDropZone` - The Snap Drop Zone that is being interacted with.
-   * `bool state` - The state of whether the Interactable Object is being hovered or not.
- * Returns
-   * _none_
-
-The SetSnapDropZoneHover method sets whether the Interactable Object is currently being hovered over a valid Snap Drop Zone.
-
-#### GetStoredSnapDropZone/0
-
-  > `public virtual VRTK_SnapDropZone GetStoredSnapDropZone()`
-
- * Parameters
-   * _none_
- * Returns
-   * `VRTK_SnapDropZone` - The SnapDropZone that the Interactable Object is currently snapped to.
-
-The GetStoredSnapDropZone method returns the Snap Drop Zone that the Interactable Object is currently snapped to.
-
-#### IsHoveredOverSnapDropZone/0
-
-  > `public virtual bool IsHoveredOverSnapDropZone()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object is currently hovering over a Snap Drop Zone.
-
-The IsHoveredOverSnapDropZone method returns whether the Interactable Object is currently hovering over a Snap Drop Zone.
-
-#### IsDroppable/0
-
-  > `public virtual bool IsDroppable()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object can currently be dropped, returns `false` if it is not currently possible to drop.
-
-The IsDroppable method returns whether the Interactable Object can be dropped or not in it's current situation.
-
-#### IsSwappable/0
-
-  > `public virtual bool IsSwappable()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object can be grabbed by a secondary interacting object whilst already being grabbed and the Interactable Object will swap controllers. Returns `false` if the Interactable Object cannot be swapped.
-
-The IsSwappable method returns whether the Interactable Object can be grabbed with one interacting object and then swapped to another interacting object by grabbing with the secondary grab action.
-
-#### PerformSecondaryAction/0
-
-  > `public virtual bool PerformSecondaryAction()`
-
- * Parameters
-   * _none_
- * Returns
-   * `bool` - Returns `true` if the Interactable Object has a Secondary Grab Action, returns `false` if it has no Secondary Grab Action or is swappable.
-
-The PerformSecondaryAction method returns whether the Interactable Object has a Secondary Grab Action that can be performed when grabbing the object with a secondary interacting object.
-
-#### ResetIgnoredColliders/0
-
-  > `public virtual void ResetIgnoredColliders()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ResetIgnoredColliders method is used to clear any stored ignored colliders in case the `Ignored Colliders` array parameter is changed at runtime. This needs to be called manually if changes are made at runtime.
-
-#### SubscribeToInteractionEvent/2
-
-  > `public virtual void SubscribeToInteractionEvent(InteractionType givenType, InteractableObjectEventHandler methodCallback)`
-
- * Parameters
-   * `InteractionType givenType` - The Interaction Type to register the events for.
-   * `InteractableObjectEventHandler methodCallback` - The method to execute when the Interaction Type is initiated.
- * Returns
-   * _none_
-
-The SubscribeToInteractionEvent method subscribes a given method callback for the given Interaction Type.
-
-#### UnsubscribeFromInteractionEvent/2
-
-  > `public virtual void UnsubscribeFromInteractionEvent(InteractionType givenType, InteractableObjectEventHandler methodCallback)`
-
- * Parameters
-   * `InteractionType givenType` - The Interaction Type that the previous event subscription was under.
-   * `InteractableObjectEventHandler methodCallback` - The method that was being executed when the Interaction Type was initiated.
- * Returns
-   * _none_
-
-The UnsubscribeFromInteractionEvent method unsubscribes a previous event subscription for the given Interaction Type.
-
-### Example
-
-`VRTK/Examples/005_Controller_BasicObjectGrabbing` uses the `VRTK_InteractTouch` and `VRTK_InteractGrab` scripts on the controllers to show how an interactable object can be grabbed and snapped to the controller and thrown around the game world.
-
-`VRTK/Examples/013_Controller_UsingAndGrabbingMultipleObjects` shows multiple objects that can be grabbed by holding the buttons or grabbed by toggling the button click and also has objects that can have their Using state toggled to show how multiple items can be turned on at the same time.
-
----
-
-## Object Appearance (VRTK_ObjectAppearance)
-
-### Overview
-
-A collection of static methods for calling controlling the appearance of GameObjects such as opacity, render state and highlighter state.
-
-**Script Usage:**
-  > There is no requirement to add this script to a GameObject as all of the public methods are static and can be called directly e.g. `VRTK_ObjectAppearance.SetOpacity(obj, 1f)`.
-
-### Class Methods
-
-#### SetOpacity/3
-
-  > `public static void SetOpacity(GameObject model, float alpha, float transitionDuration = 0f)`
-
- * Parameters
-   * `GameObject model` - The GameObject to change the renderer opacity on.
-   * `float alpha` - The colour alpha/opacity level. `0f` to `1f`.
-   * `float transitionDuration` - The time to transition from the current opacity to the new opacity.
- * Returns
-   * _none_
-
-The SetOpacity method allows the opacity of the given GameObject to be changed. `0f` is full transparency, `1f` is full opacity.
-
-#### SetRendererVisible/2
-
-  > `public static void SetRendererVisible(GameObject model, GameObject ignoredModel = null)`
-
- * Parameters
-   * `GameObject model` - The GameObject to show the renderers for.
-   * `GameObject ignoredModel` - An optional GameObject to ignore the renderer toggle on.
- * Returns
-   * _none_
-
-The SetRendererVisible method turns on renderers of a given GameObject. It can also be provided with an optional GameObject to ignore the render toggle on.
-
-#### SetRendererHidden/2
-
-  > `public static void SetRendererHidden(GameObject model, GameObject ignoredModel = null)`
-
- * Parameters
-   * `GameObject model` - The GameObject to hide the renderers for.
-   * `GameObject ignoredModel` - An optional GameObject to ignore the renderer toggle on.
- * Returns
-   * _none_
-
-The SetRendererHidden method turns off renderers of a given GameObject. It can also be provided with an optional GameObject to ignore the render toggle on.
-
-#### ToggleRenderer/3
-
-  > `public static void ToggleRenderer(bool state, GameObject model, GameObject ignoredModel = null)`
-
- * Parameters
-   * `bool state` - If true then the renderers will be enabled, if false the renderers will be disabled.
-   * `GameObject model` - The GameObject to toggle the renderer states of.
-   * `GameObject ignoredModel` - An optional GameObject to ignore the renderer toggle on.
- * Returns
-   * _none_
-
-The ToggleRenderer method turns on or off the renderers of a given GameObject. It can also be provided with an optional GameObject to ignore the render toggle of.
-
-#### IsRendererVisible/2
-
-  > `public static bool IsRendererVisible(GameObject model, GameObject ignoredModel = null)`
-
- * Parameters
-   * `GameObject model` - The GameObject to check for visibility on.
-   * `GameObject ignoredModel` - A GameObject to ignore when doing the visibility check.
- * Returns
-   * `bool` - Returns true if any of the child renderers are enabled, returns false if all child renderers are disabled.
-
-The IsRendererVisible method is used to check if a given GameObject is visible in the scene by any of it's child renderers being enabled.
-
-#### HighlightObject/3
-
-  > `public static void HighlightObject(GameObject model, Color? highlightColor, float fadeDuration = 0f)`
-
- * Parameters
-   * `GameObject model` - The GameObject to attempt to call the Highlight on.
-   * `Color? highlightColor` - The Color to highlight to.
-   * `float fadeDuration` - The duration in time to fade from the initial colour to the target colour.
- * Returns
-   * _none_
-
-The HighlightObject method calls the Highlight method on the highlighter attached to the given GameObject with the provided colour.
-
-#### UnhighlightObject/1
-
-  > `public static void UnhighlightObject(GameObject model)`
-
- * Parameters
-   * `GameObject model` - The GameObject to attempt to call the Unhighlight on.
- * Returns
-   * _none_
-
-The UnhighlightObject method calls the Unhighlight method on the highlighter attached to the given GameObject.
-
----
-
-## Interact Haptics (VRTK_InteractHaptics)
-
-### Overview
-
-Provides controller haptics upon interaction with the specified Interactable Object.
-
-**Required Components:**
- * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Object To Affect` parameter.
-
-**Script Usage:**
- * Place the `VRTK_InteractHaptics` script on either:
-   * The GameObject of the Interactable Object to detect interactions on.
-   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Object To Affect` parameter of this script.
-
-### Inspector Parameters
-
- * **Clip On Near Touch:** Denotes the audio clip to use to rumble the controller on near touch.
- * **Strength On Near Touch:** Denotes how strong the rumble in the controller will be on near touch.
- * **Duration On Near Touch:** Denotes how long the rumble in the controller will last on near touch.
- * **Interval On Near Touch:** Denotes interval betweens rumble in the controller on near touch.
- * **Cancel On Near Untouch:** If this is checked then the rumble will be cancelled when the controller is no longer near touching.
- * **Clip On Touch:** Denotes the audio clip to use to rumble the controller on touch.
- * **Strength On Touch:** Denotes how strong the rumble in the controller will be on touch.
- * **Duration On Touch:** Denotes how long the rumble in the controller will last on touch.
- * **Interval On Touch:** Denotes interval betweens rumble in the controller on touch.
- * **Cancel On Untouch:** If this is checked then the rumble will be cancelled when the controller is no longer touching.
- * **Clip On Grab:** Denotes the audio clip to use to rumble the controller on grab.
- * **Strength On Grab:** Denotes how strong the rumble in the controller will be on grab.
- * **Duration On Grab:** Denotes how long the rumble in the controller will last on grab.
- * **Interval On Grab:** Denotes interval betweens rumble in the controller on grab.
- * **Cancel On Ungrab:** If this is checked then the rumble will be cancelled when the controller is no longer grabbing.
- * **Clip On Use:** Denotes the audio clip to use to rumble the controller on use.
- * **Strength On Use:** Denotes how strong the rumble in the controller will be on use.
- * **Duration On Use:** Denotes how long the rumble in the controller will last on use.
- * **Interval On Use:** Denotes interval betweens rumble in the controller on use.
- * **Cancel On Unuse:** If this is checked then the rumble will be cancelled when the controller is no longer using.
- * **Object To Affect:** The Interactable Object to initiate the haptics from. If this is left blank, then the Interactable Object will need to be on the current or a parent GameObject.
-
-### Class Events
-
- * `InteractHapticsNearTouched` - Emitted when the haptics are from a near touch.
- * `InteractHapticsTouched` - Emitted when the haptics are from a touch.
- * `InteractHapticsGrabbed` - Emitted when the haptics are from a grab.
- * `InteractHapticsUsed` - Emitted when the haptics are from a use.
-
-### Unity Events
-
-Adding the `VRTK_InteractHaptics_UnityEvents` component to `VRTK_InteractHaptics` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `VRTK_ControllerReference controllerReference` - The reference to the controller to perform haptics on.
-
-### Class Methods
-
-#### CancelHaptics/1
-
-  > `public virtual void CancelHaptics(VRTK_ControllerReference controllerReference)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` -
- * Returns
-   * _none_
-
-The CancelHaptics method cancels any existing haptic feedback on the given controller.
-
-#### HapticsOnNearTouch/1
-
-  > `public virtual void HapticsOnNearTouch(VRTK_ControllerReference controllerReference)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
- * Returns
-   * _none_
-
-The HapticsOnNearTouch method triggers the haptic feedback on the given controller for the settings associated with near touch.
-
-#### HapticsOnTouch/1
-
-  > `public virtual void HapticsOnTouch(VRTK_ControllerReference controllerReference)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
- * Returns
-   * _none_
-
-The HapticsOnTouch method triggers the haptic feedback on the given controller for the settings associated with touch.
-
-#### HapticsOnGrab/1
-
-  > `public virtual void HapticsOnGrab(VRTK_ControllerReference controllerReference)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
- * Returns
-   * _none_
-
-The HapticsOnGrab method triggers the haptic feedback on the given controller for the settings associated with grab.
-
-#### HapticsOnUse/1
-
-  > `public virtual void HapticsOnUse(VRTK_ControllerReference controllerReference)`
-
- * Parameters
-   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
- * Returns
-   * _none_
-
-The HapticsOnUse method triggers the haptic feedback on the given controller for the settings associated with use.
-
----
-
-## Object Auto Grab (VRTK_ObjectAutoGrab)
-
-### Overview
-
-Attempt to automatically grab a specified Interactable Object.
-
-**Required Components:**
- * `VRTK_InteractTouch` - The touch component to determine when a valid touch has taken place to denote a use interaction can occur. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
- * `VRTK_InteractGrab` - The grab component to determine when a valid grab has taken place. This must be applied on the same GameObject as this script if one is not provided via the `Interact Grab` parameter.
-
-**Script Usage:**
- * Place the `VRTK_ObjectAutoGrab` script on either:
-   * The GameObject that contains the Interact Touch and Interact Grab scripts.
-   * Any other scene GameObject and provide a valid `VRTK_InteractTOuch` component to the `Interact Touch` parameter and a valid `VRTK_InteractGrab` component to the `Interact Grab` parameter of this script.
-* Assign the Interactable Object to auto grab to the `Object To Grab` parameter on this script.
-* If this Interactable Object is a prefab then the `Object Is Prefab` parameter on this script must be checked.
-
-### Inspector Parameters
-
- * **Object To Grab:** The Interactable Object that will be grabbed by the Interact Grab.
- * **Object Is Prefab:** If the `Object To Grab` is a prefab then this needs to be checked, if the `Object To Grab` already exists in the scene then this needs to be unchecked.
- * **Clone Grabbed Object:** If this is checked then the `Object To Grab` will be cloned into a new Interactable Object and grabbed by the Interact Grab leaving the existing Interactable Object in the scene. This is required if the same Interactable Object is to be grabbed to multiple instances of Interact Grab. It is also required to clone a grabbed Interactable Object if it is a prefab as it needs to exist within the scene to be grabbed.
- * **Always Clone On Enable:** If `Clone Grabbed Object` is checked and this is checked, then whenever this script is disabled and re-enabled, it will always create a new clone of the Interactable Object to grab. If this is unchecked then the original cloned Interactable Object will attempt to be grabbed again. If the original cloned object no longer exists then a new clone will be created.
- * **Interact Touch:** The Interact Touch to listen for touches on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
- * **Interact Grab:** The Interact Grab to listen for grab actions on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
-
-### Class Events
-
- * `ObjectAutoGrabCompleted` - Emitted when the object auto grab has completed successfully.
-
-### Unity Events
-
-Adding the `VRTK_ObjectAutoGrab_UnityEvents` component to `VRTK_ObjectAutoGrab` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Class Methods
-
-#### ClearPreviousClone/0
-
-  > `public virtual void ClearPreviousClone()`
-
- * Parameters
-   * _none_
- * Returns
-   * _none_
-
-The ClearPreviousClone method resets the previous cloned Interactable Object to null to ensure when the script is re-enabled that a new cloned Interactable Object is created, rather than the original clone being grabbed again.
-
-### Example
-
-`VRTK/Examples/026_Controller_ForceHoldObject` shows how to automatically grab a sword to each controller and also prevents the swords from being dropped so they are permanently attached to the user's controllers.
-
----
-
-## Object Touch Auto Interact (VRTK_ObjectTouchAutoInteract)
-
-### Overview
-
-Allows for Interact Grab or Interact Use interactions to automatically happen upon touching an Interactable Object.
-
-**Required Components:**
- * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Interactable Object` parameter.
-
-**Script Usage:**
- * Place the `VRTK_ObjectTouchAutoInteract` script on either:
-   * The GameObject of the Interactable Object to detect interactions on.
-   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Interactable Object` parameter of this script.
-
-### Inspector Parameters
-
- * **Grab On Touch When:** Determines when a grab on touch should occur.
- * **Regrab Delay:** After being ungrabbed, another auto grab on touch can only occur after this time.
- * **Continuous Grab Check:** If this is checked then the grab on touch check will happen every frame and not only on the first touch of the Interactable Object.
- * **Use On Touch When:** Determines when a use on touch should occur.
- * **Reuse Delay:** After being unused, another auto use on touch can only occur after this time.
- * **Continuous Use Check:** If this is checked then the use on touch check will happen every frame and not only on the first touch of the Interactable Object.
- * **Interactable Object:** The Interactable Object that the auto interaction will occur on. If this is blank then the script must be on the same GameObject as the Interactable Object script.
-
-### Class Variables
-
- * `public enum AutoInteractions` - Situation when auto interaction can occur.
-   * `Never` - Auto interaction can never occur on touch.
-   * `NoButtonHeld` - Auto interaction will occur on touch even if the specified interaction button is not held down.
-   * `ButtonHeld` - Auto interaction will only occur on touch if the specified interaction button is held down.
-
----
-
 # Highlighters (VRTK/Source/Scripts/Interactions/Highlighters)
 
-This directory contains scripts that are used to provide different object highlighting.
+A collection of scripts that are used to provide highlighting.
 
  * [Base Highlighter](#base-highlighter-vrtk_basehighlighter)
  * [Material Colour Swap](#material-colour-swap-vrtk_materialcolorswaphighlighter)
@@ -5100,9 +3113,2037 @@ The Unhighlight method hides the outline object and removes the outline colour.
 
 ---
 
+# Interactors (VRTK/Source/Scripts/Interactions/Interactors)
+
+A collection of scripts that provide the ability denote objects (such as controllers) as being able to interact with interactable objects.
+
+ * [Controller Events](#controller-events-vrtk_controllerevents)
+ * [Interact Touch](#interact-touch-vrtk_interacttouch)
+ * [Interact Near Touch](#interact-near-touch-vrtk_interactneartouch)
+ * [Interact Grab](#interact-grab-vrtk_interactgrab)
+ * [Interact Use](#interact-use-vrtk_interactuse)
+ * [Controller Tracked Collider](#controller-tracked-collider-vrtk_controllertrackedcollider)
+ * [Controller Highlighter](#controller-highlighter-vrtk_controllerhighlighter)
+ * [Object Auto Grab](#object-auto-grab-vrtk_objectautograb)
+
+---
+
+## Controller Events (VRTK_ControllerEvents)
+
+### Overview
+
+A relationship to a physical VR controller and emits events based on the inputs of the controller.
+
+**Script Usage:**
+ * Place the `VRTK_ControllerEvents` script on the controller script alias GameObject of the controller to track (e.g. Right Controller Script Alias).
+
+### Inspector Parameters
+
+ * **Axis Fidelity:** The amount of fidelity in the changes on the axis, which is defaulted to 1. Any number higher than 2 will probably give too sensitive results.
+ * **Sense Axis Force Zero Threshold:** The level on a sense axis to reach before the sense axis is forced to 0f
+ * **Sense Axis Press Threshold:** The amount of pressure required to be applied to a sense button before considering the sense button pressed.
+ * **Trigger Click Threshold:** The level on the trigger axis to reach before a click is registered.
+ * **Trigger Force Zero Threshold:** The level on the trigger axis to reach before the axis is forced to 0f.
+ * **Trigger Axis Zero On Untouch:** If this is checked then the trigger axis will be forced to 0f when the trigger button reports an untouch event.
+ * **Grip Click Threshold:** The level on the grip axis to reach before a click is registered.
+ * **Grip Force Zero Threshold:** The level on the grip axis to reach before the axis is forced to 0f.
+ * **Grip Axis Zero On Untouch:** If this is checked then the grip axis will be forced to 0f when the grip button reports an untouch event.
+
+### Class Variables
+
+ * `public enum ButtonAlias` - Button types
+   * `Undefined` - No button specified.
+   * `TriggerHairline` - The trigger is squeezed past the current hairline threshold.
+   * `TriggerTouch` - The trigger is squeezed a small amount.
+   * `TriggerPress` - The trigger is squeezed about half way in.
+   * `TriggerClick` - The trigger is squeezed all the way down.
+   * `GripHairline` - The grip is squeezed past the current hairline threshold.
+   * `GripTouch` - The grip button is touched.
+   * `GripPress` - The grip button is pressed.
+   * `GripClick` - The grip button is pressed all the way down.
+   * `TouchpadTouch` - The touchpad is touched (without pressing down to click).
+   * `TouchpadPress` - The touchpad is pressed (to the point of hearing a click).
+   * `TouchpadTwoTouch` - The touchpad two is touched (without pressing down to click).
+   * `ButtonOneTouch` - The button one is touched.
+   * `ButtonOnePress` - The button one is pressed.
+   * `ButtonTwoTouch` - The button two is touched.
+   * `ButtonTwoPress` - The button two is pressed.
+   * `StartMenuPress` - The start menu is pressed.
+   * `TouchpadSense` - The touchpad sense touch is active.
+   * `TriggerSense` - The trigger sense touch is active.
+   * `MiddleFingerSense` - The middle finger sense touch is active.
+   * `RingFingerSense` - The ring finger sense touch is active.
+   * `PinkyFingerSense` - The pinky finger sense touch is active.
+ * `public enum Vector2AxisAlias` - Vector2 Axis Types.
+   * `Undefined` - No axis specified.
+   * `Touchpad` - Touchpad on the controller.
+   * `TouchpadTwo` - Touchpad Two on the controller.
+ * `public enum AxisType` - Axis Types
+   * `Digital` - A digital axis with a binary result of 0f not pressed or 1f is pressed.
+   * `Axis` - An analog axis ranging from no squeeze at 0f to full squeeze at 1f.
+   * `SenseAxis` - A cap sens axis ranging from not near at 0f to touching at 1f.
+ * `public bool triggerPressed` - This will be true if the trigger is squeezed about half way in. Default: `false`
+ * `public bool triggerTouched` - This will be true if the trigger is squeezed a small amount. Default: `false`
+ * `public bool triggerHairlinePressed` - This will be true if the trigger is squeezed a small amount more from any previous squeeze on the trigger. Default: `false`
+ * `public bool triggerClicked` - This will be true if the trigger is squeezed all the way down. Default: `false`
+ * `public bool triggerAxisChanged` - This will be true if the trigger has been squeezed more or less. Default: `false`
+ * `public bool triggerSenseAxisChanged` - This will be true if the trigger sense is being touched more or less. Default: `false`
+ * `public bool gripPressed` - This will be true if the grip is squeezed about half way in. Default: `false`
+ * `public bool gripTouched` - This will be true if the grip is touched. Default: `false`
+ * `public bool gripHairlinePressed` - This will be true if the grip is squeezed a small amount more from any previous squeeze on the grip. Default: `false`
+ * `public bool gripClicked` - This will be true if the grip is squeezed all the way down. Default: `false`
+ * `public bool gripAxisChanged` - This will be true if the grip has been squeezed more or less. Default: `false`
+ * `public bool touchpadPressed` - This will be true if the touchpad is held down. Default: `false`
+ * `public bool touchpadTouched` - This will be true if the touchpad is being touched. Default: `false`
+ * `public bool touchpadAxisChanged` - This will be true if the touchpad position has changed. Default: `false`
+ * `public bool touchpadSenseAxisChanged` - This will be true if the touchpad sense is being touched more or less. Default: `false`
+ * `public bool touchpadTwoTouched` - This will be true if the touchpad two is being touched. Default: `false`
+ * `public bool buttonOnePressed` - This will be true if button one is held down. Default: `false`
+ * `public bool buttonOneTouched` - This will be true if button one is being touched. Default: `false`
+ * `public bool buttonTwoPressed` - This will be true if button two is held down. Default: `false`
+ * `public bool buttonTwoTouched` - This will be true if button two is being touched. Default: `false`
+ * `public bool startMenuPressed` - This will be true if start menu is held down. Default: `false`
+ * `public bool middleFingerSenseAxisChanged` - This will be true if the middle finger sense is being touched more or less. Default: `false`
+ * `public bool ringFingerSenseAxisChanged` - This will be true if the ring finger sense is being touched more or less. Default: `false`
+ * `public bool pinkyFingerSenseAxisChanged` - This will be true if the pinky finger sense is being touched more or less. Default: `false`
+ * `public bool controllerVisible` - This will be true if the controller model alias renderers are visible. Default: `true`
+
+### Class Events
+
+ * `TriggerPressed` - Emitted when the trigger is squeezed about half way in.
+ * `TriggerReleased` - Emitted when the trigger is released under half way.
+ * `TriggerTouchStart` - Emitted when the trigger is squeezed a small amount.
+ * `TriggerTouchEnd` - Emitted when the trigger is no longer being squeezed at all.
+ * `TriggerHairlineStart` - Emitted when the trigger is squeezed past the current hairline threshold.
+ * `TriggerHairlineEnd` - Emitted when the trigger is released past the current hairline threshold.
+ * `TriggerClicked` - Emitted when the trigger is squeezed all the way down.
+ * `TriggerUnclicked` - Emitted when the trigger is no longer being held all the way down.
+ * `TriggerAxisChanged` - Emitted when the amount of squeeze on the trigger changes.
+ * `TriggerSenseAxisChanged` - Emitted when the amount of touch on the trigger sense changes.
+ * `GripPressed` - Emitted when the grip is squeezed about half way in.
+ * `GripReleased` - Emitted when the grip is released under half way.
+ * `GripTouchStart` - Emitted when the grip is squeezed a small amount.
+ * `GripTouchEnd` - Emitted when the grip is no longer being squeezed at all.
+ * `GripHairlineStart` - Emitted when the grip is squeezed past the current hairline threshold.
+ * `GripHairlineEnd` - Emitted when the grip is released past the current hairline threshold.
+ * `GripClicked` - Emitted when the grip is squeezed all the way down.
+ * `GripUnclicked` - Emitted when the grip is no longer being held all the way down.
+ * `GripAxisChanged` - Emitted when the amount of squeeze on the grip changes.
+ * `TouchpadPressed` - Emitted when the touchpad is pressed (to the point of hearing a click).
+ * `TouchpadReleased` - Emitted when the touchpad has been released after a pressed state.
+ * `TouchpadTouchStart` - Emitted when the touchpad is touched (without pressing down to click).
+ * `TouchpadTouchEnd` - Emitted when the touchpad is no longer being touched.
+ * `TouchpadAxisChanged` - Emitted when the touchpad is being touched in a different location.
+ * `TouchpadSenseAxisChanged` - Emitted when the amount of touch on the touchpad sense changes.
+ * `TouchpadTwoTouchStart` - Emitted when the touchpad two is touched (without pressing down to click).
+ * `TouchpadTwoTouchEnd` - Emitted when the touchpad two is no longer being touched.
+ * `TouchpadTwoAxisChanged` - Emitted when the touchpad two is being touched in a different location.
+ * `ButtonOneTouchStart` - Emitted when button one is touched.
+ * `ButtonOneTouchEnd` - Emitted when button one is no longer being touched.
+ * `ButtonOnePressed` - Emitted when button one is pressed.
+ * `ButtonOneReleased` - Emitted when button one is released.
+ * `ButtonTwoTouchStart` - Emitted when button two is touched.
+ * `ButtonTwoTouchEnd` - Emitted when button two is no longer being touched.
+ * `ButtonTwoPressed` - Emitted when button two is pressed.
+ * `ButtonTwoReleased` - Emitted when button two is released.
+ * `StartMenuPressed` - Emitted when start menu is pressed.
+ * `StartMenuReleased` - Emitted when start menu is released.
+ * `MiddleFingerSenseAxisChanged` - Emitted when the amount of touch on the middle finger sense changes.
+ * `RingFingerSenseAxisChanged` - Emitted when the amount of touch on the ring finger sense changes.
+ * `PinkyFingerSenseAxisChanged` - Emitted when the amount of touch on the pinky finger sense changes.
+ * `ControllerEnabled` - Emitted when the controller is enabled.
+ * `ControllerDisabled` - Emitted when the controller is disabled.
+ * `ControllerIndexChanged` - Emitted when the controller index changed.
+ * `ControllerModelAvailable` - Emitted when the controller model becomes available.
+ * `ControllerVisible` - Emitted when the controller is set to visible.
+ * `ControllerHidden` - Emitted when the controller is set to hidden.
+
+### Unity Events
+
+Adding the `VRTK_ControllerEvents_UnityEvents` component to `VRTK_ControllerEvents` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `VRTK_ControllerReference controllerReference` - The reference for the controller that initiated the event.
+ * `float buttonPressure` - The amount of pressure being applied to the button pressed. `0f` to `1f`.
+ * `Vector2 touchpadAxis` - The position the touchpad is touched at. `(0,0)` to `(1,1)`.
+ * `float touchpadAngle` - The rotational position the touchpad is being touched at, 0 being top, 180 being bottom and all other angles accordingly. `0f` to `360f`.
+ * `Vector2 touchpadTwoAxis` - The position the touchpad two is touched at. `(0,0)` to `(1,1)`.
+ * `float touchpadTwoAngle` - The rotational position the touchpad two is being touched at, 0 being top, 180 being bottom and all other angles accordingly. `0f` to `360f`.
+
+### Class Methods
+
+#### SetControllerEvent/0
+
+  > `public virtual ControllerInteractionEventArgs SetControllerEvent()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `ControllerInteractionEventArgs` - The payload for a Controller Event.
+
+The SetControllerEvent/0 method is used to set the Controller Event payload.
+
+#### SetControllerEvent/3
+
+  > `public virtual ControllerInteractionEventArgs SetControllerEvent(ref bool buttonBool, bool value = false, float buttonPressure = 0f)`
+
+ * Parameters
+   * `ref bool buttonBool` - The state of the pressed button if required.
+   * `bool value` - The value to set the `buttonBool` reference to.
+   * `float buttonPressure` - The pressure of the button pressed if required.
+ * Returns
+   * `ControllerInteractionEventArgs` - The payload for a Controller Event.
+
+The SetControllerEvent/3 method is used to set the Controller Event payload.
+
+#### GetControllerType/0
+
+  > `public virtual SDK_BaseController.ControllerType GetControllerType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `SDK_BaseController.ControllerType` - The type of controller that the Controller Events is attached to.
+
+The GetControllerType method is a shortcut to retrieve the current controller type the Controller Events is attached to.
+
+#### GetAxis/1
+
+  > `public virtual Vector2 GetAxis(Vector2AxisAlias vector2AxisType)`
+
+ * Parameters
+   * `Vector2AxisAlias vector2AxisType` - The Vector2AxisType to check the touch position of.
+ * Returns
+   * `Vector2` - A two dimensional vector containing the `x` and `y` position of where the given axis type is being touched. `(0,0)` to `(1,1)`.
+
+The GetAxis method returns the coordinates of where the given axis type is being touched.
+
+#### GetTouchpadAxis/0
+
+  > `public virtual Vector2 GetTouchpadAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector2` - A two dimensional vector containing the `x` and `y` position of where the touchpad is being touched. `(0,0)` to `(1,1)`.
+
+The GetTouchpadAxis method returns the coordinates of where the touchpad is being touched and can be used for directional input via the touchpad. The `x` value is the horizontal touch plane and the `y` value is the vertical touch plane.
+
+#### GetTouchpadTwoAxis/0
+
+  > `public virtual Vector2 GetTouchpadTwoAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector2` - A two dimensional vector containing the `x` and `y` position of where the touchpad two is being touched. `(0,0)` to `(1,1)`.
+
+The GetTouchpadTwoAxis method returns the coordinates of where the touchpad two is being touched and can be used for directional input via the touchpad two. The `x` value is the horizontal touch plane and the `y` value is the vertical touch plane.
+
+#### GetAxisAngle/1
+
+  > `public virtual float GetAxisAngle(Vector2AxisAlias vector2AxisType)`
+
+ * Parameters
+   * `Vector2AxisAlias vector2AxisType` - The Vector2AxisType to get the touch angle for.
+ * Returns
+   * `float` - A float representing the angle of where the given axis type is being touched. `0f` to `360f`.
+
+The GetAxisAngle method returns the angle of where the given axis type is currently being touched with the top of the given axis type being `0` degrees and the bottom of the given axis type being `180` degrees.
+
+#### GetTouchpadAxisAngle/0
+
+  > `public virtual float GetTouchpadAxisAngle()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing the angle of where the touchpad is being touched. `0f` to `360f`.
+
+The GetTouchpadAxisAngle method returns the angle of where the touchpad is currently being touched with the top of the touchpad being `0` degrees and the bottom of the touchpad being `180` degrees.
+
+#### GetTouchpadTwoAxisAngle/0
+
+  > `public virtual float GetTouchpadTwoAxisAngle()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing the angle of where the touchpad two is being touched. `0f` to `360f`.
+
+The GetTouchpadTwoAxisAngle method returns the angle of where the touchpad two is currently being touched with the top of the touchpad two being `0` degrees and the bottom of the touchpad two being `180` degrees.
+
+#### GetTriggerAxis/0
+
+  > `public virtual float GetTriggerAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing the amount of squeeze that is being applied to the trigger. `0f` to `1f`.
+
+The GetTriggerAxis method returns a float that represents how much the trigger is being squeezed. This can be useful for using the trigger axis to perform high fidelity tasks or only activating the trigger press once it has exceeded a given press threshold.
+
+#### GetGripAxis/0
+
+  > `public virtual float GetGripAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing the amount of squeeze that is being applied to the grip. `0f` to `1f`.
+
+The GetGripAxis method returns a float that represents how much the grip is being squeezed. This can be useful for using the grip axis to perform high fidelity tasks or only activating the grip press once it has exceeded a given press threshold.
+
+#### GetHairTriggerDelta/0
+
+  > `public virtual float GetHairTriggerDelta()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing the difference in the trigger pressure from the hairline threshold start to current position.
+
+The GetHairTriggerDelta method returns a float representing the difference in how much the trigger is being pressed in relation to the hairline threshold start.
+
+#### GetHairGripDelta/0
+
+  > `public virtual float GetHairGripDelta()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing the difference in the trigger pressure from the hairline threshold start to current position.
+
+The GetHairTriggerDelta method returns a float representing the difference in how much the trigger is being pressed in relation to the hairline threshold start.
+
+#### GetTouchpadSenseAxis/0
+
+  > `public virtual float GetTouchpadSenseAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing how much the touch sensor is being touched.
+
+The GetTouchpadSenseAxis method returns a float representing how much of the touch sensor is being touched.
+
+#### GetTriggerSenseAxis/0
+
+  > `public virtual float GetTriggerSenseAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing how much the touch sensor is being touched.
+
+The GetTriggerSenseAxis method returns a float representing how much of the touch sensor is being touched.
+
+#### GetMiddleFingerSenseAxis/0
+
+  > `public virtual float GetMiddleFingerSenseAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing how much the touch sensor is being touched.
+
+The GetMiddleFingerSenseAxis method returns a float representing how much of the touch sensor is being touched.
+
+#### GetRingFingerSenseAxis/0
+
+  > `public virtual float GetRingFingerSenseAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing how much the touch sensor is being touched.
+
+The GetRingFingerSenseAxis method returns a float representing how much of the touch sensor is being touched.
+
+#### GetPinkyFingerSenseAxis/0
+
+  > `public virtual float GetPinkyFingerSenseAxis()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - A float representing how much the touch sensor is being touched.
+
+The GetPinkyFingerSenseAxis method returns a float representing how much of the touch sensor is being touched.
+
+#### AnyButtonPressed/0
+
+  > `public virtual bool AnyButtonPressed()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if any of the controller buttons are currently being pressed.
+
+The AnyButtonPressed method returns true if any of the controller buttons are being pressed and this can be useful to determine if an action can be taken whilst the user is using the controller.
+
+#### GetAxisState/2
+
+  > `public virtual bool GetAxisState(Vector2AxisAlias axis, SDK_BaseController.ButtonPressTypes pressType)`
+
+ * Parameters
+   * `Vector2AxisAlias axis` - The axis to check on.
+   * `SDK_BaseController.ButtonPressTypes pressType` - The button press type to check for.
+ * Returns
+   * `bool` - Returns `true` if the axis is being interacted with via the given press type.
+
+The GetAxisState method takes a given Vector2Axis and returns a boolean whether that given axis is currently being touched or pressed.
+
+#### IsButtonPressed/1
+
+  > `public virtual bool IsButtonPressed(ButtonAlias button)`
+
+ * Parameters
+   * `ButtonAlias button` - The button to check if it's being pressed.
+ * Returns
+   * `bool` - Returns `true` if the button is being pressed.
+
+The IsButtonPressed method takes a given button alias and returns a boolean whether that given button is currently being pressed or not.
+
+#### SubscribeToButtonAliasEvent/3
+
+  > `public virtual void SubscribeToButtonAliasEvent(ButtonAlias givenButton, bool startEvent, ControllerInteractionEventHandler callbackMethod)`
+
+ * Parameters
+   * `ButtonAlias givenButton` - The Button Alias to register the event on.
+   * `bool startEvent` - If this is `true` then the start event related to the button is used (e.g. `OnPress`). If this is `false` then the end event related to the button is used (e.g. `OnRelease`).
+   * `ControllerInteractionEventHandler callbackMethod` - The method to subscribe to the event.
+ * Returns
+   * _none_
+
+The SubscribeToButtonAliasEvent method makes it easier to subscribe to a button event on either the start or end action. Upon the event firing, the given callback method is executed.
+
+#### UnsubscribeToButtonAliasEvent/3
+
+  > `public virtual void UnsubscribeToButtonAliasEvent(ButtonAlias givenButton, bool startEvent, ControllerInteractionEventHandler callbackMethod)`
+
+ * Parameters
+   * `ButtonAlias givenButton` - The Button Alias to unregister the event on.
+   * `bool startEvent` - If this is `true` then the start event related to the button is used (e.g. `OnPress`). If this is `false` then the end event related to the button is used (e.g. `OnRelease`).
+   * `ControllerInteractionEventHandler callbackMethod` - The method to unsubscribe from the event.
+ * Returns
+   * _none_
+
+The UnsubscribeToButtonAliasEvent method makes it easier to unsubscribe to from button event on either the start or end action.
+
+#### SubscribeToAxisAliasEvent/3
+
+  > `public virtual void SubscribeToAxisAliasEvent(SDK_BaseController.ButtonTypes buttonType, AxisType axisType, ControllerInteractionEventHandler callbackMethod)`
+
+ * Parameters
+   * `SDK_BaseController.ButtonTypes buttonType` - The button to listen for axis changes on.
+   * `AxisType axisType` - The type of axis change to listen for.
+   * `ControllerInteractionEventHandler callbackMethod` - The method to subscribe to the event.
+ * Returns
+   * _none_
+
+The SubscribeToAxisAliasEvent method makes it easier to subscribe to axis changes on a given button for a given axis type.
+
+#### UnsubscribeToAxisAliasEvent/3
+
+  > `public virtual void UnsubscribeToAxisAliasEvent(SDK_BaseController.ButtonTypes buttonType, AxisType axisType, ControllerInteractionEventHandler callbackMethod)`
+
+ * Parameters
+   * `SDK_BaseController.ButtonTypes buttonType` - The button to unregister for axis changes on.
+   * `AxisType axisType` - The type of axis change to unregister on.
+   * `ControllerInteractionEventHandler callbackMethod` - The method to unsubscribe from the event.
+ * Returns
+   * _none_
+
+The UnsubscribeToAxisAliasEvent method makes it easier to unsubscribe from axis changes on a given button for a given axis type.
+
+### Example
+
+`VRTK/Examples/002_Controller_Events` shows how the events are utilised and listened to. The accompanying example script can be viewed in `VRTK/Examples/ExampleResources/Scripts/VRTK_ControllerEvents_ListenerExample.cs`.
+
+---
+
+## Interact Touch (VRTK_InteractTouch)
+
+### Overview
+
+Determines if a GameObject can initiate a touch with an Interactable Object.
+
+**Required Components:**
+ * `Rigidbody` - A Unity kinematic Rigidbody to determine when collisions happen between the Interact Touch GameObject and other valid colliders.
+
+**Script Usage:**
+ * Place the `VRTK_InteractTouch` script on the controller script alias GameObject of the controller to track (e.g. Right Controller Script Alias).
+
+### Inspector Parameters
+
+ * **Custom Collider Container:** An optional GameObject that contains the compound colliders to represent the touching object. If this is empty then the collider will be auto generated at runtime to match the SDK default controller.
+
+### Class Events
+
+ * `ControllerStartTouchInteractableObject` - Emitted when the touch of a valid object has started.
+ * `ControllerTouchInteractableObject` - Emitted when a valid object is touched.
+ * `ControllerStartUntouchInteractableObject` - Emitted when the untouch of a valid object has started.
+ * `ControllerUntouchInteractableObject` - Emitted when a valid object is no longer being touched.
+ * `ControllerRigidbodyActivated` - Emitted when the controller rigidbody is activated.
+ * `ControllerRigidbodyDeactivated` - Emitted when the controller rigidbody is deactivated.
+
+### Unity Events
+
+Adding the `VRTK_InteractTouch_UnityEvents` component to `VRTK_InteractTouch` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `VRTK_ControllerReference controllerReference` - The reference to the controller doing the interaction.
+ * `GameObject target` - The GameObject of the Interactable Object that is being interacted with.
+
+### Class Methods
+
+#### ForceTouch/1
+
+  > `public virtual void ForceTouch(GameObject obj)`
+
+ * Parameters
+   * `GameObject obj` - The GameObject to attempt to force touch.
+ * Returns
+   * _none_
+
+The ForceTouch method will attempt to force the Interact Touch onto the given GameObject.
+
+#### GetTouchedObject/0
+
+  > `public virtual GameObject GetTouchedObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject of what is currently being touched by this Interact Touch.
+
+The GetTouchedObject method returns the current GameObject being touched by the Interact Touch.
+
+#### IsObjectInteractable/1
+
+  > `public virtual bool IsObjectInteractable(GameObject obj)`
+
+ * Parameters
+   * `GameObject obj` - The GameObject to check to see if it's a valid Interactable Object.
+ * Returns
+   * `bool` - Returns `true` if the given GameObjectis a valid Interactable Object.
+
+The IsObjectInteractable method is used to check if a given GameObject is a valid Interactable Object.
+
+#### ToggleControllerRigidBody/2
+
+  > `public virtual void ToggleControllerRigidBody(bool state, bool forceToggle = false)`
+
+ * Parameters
+   * `bool state` - The state of whether the rigidbody is on or off. `true` toggles the rigidbody on and `false` turns it off.
+   * `bool forceToggle` - Determines if the rigidbody has been forced into it's new state by another script. This can be used to override other non-force settings. Defaults to `false`
+ * Returns
+   * _none_
+
+The ToggleControllerRigidBody method toggles the Interact Touch rigidbody's ability to detect collisions. If it is true then the controller rigidbody will collide with other collidable GameObjects.
+
+#### IsRigidBodyActive/0
+
+  > `public virtual bool IsRigidBodyActive()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the rigidbody on the Interact Touch is currently active and able to affect other scene rigidbodies.
+
+The IsRigidBodyActive method checks to see if the rigidbody on the Interact Touch is active and can affect other rigidbodies in the scene.
+
+#### IsRigidBodyForcedActive/0
+
+  > `public virtual bool IsRigidBodyForcedActive()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the rigidbody is active and has been forced into the active state.
+
+The IsRigidBodyForcedActive method checks to see if the rigidbody on the Interact Touch has been forced into the active state.
+
+#### ForceStopTouching/0
+
+  > `public virtual void ForceStopTouching()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ForceStopTouching method will stop the Interact Touch from touching an Interactable Object even if the Interact Touch is physically touching the Interactable Object.
+
+#### ControllerColliders/0
+
+  > `public virtual Collider[] ControllerColliders()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Collider[]` - An array of colliders that are associated with the controller.
+
+The ControllerColliders method retrieves all of the associated colliders on the Interact Touch.
+
+#### GetControllerType/0
+
+  > `public virtual SDK_BaseController.ControllerType GetControllerType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `SDK_BaseController.ControllerType` - The type of controller that the Interact Touch is attached to.
+
+The GetControllerType method is a shortcut to retrieve the current controller type the Interact Touch is attached to.
+
+### Example
+
+`VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the highlighting of objects that have the `VRTK_InteractableObject` script added to them to show the ability to highlight interactable objects when they are touched by the controllers.
+
+---
+
+## Interact Near Touch (VRTK_InteractNearTouch)
+
+### Overview
+
+Determines if a GameObject can initiate a near touch with an Interactable Object.
+
+**Required Components:**
+ * `VRTK_InteractTouch` - The touch component to determine the actual interacting GameObject that will deal with the near touch interaction. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_InteractNearTouch` script on either:
+   * The Interact Touch GameObject.
+   * Any other scene GameObject and provide a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter of this script.
+
+### Inspector Parameters
+
+ * **Collider Radius:** The radius of the auto generated collider if a `Custom Collider Container` is not supplied.
+ * **Custom Collider Container:** An optional GameObject that contains the compound colliders to represent the near touching object. If this is empty then the collider will be auto generated at runtime.
+ * **Interact Touch:** The Interact Touch script to associate the near touches with. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+
+### Class Events
+
+ * `ControllerNearTouchInteractableObject` - Emitted when a valid object is near touched.
+ * `ControllerNearUntouchInteractableObject` - Emitted when a valid object is no longer being near touched.
+
+### Unity Events
+
+Adding the `VRTK_InteractNearTouch_UnityEvents` component to `VRTK_InteractNearTouch` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Class Methods
+
+#### GetNearTouchedObjects/0
+
+  > `public virtual List<GameObject> GetNearTouchedObjects()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `List<GameObject>` - A list of GameObjects that are being near touched.
+
+The GetNearTouchedObjects method returns all of the GameObjects that are currently being near touched.
+
+#### ForceNearTouch/1
+
+  > `public virtual void ForceNearTouch(GameObject obj)`
+
+ * Parameters
+   * `GameObject obj` - The GameObject to attempt to force near touch.
+ * Returns
+   * _none_
+
+The ForceNearTouch method will attempt to force the controller to near touch the given GameObject.
+
+#### ForceStopNearTouching/1
+
+  > `public virtual void ForceStopNearTouching(GameObject obj = null)`
+
+ * Parameters
+   * `GameObject obj` - An optional GameObject to only include in the force stop. If this is null then all near touched GameObjects will be force stopped.
+ * Returns
+   * _none_
+
+The ForceStopNearTouching method will stop the Interact Touch GameObject from near touching an Interactable Object even if the Interact Touch GameObject is physically touching the Interactable Object still.
+
+#### GetNearTouchedObjects/0
+
+  > `public virtual List<GameObject> GetNearTouchedObjects()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `List<GameObject>` - A list of GameObjects that are being near touched.
+
+The GetNearTouchedObjects method returns all of the GameObjects that are currently being near touched.
+
+---
+
+## Interact Grab (VRTK_InteractGrab)
+
+### Overview
+
+Determines if the Interact Touch can initiate a grab with the touched Interactable Object.
+
+**Required Components:**
+ * `VRTK_InteractTouch` - The touch component to determine when a valid touch has taken place to denote a grab can occur. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
+
+**Optional Components:**
+ * `VRTK_ControllerEvents` - The events component to listen for the button presses on. This must be applied on the same GameObject as this script if one is not provided via the `Controller Events` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_InteractGrab` script on either:
+   * The GameObject with the Interact Touch and Controller Events scripts.
+   * Any other scene GameObject and provide a valid `VRTK_ControllerEvents` component to the `Controller Events` parameter and a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter of this script.
+
+### Inspector Parameters
+
+ * **Grab Button:** The button used to grab/release a touched Interactable Object.
+ * **Grab Precognition:** An amount of time between when the grab button is pressed to when the controller is touching an Interactable Object to grab it.
+ * **Throw Multiplier:** An amount to multiply the velocity of any Interactable Object being thrown.
+ * **Create Rigid Body When Not Touching:** If this is checked and the Interact Touch is not touching an Interactable Object when the grab button is pressed then a Rigidbody is added to the interacting object to allow it to push other Rigidbody objects around.
+ * **Controller Attach Point:** The rigidbody point on the controller model to snap the grabbed Interactable Object to. If blank it will be set to the SDK default.
+ * **Controller Events:** The Controller Events to listen for the events on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Interact Touch:** The Interact Touch to listen for touches on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+
+### Class Events
+
+ * `GrabButtonPressed` - Emitted when the grab button is pressed.
+ * `GrabButtonReleased` - Emitted when the grab button is released.
+ * `ControllerStartGrabInteractableObject` - Emitted when a grab of a valid object is started.
+ * `ControllerGrabInteractableObject` - Emitted when a valid object is grabbed.
+ * `ControllerStartUngrabInteractableObject` - Emitted when a ungrab of a valid object is started.
+ * `ControllerUngrabInteractableObject` - Emitted when a valid object is released from being grabbed.
+
+### Unity Events
+
+Adding the `VRTK_InteractGrab_UnityEvents` component to `VRTK_InteractGrab` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Class Methods
+
+#### IsGrabButtonPressed/0
+
+  > `public virtual bool IsGrabButtonPressed()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the grab alias button is being held down.
+
+The IsGrabButtonPressed method determines whether the current grab alias button is being pressed down.
+
+#### ForceRelease/1
+
+  > `public virtual void ForceRelease(bool applyGrabbingObjectVelocity = false)`
+
+ * Parameters
+   * `bool applyGrabbingObjectVelocity` - If this is true then upon releasing the Interactable Object any velocity on the Interact Touch GameObject will be applied to the Interactable Object to essentiall throw it. Defaults to `false`.
+ * Returns
+   * _none_
+
+The ForceRelease method will force the Interact Grab to stop grabbing the currently grabbed Interactable Object.
+
+#### AttemptGrab/0
+
+  > `public virtual void AttemptGrab()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The AttemptGrab method will attempt to grab the currently touched Interactable Object without needing to press the grab button on the controller.
+
+#### GetGrabbedObject/0
+
+  > `public virtual GameObject GetGrabbedObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The game object of what is currently being grabbed by this controller.
+
+The GetGrabbedObject method returns the current Interactable Object being grabbed by the this Interact Grab.
+
+### Example
+
+`VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the grabbing of interactable objects that have the `VRTK_InteractableObject` script attached to them. The objects can be picked up and thrown around.
+
+`VRTK/Examples/013_Controller_UsingAndGrabbingMultipleObjects` demonstrates that each controller can grab and use objects independently and objects can also be toggled to their use state simultaneously.
+
+`VRTK/Examples/014_Controller_SnappingObjectsOnGrab` demonstrates the different mechanisms for snapping a grabbed object to the controller.
+
+---
+
+## Interact Use (VRTK_InteractUse)
+
+### Overview
+
+Determines if the Interact Touch can initiate a use interaction with the touched Interactable Object.
+
+**Required Components:**
+ * `VRTK_InteractTouch` - The touch component to determine when a valid touch has taken place to denote a use interaction can occur. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
+
+**Optional Components:**
+ * `VRTK_ControllerEvents` - The events component to listen for the button presses on. This must be applied on the same GameObject as this script if one is not provided via the `Controller Events` parameter.
+ * `VRTK_InteractGrab` - The grab component to determine when a valid grab has taken place. This must be applied on the same GameObject as this script if one is not provided via the `Interact Grab` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_InteractUse` script on either:
+   * The GameObject with the Interact Touch and Controller Events scripts.
+   * Any other scene GameObject and provide a valid `VRTK_ControllerEvents` component to the `Controller Events` parameter and a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter of this script.
+
+### Inspector Parameters
+
+ * **Use Button:** The button used to use/unuse a touched Interactable Object.
+ * **Controller Events:** The Controller Events to listen for the events on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Interact Touch:** The Interact Touch to listen for touches on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Interact Grab:** The Interact Grab to listen for grab actions on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+
+### Class Events
+
+ * `UseButtonPressed` - Emitted when the use toggle alias button is pressed.
+ * `UseButtonReleased` - Emitted when the use toggle alias button is released.
+ * `ControllerStartUseInteractableObject` - Emitted when a use of a valid object is started.
+ * `ControllerUseInteractableObject` - Emitted when a valid object starts being used.
+ * `ControllerStartUnuseInteractableObject` - Emitted when a unuse of a valid object is started.
+ * `ControllerUnuseInteractableObject` - Emitted when a valid object stops being used.
+
+### Unity Events
+
+Adding the `VRTK_InteractUse_UnityEvents` component to `VRTK_InteractUse` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Class Methods
+
+#### IsUseButtonPressed/0
+
+  > `public virtual bool IsUseButtonPressed()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the use alias button is being held down.
+
+The IsUsebuttonPressed method determines whether the current use alias button is being pressed down.
+
+#### GetUsingObject/0
+
+  > `public virtual GameObject GetUsingObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject of what is currently being used by this Interact Use.
+
+The GetUsingObject method returns the current GameObject being used by the Interact Use.
+
+#### ForceStopUsing/0
+
+  > `public virtual void ForceStopUsing()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ForceStopUsing method will force the Interact Use to stop using the currently touched Interactable Object and will also stop the Interactable Object's using action.
+
+#### ForceResetUsing/0
+
+  > `public virtual void ForceResetUsing()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ForceResetUsing will force the Interact Use to stop using the currently touched Interactable Object but the Interactable Object will continue with it's existing using action.
+
+#### AttemptUse/0
+
+  > `public virtual void AttemptUse()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The AttemptUse method will attempt to use the currently touched Interactable Object without needing to press the use button on the controller.
+
+### Example
+
+`VRTK/Examples/006_Controller_UsingADoor` simulates using a door object to open and close it. It also has a cube on the floor that can be grabbed to show how interactable objects can be usable or grabbable.
+
+`VRTK/Examples/008_Controller_UsingAGrabbedObject` shows that objects can be grabbed with one button and used with another (e.g. firing a gun).
+
+---
+
+## Controller Tracked Collider (VRTK_ControllerTrackedCollider)
+ > extends VRTK_SDKControllerReady
+
+### Overview
+
+Provides a controller collider collection that follows the controller rigidbody via the physics system.
+
+**Required Components:**
+ * `VRTK_InteractTouch` - An Interact Touch script to determine which controller rigidbody to follow.
+
+**Optional Components:**
+ * `VRTK_ControllerEvents` - The events component to listen for the button presses on. This must be applied in the same object hierarchy as the Interact Touch script if one is not provided via the `Controller Events` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_ControllerTrackedCollider` script on any active scene GameObject except the Script Alias objects.
+ * Assign the controller to track by applying an Interact Touch to the relevant Script Alias and then providing that reference to the `Interact Touch` parameter on this script.
+
+### Inspector Parameters
+
+ * **Interact Touch:** The Interact Touch script to relate the tracked collider to.
+ * **Max Resnap Distance:** The maximum distance the collider object can be from the controller before it automatically snaps back to the same position.
+ * **Activation Button:** The button to press to activate the colliders on the tracked collider set. If `Undefined` then it will always be active.
+ * **Controller Events:** An optional Controller Events to use for listening to the button events. If this is left blank then it will attempt to be retrieved from the same controller as the `Interact Touch` parameter.
+
+### Class Methods
+
+#### ToggleColliders/1
+
+  > `public virtual void ToggleColliders(bool state)`
+
+ * Parameters
+   * `bool state` - If `true` then the tracked colliders will be able to affect other Rigidbodies.
+ * Returns
+   * _none_
+
+The ToggleColliders method toggles the collision state of the tracked colliders.
+
+#### TrackedColliders/0
+
+  > `public virtual Collider[] TrackedColliders()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Collider[]` - A Collider array of the tracked colliders.
+
+The TrackedColliders method returns an array of the tracked colliders.
+
+---
+
+## Controller Highlighter (VRTK_ControllerHighlighter)
+
+### Overview
+
+Enables highlighting of controller elements.
+
+**Optional Components:**
+ * `VRTK_BaseHighlighter` - The highlighter to use when highligting the controller. If one is not already injected in the `Controller Highlighter` parameter then the component on the same GameObject will be used.
+
+**Script Usage:**
+ * Place the `VRTK_ControllerHighlighter` script on either:
+   * The controller script alias GameObject of the controller to affect (e.g. Right Controller Script Alias).
+   * Any other scene GameObject and provide the controller script alias GameObject to the `Controller Alias` parameter of this script.
+ * The Model Element Paths will be auto populated at runtime based on the SDK Setup Model Alias being used (except if a custom Model Alias for the SDK Setup is provided).
+ * The Highlighter used by the Controller Highlighter will be selected in the following order:
+   * The provided Base Highlighter in the `Controller Highlighter` parameter.
+   * If the above is not provided, then the first active Base Highlighter found on the actual controller GameObject will be used.
+   * If the above is not found, then a Material Color Swap Highlighter will be created on the actual controller GameObject at runtime.
+
+### Inspector Parameters
+
+ * **Transition Duration:** The amount of time to take to transition to the set highlight colour.
+ * **Highlight Controller:** The colour to set the entire controller highlight colour to.
+ * **Highlight Body:** The colour to set the body highlight colour to.
+ * **Highlight Trigger:** The colour to set the trigger highlight colour to.
+ * **Highlight Grip:** The colour to set the grip highlight colour to.
+ * **Highlight Touchpad:** The colour to set the touchpad highlight colour to.
+ * **Highlight Button One:** The colour to set the button one highlight colour to.
+ * **Highlight Button Two:** The colour to set the button two highlight colour to.
+ * **Highlight System Menu:** The colour to set the system menu highlight colour to.
+ * **Highlight Start Menu:** The colour to set the start menu highlight colour to.
+ * **Model Element Paths:** A collection of strings that determine the path to the controller model sub elements for identifying the model parts at runtime. If the paths are left empty they will default to the model element paths of the selected SDK Bridge.
+ * **Element Highlighter Overrides:** A collection of highlighter overrides for each controller model sub element. If no highlighter override is given then highlighter on the Controller game object is used.
+ * **Controller Alias:** An optional GameObject to specify which controller to apply the script methods to. If this is left blank then this script is required to be placed on a controller script alias GameObject and it will use the Actual Controller GameObject linked to the controller script alias.
+ * **Model Container:** An optional GameObject to specifiy where the controller models are. If this is left blank then the controller Model Alias object will be used.
+ * **Controller Highlighter:** An optional Highlighter to use when highlighting the controller element. If this is left blank, then the first active highlighter on the same GameObject will be used, if one isn't found then a Material Color Swap Highlighter will be created at runtime.
+
+### Class Methods
+
+#### ConfigureControllerPaths/0
+
+  > `public virtual void ConfigureControllerPaths()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ConfigureControllerPaths method is used to set up the model element paths.
+
+#### PopulateHighlighters/0
+
+  > `public virtual void PopulateHighlighters()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The PopulateHighlighters method sets up the highlighters on the controller model.
+
+#### HighlightController/2
+
+  > `public virtual void HighlightController(Color color, float fadeDuration = 0f)`
+
+ * Parameters
+   * `Color color` - The Color to highlight the controller to.
+   * `float fadeDuration` - The duration in seconds to fade from the initial color to the target color.
+ * Returns
+   * _none_
+
+The HighlightController method attempts to highlight all sub models of the controller.
+
+#### UnhighlightController/0
+
+  > `public virtual void UnhighlightController()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The UnhighlightController method attempts to remove the highlight from all sub models of the controller.
+
+#### HighlightElement/3
+
+  > `public virtual void HighlightElement(SDK_BaseController.ControllerElements elementType, Color color, float fadeDuration = 0f)`
+
+ * Parameters
+   * `SDK_BaseController.ControllerElements elementType` - The element type on the controller.
+   * `Color color` - The Color to highlight the controller element to.
+   * `float fadeDuration` - The duration in seconds to fade from the initial color to the target color.
+ * Returns
+   * _none_
+
+The HighlightElement method attempts to highlight a specific controller element.
+
+#### UnhighlightElement/1
+
+  > `public virtual void UnhighlightElement(SDK_BaseController.ControllerElements elementType)`
+
+ * Parameters
+   * `SDK_BaseController.ControllerElements elementType` - The element type on the controller.
+ * Returns
+   * _none_
+
+The UnhighlightElement method attempts to remove the highlight from the specific controller element.
+
+### Example
+
+`VRTK/Examples/035_Controller_OpacityAndHighlighting` demonstrates the ability to change the opacity of a controller model and to highlight specific elements of a controller such as the buttons or even the entire controller model.
+
+---
+
+## Object Auto Grab (VRTK_ObjectAutoGrab)
+
+### Overview
+
+Attempt to automatically grab a specified Interactable Object.
+
+**Required Components:**
+ * `VRTK_InteractTouch` - The touch component to determine when a valid touch has taken place to denote a use interaction can occur. This must be applied on the same GameObject as this script if one is not provided via the `Interact Touch` parameter.
+ * `VRTK_InteractGrab` - The grab component to determine when a valid grab has taken place. This must be applied on the same GameObject as this script if one is not provided via the `Interact Grab` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_ObjectAutoGrab` script on either:
+   * The GameObject that contains the Interact Touch and Interact Grab scripts.
+   * Any other scene GameObject and provide a valid `VRTK_InteractTouch` component to the `Interact Touch` parameter and a valid `VRTK_InteractGrab` component to the `Interact Grab` parameter of this script.
+* Assign the Interactable Object to auto grab to the `Object To Grab` parameter on this script.
+* If this Interactable Object is a prefab then the `Object Is Prefab` parameter on this script must be checked.
+
+### Inspector Parameters
+
+ * **Object To Grab:** The Interactable Object that will be grabbed by the Interact Grab.
+ * **Object Is Prefab:** If the `Object To Grab` is a prefab then this needs to be checked, if the `Object To Grab` already exists in the scene then this needs to be unchecked.
+ * **Clone Grabbed Object:** If this is checked then the `Object To Grab` will be cloned into a new Interactable Object and grabbed by the Interact Grab leaving the existing Interactable Object in the scene. This is required if the same Interactable Object is to be grabbed to multiple instances of Interact Grab. It is also required to clone a grabbed Interactable Object if it is a prefab as it needs to exist within the scene to be grabbed.
+ * **Always Clone On Enable:** If `Clone Grabbed Object` is checked and this is checked, then whenever this script is disabled and re-enabled, it will always create a new clone of the Interactable Object to grab. If this is unchecked then the original cloned Interactable Object will attempt to be grabbed again. If the original cloned object no longer exists then a new clone will be created.
+ * **Attempt Secondary Grab:** If this is checked then the `Object To Grab` will attempt to be secondary grabbed as well as primary grabbed.
+ * **Interact Touch:** The Interact Touch to listen for touches on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Interact Grab:** The Interact Grab to listen for grab actions on. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Secondary Interact Touch:** The secondary controller Interact Touch to listen for touches on. If this field is left blank then it will be looked up on the opposite controller script alias at runtime.
+ * **Secondary Interact Grab:** The secondary controller Interact Grab to listen for grab actions on. If this field is left blank then it will be looked up on the opposite controller script alias at runtime.
+
+### Class Events
+
+ * `ObjectAutoGrabCompleted` - Emitted when the object auto grab has completed successfully.
+
+### Unity Events
+
+Adding the `VRTK_ObjectAutoGrab_UnityEvents` component to `VRTK_ObjectAutoGrab` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Class Methods
+
+#### ClearPreviousClone/0
+
+  > `public virtual void ClearPreviousClone()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ClearPreviousClone method resets the previous cloned Interactable Object to null to ensure when the script is re-enabled that a new cloned Interactable Object is created, rather than the original clone being grabbed again.
+
+### Example
+
+`VRTK/Examples/026_Controller_ForceHoldObject` shows how to automatically grab a sword to each controller and also prevents the swords from being dropped so they are permanently attached to the user's controllers.
+
+---
+
+# Interactables (VRTK/Source/Scripts/Interactions/Interactables)
+
+A collection of scripts that provide the ability denote objects as being interactable and providing functionality when an object is interected with.
+
+ * [Interactable Object](#interactable-object-vrtk_interactableobject)
+ * [Interactable Listener](#interactable-listener-vrtk_interactablelistener)
+ * [Interact Haptics](#interact-haptics-vrtk_interacthaptics)
+ * [Interact Object Appearance](#interact-object-appearance-vrtk_interactobjectappearance)
+ * [Interact Object Highlighter](#interact-object-highlighter-vrtk_interactobjecthighlighter)
+ * [Object Touch Auto Interact](#object-touch-auto-interact-vrtk_objecttouchautointeract)
+ * [Ignore Interact Touch Colliders](#ignore-interact-touch-colliders-vrtk_ignoreinteracttouchcolliders)
+
+---
+
+## Interactable Object (VRTK_InteractableObject)
+
+### Overview
+
+Determines if the GameObject can be interacted with.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects.
+
+**Optional Components:**
+ * `Rigidbody` - A Unity Rigidbody to allow the GameObject to be affected by the Unity Physics System (not required for Climbable Grab Attach Types).
+ * `VRTK_BaseGrabAttach` - A Grab Attach mechanic for determining how the Interactable Object is grabbed by the primary interacting object.
+ * `VRTK_BaseGrabAction` - A Grab Action mechanic for determining how to manipulate the Interactable Object when grabbed by the secondary interacting object.
+
+**Script Usage:**
+ * Place the `VRTK_InteractableObject` script onto the GameObject that is to be interactable.
+ * Alternatively, select the GameObject and use the `Window -> VRTK -> Setup Interactable Object` panel to set up quickly.
+ * The optional Highlighter used by the Interactable Object will be selected in the following order:
+   * The provided Base Highlighter in the `Object Highlighter` parameter.
+   * If the above is not provided, then the first active Base Highlighter found on the Interactable Object GameObject will be used.
+   * If the above is not found, then a Material Color Swap Highlighter will be created on the Interactable Object GameObject at runtime.
+
+**Script Dependencies:**
+ * Interactions
+   * To near touch an Interactable Object the Interact NearTouch script is required on a controller Script Alias GameObject.
+   * To touch an Interactable Object the Interact NearTouch script is required on a controller Script Alias GameObject.
+   * To grab an Interactable Object the Interact Grab script is required on a controller Script Alias GameObject.
+   * To use an Interactable Object the Interact Use script is required on a controller Script Alias GameObject.
+ * Highlighting
+   * To highlight an Interactable Object on a given interaction then a valid Interact Object Highlighter script must be associated with the Interactable Object.
+ * Appearance
+   * To affect the appearance of an Interactable Object then a valid Interact Object Appearance script must be associated with the Interactable Object.
+
+### Inspector Parameters
+
+ * **Disable When Idle:** If this is checked then the Interactable Object component will be disabled when the Interactable Object is not being interacted with.
+ * **Allowed Near Touch Controllers:** Determines which controller can initiate a near touch action.
+ * **Allowed Touch Controllers:** Determines which controller can initiate a touch action.
+ * **Ignored Colliders:** An array of colliders on the GameObject to ignore when being touched.
+ * **Is Grabbable:** Determines if the Interactable Object can be grabbed.
+ * **Hold Button To Grab:** If this is checked then the grab button on the controller needs to be continually held down to keep grabbing. If this is unchecked the grab button toggles the grab action with one button press to grab and another to release.
+ * **Stay Grabbed On Teleport:** If this is checked then the Interactable Object will stay grabbed to the controller when a teleport occurs. If it is unchecked then the Interactable Object will be released when a teleport occurs.
+ * **Valid Drop:** Determines in what situation the Interactable Object can be dropped by the controller grab button.
+ * **Grab Override Button:** Setting to a button will ensure the override button is used to grab this specific Interactable Object. Setting to `Undefined` will mean the `Grab Button` on the Interact Grab script will grab the object.
+ * **Allowed Grab Controllers:** Determines which controller can initiate a grab action.
+ * **Grab Attach Mechanic Script:** This determines how the grabbed Interactable Object will be attached to the controller when it is grabbed. If one isn't provided then the first Grab Attach script on the GameObject will be used, if one is not found and the object is grabbable then a Fixed Joint Grab Attach script will be created at runtime.
+ * **Secondary Grab Action Script:** The script to utilise when processing the secondary controller action on a secondary grab attempt. If one isn't provided then the first Secondary Controller Grab Action script on the GameObject will be used, if one is not found then no action will be taken on secondary grab.
+ * **Is Usable:** Determines if the Interactable Object can be used.
+ * **Hold Button To Use:** If this is checked then the use button on the controller needs to be continually held down to keep using. If this is unchecked the the use button toggles the use action with one button press to start using and another to stop using.
+ * **Use Only If Grabbed:** If this is checked the Interactable Object can be used only if it is currently being grabbed.
+ * **Pointer Activates Use Action:** If this is checked then when a Pointer collides with the Interactable Object it will activate it's use action. If the the `Hold Button To Use` parameter is unchecked then whilst the Pointer is collising with the Interactable Object it will run the `Using` method. If `Hold Button To Use` is unchecked then the `Using` method will be run when the Pointer is deactivated. The Pointer will not emit the `Destination Set` event if it is affecting an Interactable Object with this setting checked as this prevents unwanted teleporting from happening when using an Interactable Object with a pointer.
+ * **Use Override Button:** Setting to a button will ensure the override button is used to use this specific Interactable Object. Setting to `Undefined` will mean the `Use Button` on the Interact Use script will use the object.
+ * **Allowed Use Controllers:** Determines which controller can initiate a use action.
+
+### Class Variables
+
+ * `public enum InteractionType` - The interaction type.
+   * `None` - No interaction is affecting the object.
+   * `NearTouch` - The near touch interaction is affecting the object.
+   * `NearUntouch` - The near untouch interaction stopped affecting the object
+   * `Touch` - The touch interaction is affecting the object.
+   * `Untouch` - The untouch interaction stopped affecting the object
+   * `Grab` - The grab interaction is affecting the object.
+   * `Ungrab` - The ungrab interaction stopped affecting the object
+   * `Use` - The use interaction is affecting the object.
+   * `Unuse` - The unuse interaction stopped affecting the object
+ * `public enum AllowedController` - Allowed controller type.
+   * `Both` - Both controllers are allowed to interact.
+   * `LeftOnly` - Only the left controller is allowed to interact.
+   * `RightOnly` - Only the right controller is allowed to interact.
+ * `public enum ValidDropTypes` - The types of valid situations that the object can be released from grab.
+   * `NoDrop` - The object cannot be dropped via the controller.
+   * `DropAnywhere` - The object can be dropped anywhere in the scene via the controller.
+   * `DropValidSnapDropZone` - The object can only be dropped when it is hovering over a valid snap drop zone.
+ * `public int usingState` - The current using state of the Interactable Object. `0` not being used, `1` being used. Default: `0`
+ * `public bool isKinematic` - isKinematic is a pass through to the `isKinematic` getter/setter on the Interactable Object's Rigidbody component.
+
+### Class Events
+
+ * `InteractableObjectEnabled` - Emitted when the Interactable Object script is enabled;
+ * `InteractableObjectDisabled` - Emitted when the Interactable Object script is disabled;
+ * `InteractableObjectNearTouched` - Emitted when another interacting object near touches the current Interactable Object.
+ * `InteractableObjectNearUntouched` - Emitted when the other interacting object stops near touching the current Interactable Object.
+ * `InteractableObjectTouched` - Emitted when another interacting object touches the current Interactable Object.
+ * `InteractableObjectUntouched` - Emitted when the other interacting object stops touching the current Interactable Object.
+ * `InteractableObjectGrabbed` - Emitted when another interacting object grabs the current Interactable Object.
+ * `InteractableObjectUngrabbed` - Emitted when the other interacting object stops grabbing the current Interactable Object.
+ * `InteractableObjectUsed` - Emitted when another interacting object uses the current Interactable Object.
+ * `InteractableObjectUnused` - Emitted when the other interacting object stops using the current Interactable Object.
+ * `InteractableObjectEnteredSnapDropZone` - Emitted when the Interactable Object enters a Snap Drop Zone.
+ * `InteractableObjectExitedSnapDropZone` - Emitted when the Interactable Object exists a Snap Drop Zone.
+ * `InteractableObjectSnappedToDropZone` - Emitted when the Interactable Object gets snapped to a Snap Drop Zone.
+ * `InteractableObjectUnsnappedFromDropZone` - Emitted when the Interactable Object gets unsnapped from a Snap Drop Zone.
+
+### Unity Events
+
+Adding the `VRTK_InteractableObject_UnityEvents` component to `VRTK_InteractableObject` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `GameObject interactingObject` - The GameObject that is initiating the interaction (e.g. a controller).
+
+### Class Methods
+
+#### IsNearTouched/0
+
+  > `public virtual bool IsNearTouched()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object is currently being near touched.
+
+The IsNearTouched method is used to determine if the Interactable Object is currently being near touched.
+
+#### IsTouched/0
+
+  > `public virtual bool IsTouched()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object is currently being touched.
+
+The IsTouched method is used to determine if the Interactable Object is currently being touched.
+
+#### IsGrabbed/1
+
+  > `public virtual bool IsGrabbed(GameObject grabbedBy = null)`
+
+ * Parameters
+   * `GameObject grabbedBy` - An optional GameObject to check if the Interactable Object is grabbed by that specific GameObject. Defaults to `null`
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object is currently being grabbed.
+
+The IsGrabbed method is used to determine if the Interactable Object is currently being grabbed.
+
+#### IsUsing/1
+
+  > `public virtual bool IsUsing(GameObject usedBy = null)`
+
+ * Parameters
+   * `GameObject usedBy` - An optional GameObject to check if the Interactable Object is used by that specific GameObject. Defaults to `null`
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object is currently being used.
+
+The IsUsing method is used to determine if the Interactable Object is currently being used.
+
+#### StartNearTouching/1
+
+  > `public virtual void StartNearTouching(VRTK_InteractNearTouch currentNearTouchingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractNearTouch currentNearTouchingObject` - The interacting object that is currently nearly touching this Interactable Object.
+ * Returns
+   * _none_
+
+The StartNearTouching method is called automatically when the Interactable Object is initially nearly touched.
+
+#### StopNearTouching/1
+
+  > `public virtual void StopNearTouching(VRTK_InteractNearTouch previousNearTouchingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractNearTouch previousNearTouchingObject` - The interacting object that was previously nearly touching this Interactable Object.
+ * Returns
+   * _none_
+
+The StopNearTouching method is called automatically when the Interactable Object has stopped being nearly touched.
+
+#### StartTouching/1
+
+  > `public virtual void StartTouching(VRTK_InteractTouch currentTouchingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractTouch currentTouchingObject` - The interacting object that is currently touching this Interactable Object.
+ * Returns
+   * _none_
+
+The StartTouching method is called automatically when the Interactable Object is touched initially.
+
+#### StopTouching/1
+
+  > `public virtual void StopTouching(VRTK_InteractTouch previousTouchingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractTouch previousTouchingObject` - The interacting object that was previously touching this Interactable Object.
+ * Returns
+   * _none_
+
+The StopTouching method is called automatically when the Interactable Object has stopped being touched.
+
+#### Grabbed/1
+
+  > `public virtual void Grabbed(VRTK_InteractGrab currentGrabbingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractGrab currentGrabbingObject` - The interacting object that is currently grabbing this Interactable Object.
+ * Returns
+   * _none_
+
+The Grabbed method is called automatically when the Interactable Object is grabbed initially.
+
+#### Ungrabbed/1
+
+  > `public virtual void Ungrabbed(VRTK_InteractGrab previousGrabbingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractGrab previousGrabbingObject` - The interacting object that was previously grabbing this Interactable Object.
+ * Returns
+   * _none_
+
+The Ungrabbed method is called automatically when the Interactable Object has stopped being grabbed.
+
+#### StartUsing/1
+
+  > `public virtual void StartUsing(VRTK_InteractUse currentUsingObject = null)`
+
+ * Parameters
+   * `VRTK_InteractUse currentUsingObject` - The interacting object that is currently using this Interactable Object.
+ * Returns
+   * _none_
+
+The StartUsing method is called automatically when the Interactable Object is used initially.
+
+#### StopUsing/2
+
+  > `public virtual void StopUsing(VRTK_InteractUse previousUsingObject = null, bool resetUsingObjectState = true)`
+
+ * Parameters
+   * `VRTK_InteractUse previousUsingObject` - The interacting object that was previously using this Interactable Object.
+   * `bool resetUsingObjectState` - Resets the using object state to reset it's using action.
+ * Returns
+   * _none_
+
+The StopUsing method is called automatically when the Interactable Object has stopped being used.
+
+#### PauseCollisions/1
+
+  > `public virtual void PauseCollisions(float delay)`
+
+ * Parameters
+   * `float delay` - The time in seconds to pause the collisions for.
+ * Returns
+   * _none_
+
+The PauseCollisions method temporarily pauses all collisions on the Interactable Object at grab time by removing the Interactable Object's Rigidbody's ability to detect collisions.
+
+#### ZeroVelocity/0
+
+  > `public virtual void ZeroVelocity()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ZeroVelocity method resets the velocity and angular velocity to zero on the Rigidbody attached to the Interactable Object.
+
+#### SaveCurrentState/0
+
+  > `public virtual void SaveCurrentState()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The SaveCurrentState method stores the existing Interactable Object parent and the Rigidbody kinematic setting.
+
+#### GetNearTouchingObjects/0
+
+  > `public virtual List<GameObject> GetNearTouchingObjects()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `List<GameObject>` - A list of GameObject of that are currently nearly touching the current Interactable Object.
+
+The GetNearTouchingObjects method is used to return the collecetion of valid GameObjects that are currently nearly touching this Interactable Object.
+
+#### GetTouchingObjects/0
+
+  > `public virtual List<GameObject> GetTouchingObjects()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `List<GameObject>` - A list of GameObject of that are currently touching the current Interactable Object.
+
+The GetTouchingObjects method is used to return the collecetion of valid GameObjects that are currently touching this Interactable Object.
+
+#### GetGrabbingObject/0
+
+  > `public virtual GameObject GetGrabbingObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject of what is grabbing the current Interactable Object.
+
+The GetGrabbingObject method is used to return the GameObject that is currently grabbing this Interactable Object.
+
+#### GetSecondaryGrabbingObject/0
+
+  > `public virtual GameObject GetSecondaryGrabbingObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject of the secondary influencing object of the current grabbed Interactable Object.
+
+The GetSecondaryGrabbingObject method is used to return the GameObject that is currently being used to influence this Interactable Object whilst it is being grabbed by a secondary influencing.
+
+#### GetUsingObject/0
+
+  > `public virtual GameObject GetUsingObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject of what is using the current Interactable Object.
+
+The GetUsingObject method is used to return the GameObject that is currently using this Interactable Object.
+
+#### GetUsingScript/0
+
+  > `public virtual VRTK_InteractUse GetUsingScript()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_InteractUse` - The Interact Use script of the interacting object that is using the current Interactable Object.
+
+The GetUsingScript method is used to return the Interact Use component that is currently using this Interactable Object.
+
+#### IsValidInteractableController/2
+
+  > `public virtual bool IsValidInteractableController(GameObject actualController, AllowedController controllerCheck)`
+
+ * Parameters
+   * `GameObject actualController` - The GameObject of the controller that is being checked.
+   * `AllowedController controllerCheck` - The value of which controller is allowed to interact with this object.
+ * Returns
+   * `bool` - Returns `true` if the interacting controller is allowed to grab the Interactable Object.
+
+The IsValidInteractableController method is used to check to see if a controller is allowed to perform an interaction with this Interactable Object as sometimes controllers are prohibited from grabbing or using an Interactable Object depedning on the use case.
+
+#### ForceStopInteracting/0
+
+  > `public virtual void ForceStopInteracting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ForceStopInteracting method forces the Interactable Object to no longer be interacted with and will cause an interacting object to drop the Interactable Object and stop touching it.
+
+#### ForceStopSecondaryGrabInteraction/0
+
+  > `public virtual void ForceStopSecondaryGrabInteraction()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ForceStopSecondaryGrabInteraction method forces the Interactable Object to no longer be influenced by the second controller grabbing it.
+
+#### RegisterTeleporters/0
+
+  > `public virtual void RegisterTeleporters()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The RegisterTeleporters method is used to find all GameObjects that have a teleporter script and register the Interactable Object on the `OnTeleported` event.
+
+#### UnregisterTeleporters/0
+
+  > `public virtual void UnregisterTeleporters()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The UnregisterTeleporters method is used to unregister all teleporter events that are active on this Interactable Object.
+
+#### StoreLocalScale/0
+
+  > `public virtual void StoreLocalScale()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+the StoreLocalScale method saves the current transform local scale values.
+
+#### ToggleSnapDropZone/2
+
+  > `public virtual void ToggleSnapDropZone(VRTK_SnapDropZone snapDropZone, bool state)`
+
+ * Parameters
+   * `VRTK_SnapDropZone snapDropZone` - The Snap Drop Zone object that is being interacted with.
+   * `bool state` - The state of whether the Interactable Object is fixed in or removed from the Snap Drop Zone. `true` denotes the Interactable Object is snapped to the Snap Drop Zone and `false` denotes it has been removed from the Snap Drop Zone.
+ * Returns
+   * _none_
+
+The ToggleSnapDropZone method is used to set the state of whether the Interactable Object is in a Snap Drop Zone or not.
+
+#### IsInSnapDropZone/0
+
+  > `public virtual bool IsInSnapDropZone()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object is currently snapped in a Snap Drop Zone, returns `false` if it is not.
+
+The IsInSnapDropZone method determines whether the Interactable Object is currently snapped to a Snap Drop Zone.
+
+#### SetSnapDropZoneHover/2
+
+  > `public virtual void SetSnapDropZoneHover(VRTK_SnapDropZone snapDropZone, bool state)`
+
+ * Parameters
+   * `VRTK_SnapDropZone snapDropZone` - The Snap Drop Zone that is being interacted with.
+   * `bool state` - The state of whether the Interactable Object is being hovered or not.
+ * Returns
+   * _none_
+
+The SetSnapDropZoneHover method sets whether the Interactable Object is currently being hovered over a valid Snap Drop Zone.
+
+#### GetStoredSnapDropZone/0
+
+  > `public virtual VRTK_SnapDropZone GetStoredSnapDropZone()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_SnapDropZone` - The SnapDropZone that the Interactable Object is currently snapped to.
+
+The GetStoredSnapDropZone method returns the Snap Drop Zone that the Interactable Object is currently snapped to.
+
+#### IsHoveredOverSnapDropZone/0
+
+  > `public virtual bool IsHoveredOverSnapDropZone()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object is currently hovering over a Snap Drop Zone.
+
+The IsHoveredOverSnapDropZone method returns whether the Interactable Object is currently hovering over a Snap Drop Zone.
+
+#### IsDroppable/0
+
+  > `public virtual bool IsDroppable()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object can currently be dropped, returns `false` if it is not currently possible to drop.
+
+The IsDroppable method returns whether the Interactable Object can be dropped or not in it's current situation.
+
+#### IsSwappable/0
+
+  > `public virtual bool IsSwappable()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object can be grabbed by a secondary interacting object whilst already being grabbed and the Interactable Object will swap controllers. Returns `false` if the Interactable Object cannot be swapped.
+
+The IsSwappable method returns whether the Interactable Object can be grabbed with one interacting object and then swapped to another interacting object by grabbing with the secondary grab action.
+
+#### PerformSecondaryAction/0
+
+  > `public virtual bool PerformSecondaryAction()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Interactable Object has a Secondary Grab Action, returns `false` if it has no Secondary Grab Action or is swappable.
+
+The PerformSecondaryAction method returns whether the Interactable Object has a Secondary Grab Action that can be performed when grabbing the object with a secondary interacting object.
+
+#### ResetIgnoredColliders/0
+
+  > `public virtual void ResetIgnoredColliders()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ResetIgnoredColliders method is used to clear any stored ignored colliders in case the `Ignored Colliders` array parameter is changed at runtime. This needs to be called manually if changes are made at runtime.
+
+#### SubscribeToInteractionEvent/2
+
+  > `public virtual void SubscribeToInteractionEvent(InteractionType givenType, InteractableObjectEventHandler methodCallback)`
+
+ * Parameters
+   * `InteractionType givenType` - The Interaction Type to register the events for.
+   * `InteractableObjectEventHandler methodCallback` - The method to execute when the Interaction Type is initiated.
+ * Returns
+   * _none_
+
+The SubscribeToInteractionEvent method subscribes a given method callback for the given Interaction Type.
+
+#### UnsubscribeFromInteractionEvent/2
+
+  > `public virtual void UnsubscribeFromInteractionEvent(InteractionType givenType, InteractableObjectEventHandler methodCallback)`
+
+ * Parameters
+   * `InteractionType givenType` - The Interaction Type that the previous event subscription was under.
+   * `InteractableObjectEventHandler methodCallback` - The method that was being executed when the Interaction Type was initiated.
+ * Returns
+   * _none_
+
+The UnsubscribeFromInteractionEvent method unsubscribes a previous event subscription for the given Interaction Type.
+
+#### GetPrimaryAttachPoint/0
+
+  > `public virtual Transform GetPrimaryAttachPoint()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Transform` - A Transform that denotes where the primary grabbing object is grabbing the Interactable Object at.
+
+The GetPrimaryAttachPoint returns the Transform that determines where the primary grabbing object is grabbing the Interactable Object at.
+
+#### GetSecondaryAttachPoint/0
+
+  > `public virtual Transform GetSecondaryAttachPoint()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Transform` - A Transform that denotes where the secondary grabbing object is grabbing the Interactable Object at.
+
+The GetSecondaryAttachPoint returns the Transform that determines where the secondary grabbing object is grabbing the Interactable Object at.
+
+### Example
+
+`VRTK/Examples/005_Controller_BasicObjectGrabbing` uses the `VRTK_InteractTouch` and `VRTK_InteractGrab` scripts on the controllers to show how an interactable object can be grabbed and snapped to the controller and thrown around the game world.
+
+`VRTK/Examples/013_Controller_UsingAndGrabbingMultipleObjects` shows multiple objects that can be grabbed by holding the buttons or grabbed by toggling the button click and also has objects that can have their Using state toggled to show how multiple items can be turned on at the same time.
+
+---
+
+## Interactable Listener (VRTK_InteractableListener)
+
+### Overview
+
+Provides a base that classes which require to subscribe to the interaction events of an Interactable Object can inherit from.
+
+**Script Usage:**
+  > This is an abstract class that is to be inherited to a concrete class that provides interaction event listener functionality, therefore this script should not be directly used.
+
+---
+
+## Interact Haptics (VRTK_InteractHaptics)
+ > extends [VRTK_InteractableListener](#interactable-listener-vrtk_interactablelistener)
+
+### Overview
+
+Provides controller haptics upon interaction with the specified Interactable Object.
+
+**Required Components:**
+ * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Object To Affect` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_InteractHaptics` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Object To Affect` parameter of this script.
+
+### Inspector Parameters
+
+ * **Clip On Near Touch:** Denotes the audio clip to use to rumble the controller on near touch.
+ * **Strength On Near Touch:** Denotes how strong the rumble in the controller will be on near touch.
+ * **Duration On Near Touch:** Denotes how long the rumble in the controller will last on near touch.
+ * **Interval On Near Touch:** Denotes interval betweens rumble in the controller on near touch.
+ * **Cancel On Near Untouch:** If this is checked then the rumble will be cancelled when the controller is no longer near touching.
+ * **Clip On Touch:** Denotes the audio clip to use to rumble the controller on touch.
+ * **Strength On Touch:** Denotes how strong the rumble in the controller will be on touch.
+ * **Duration On Touch:** Denotes how long the rumble in the controller will last on touch.
+ * **Interval On Touch:** Denotes interval betweens rumble in the controller on touch.
+ * **Cancel On Untouch:** If this is checked then the rumble will be cancelled when the controller is no longer touching.
+ * **Clip On Grab:** Denotes the audio clip to use to rumble the controller on grab.
+ * **Strength On Grab:** Denotes how strong the rumble in the controller will be on grab.
+ * **Duration On Grab:** Denotes how long the rumble in the controller will last on grab.
+ * **Interval On Grab:** Denotes interval betweens rumble in the controller on grab.
+ * **Cancel On Ungrab:** If this is checked then the rumble will be cancelled when the controller is no longer grabbing.
+ * **Clip On Use:** Denotes the audio clip to use to rumble the controller on use.
+ * **Strength On Use:** Denotes how strong the rumble in the controller will be on use.
+ * **Duration On Use:** Denotes how long the rumble in the controller will last on use.
+ * **Interval On Use:** Denotes interval betweens rumble in the controller on use.
+ * **Cancel On Unuse:** If this is checked then the rumble will be cancelled when the controller is no longer using.
+ * **Object To Affect:** The Interactable Object to initiate the haptics from. If this is left blank, then the Interactable Object will need to be on the current or a parent GameObject.
+
+### Class Events
+
+ * `InteractHapticsNearTouched` - Emitted when the haptics are from a near touch.
+ * `InteractHapticsTouched` - Emitted when the haptics are from a touch.
+ * `InteractHapticsGrabbed` - Emitted when the haptics are from a grab.
+ * `InteractHapticsUsed` - Emitted when the haptics are from a use.
+
+### Unity Events
+
+Adding the `VRTK_InteractHaptics_UnityEvents` component to `VRTK_InteractHaptics` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `VRTK_ControllerReference controllerReference` - The reference to the controller to perform haptics on.
+
+### Class Methods
+
+#### CancelHaptics/1
+
+  > `public virtual void CancelHaptics(VRTK_ControllerReference controllerReference)`
+
+ * Parameters
+   * `VRTK_ControllerReference controllerReference` -
+ * Returns
+   * _none_
+
+The CancelHaptics method cancels any existing haptic feedback on the given controller.
+
+#### HapticsOnNearTouch/1
+
+  > `public virtual void HapticsOnNearTouch(VRTK_ControllerReference controllerReference)`
+
+ * Parameters
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
+ * Returns
+   * _none_
+
+The HapticsOnNearTouch method triggers the haptic feedback on the given controller for the settings associated with near touch.
+
+#### HapticsOnTouch/1
+
+  > `public virtual void HapticsOnTouch(VRTK_ControllerReference controllerReference)`
+
+ * Parameters
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
+ * Returns
+   * _none_
+
+The HapticsOnTouch method triggers the haptic feedback on the given controller for the settings associated with touch.
+
+#### HapticsOnGrab/1
+
+  > `public virtual void HapticsOnGrab(VRTK_ControllerReference controllerReference)`
+
+ * Parameters
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
+ * Returns
+   * _none_
+
+The HapticsOnGrab method triggers the haptic feedback on the given controller for the settings associated with grab.
+
+#### HapticsOnUse/1
+
+  > `public virtual void HapticsOnUse(VRTK_ControllerReference controllerReference)`
+
+ * Parameters
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
+ * Returns
+   * _none_
+
+The HapticsOnUse method triggers the haptic feedback on the given controller for the settings associated with use.
+
+---
+
+## Interact Object Appearance (VRTK_InteractObjectAppearance)
+ > extends [VRTK_InteractableListener](#interactable-listener-vrtk_interactablelistener)
+
+### Overview
+
+Determine whether the `Object To Affect` should be visible or hidden by default or on interaction (near touch, touch, grab, use).
+
+**Required Components:**
+ * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Object To Monitor` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_InteractObjectAppearance` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Object To Monitor` parameter of this script.
+ * Optionally provide a GameObject to the `Object To Affect` parameter to determine which GameObject to affect the appearance of.
+
+### Inspector Parameters
+
+ * **Object To Affect:** The GameObject to affect the appearance of. If this is null then then the interacting object will be used (usually the controller).
+ * **Game Object Active By Default:** If this is checked then the `Object To Affect` will be an active GameObject when the script is enabled. If it's unchecked then it will be disabled. This only takes effect if `Affect Interacting Object` is unticked.
+ * **Renderer Visible By Default:** If this is checked then the `Object To Affect` will have visible renderers when the script is enabled. If it's unchecked then it will have it's renderers disabled. This only takes effect if `Affect Interacting Object` is unticked.
+ * **Game Object Active On Near Touch:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is near touched. If it's unchecked then it will be disabled on near touch.
+ * **Renderer Visible On Near Touch:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is near touched. If it's unchecked then it will have it's renderers disabled on near touch.
+ * **Near Touch Appearance Delay:** The amount of time to wait before the near touch appearance settings are applied after the near touch event.
+ * **Near Untouch Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the near untouch event.
+ * **Valid Near Touch Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the near touch and near untouch event.
+ * **Game Object Active On Touch:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is touched. If it's unchecked then it will be disabled on touch.
+ * **Renderer Visible On Touch:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is touched. If it's unchecked then it will have it's renderers disabled on touch.
+ * **Touch Appearance Delay:** The amount of time to wait before the touch appearance settings are applied after the touch event.
+ * **Untouch Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the untouch event.
+ * **Valid Touch Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the touch/untouch event.
+ * **Game Object Active On Grab:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is grabbed. If it's unchecked then it will be disabled on grab.
+ * **Renderer Visible On Grab:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is grabbed. If it's unchecked then it will have it's renderers disabled on grab.
+ * **Grab Appearance Delay:** The amount of time to wait before the grab appearance settings are applied after the grab event.
+ * **Ungrab Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the ungrab event.
+ * **Valid Grab Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the grab/ungrab event.
+ * **Game Object Active On Use:** If this is checked then the `Object To Affect` will be an active GameObject when the `Object To Monitor` is used. If it's unchecked then it will be disabled on use.
+ * **Renderer Visible On Use:** If this is checked then the `Object To Affect` will have visible renderers when the `Object To Monitor` is used. If it's unchecked then it will have it's renderers disabled on use.
+ * **Use Appearance Delay:** The amount of time to wait before the use appearance settings are applied after the use event.
+ * **Unuse Appearance Delay:** The amount of time to wait before the previous appearance settings are applied after the unuse event.
+ * **Valid Use Interacting Object:** Determines what type of interacting object will affect the appearance of the `Object To Affect` after the use/unuse event.
+
+### Class Variables
+
+ * `public enum ValidInteractingObject` - The valid interacting object.
+   * `Anything` - Any GameObject is considered a valid interacting object.
+   * `EitherController` - Only a game controller is considered a valid interacting objcet.
+   * `NeitherController` - Any GameObject except a game controller is considered a valid interacting object.
+   * `LeftControllerOnly` - Only the left game controller is considered a valid interacting objcet.
+   * `RightControllerOnly` - Only the right game controller is considered a valid interacting objcet.
+
+### Class Events
+
+ * `GameObjectEnabled` - Emitted when the GameObject on the `Object To Affect` is enabled.
+ * `GameObjectDisabled` - Emitted when the GameObject on the `Object To Affect` is disabled.
+ * `RenderersEnabled` - Emitted when the Renderers on the `Object To Affect` are enabled.
+ * `RenderersDisabled` - Emitted when the Renderers on the `Object To Affect` are disabled.
+
+### Unity Events
+
+Adding the `VRTK_InteractObjectAppearance_UnityEvents` component to `VRTK_InteractObjectAppearance` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `GameObject affectingObject` - The GameObject that is being affected.
+ * `VRTK_InteractableObject monitoringObject` - The Interactable Object that is being monitored.
+ * `VRTK_InteractableObject.InteractionType interactionType` - The type of interaction initiating the event.
+
+### Example
+
+`VRTK/Examples/008_Controller_UsingAGrabbedObject` shows that the controller can be hidden when touching, grabbing and using an object.
+
+---
+
+## Interact Object Highlighter (VRTK_InteractObjectHighlighter)
+ > extends [VRTK_InteractableListener](#interactable-listener-vrtk_interactablelistener)
+
+### Overview
+
+Enable highlighting of an Interactable Object base on interaction type.
+
+**Required Components:**
+ * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Object To Monitor` parameter.
+
+**Optional Components:**
+ * `VRTK_BaseHighlighter` - The highlighter to use when highligting the Object. If one is not already injected in the `Object Highlighter` parameter then the component on the same GameObject will be used.
+
+**Script Usage:**
+ * Place the `VRTK_InteractObjectHighlighter` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Object To Affect` parameter of this script.
+
+### Inspector Parameters
+
+ * **Near Touch Highlight:** The colour to highlight the object on the near touch interaction.
+ * **Touch Highlight:** The colour to highlight the object on the touch interaction.
+ * **Grab Highlight:** The colour to highlight the object on the grab interaction.
+ * **Use Highlight:** The colour to highlight the object on the use interaction.
+ * **Object To Highlight:** The GameObject to highlight.
+ * **Object Highlighter:** An optional Highlighter to use when highlighting the specified Object. If this is left blank, then the first active highlighter on the same GameObject will be used, if one isn't found then a Material Color Swap Highlighter will be created at runtime.
+
+### Class Events
+
+ * `InteractObjectHighlighterHighlighted` - Emitted when the object is highlighted
+ * `InteractObjectHighlighterUnhighlighted` - Emitted when the object is unhighlighted
+
+### Unity Events
+
+Adding the `VRTK_InteractObjectHighlighter_UnityEvents` component to `VRTK_InteractObjectHighlighter` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `VRTK_InteractableObject.InteractionType interactionType` - The type of interaction occuring on the object to monitor.
+ * `Color highlightColor` - The colour being provided to highlight the affected object with.
+ * `GameObject affectingObject` - The GameObject is initiating the highlight via an interaction.
+ * `VRTK_InteractableObject objectToMonitor` - The Interactable Object that is being interacted with.
+ * `GameObject affectedObject` - The GameObject that is being highlighted.
+
+### Class Methods
+
+#### ResetHighlighter/0
+
+  > `public virtual void ResetHighlighter()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ResetHighlighter method is used to reset the currently attached highlighter.
+
+#### Highlight/1
+
+  > `public virtual void Highlight(Color highlightColor)`
+
+ * Parameters
+   * `Color highlightColor` - The colour to apply to the highlighter.
+ * Returns
+   * _none_
+
+The Highlight method turns on the highlighter with the given Color.
+
+#### Unhighlight/0
+
+  > `public virtual void Unhighlight()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The Unhighlight method turns off the highlighter.
+
+#### GetCurrentHighlightColor/0
+
+  > `public virtual Color GetCurrentHighlightColor()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Color` - The Color that the Interactable Object is being highlighted to.
+
+The GetCurrentHighlightColor returns the colour that the Interactable Object is currently being highlighted to.
+
+---
+
+## Object Touch Auto Interact (VRTK_ObjectTouchAutoInteract)
+ > extends [VRTK_InteractableListener](#interactable-listener-vrtk_interactablelistener)
+
+### Overview
+
+Allows for Interact Grab or Interact Use interactions to automatically happen upon touching an Interactable Object.
+
+**Required Components:**
+ * `VRTK_InteractableObject` - The Interactable Object component to detect interactions on. This must be applied on the same GameObject as this script if one is not provided via the `Interactable Object` parameter.
+
+**Script Usage:**
+ * Place the `VRTK_ObjectTouchAutoInteract` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and provide a valid `VRTK_InteractableObject` component to the `Interactable Object` parameter of this script.
+
+### Inspector Parameters
+
+ * **Grab On Touch When:** Determines when a grab on touch should occur.
+ * **Regrab Delay:** After being ungrabbed, another auto grab on touch can only occur after this time.
+ * **Continuous Grab Check:** If this is checked then the grab on touch check will happen every frame and not only on the first touch of the Interactable Object.
+ * **Use On Touch When:** Determines when a use on touch should occur.
+ * **Reuse Delay:** After being unused, another auto use on touch can only occur after this time.
+ * **Continuous Use Check:** If this is checked then the use on touch check will happen every frame and not only on the first touch of the Interactable Object.
+ * **Interactable Object:** The Interactable Object that the auto interaction will occur on. If this is blank then the script must be on the same GameObject as the Interactable Object script.
+
+### Class Variables
+
+ * `public enum AutoInteractions` - Situation when auto interaction can occur.
+   * `Never` - Auto interaction can never occur on touch.
+   * `NoButtonHeld` - Auto interaction will occur on touch even if the specified interaction button is not held down.
+   * `ButtonHeld` - Auto interaction will only occur on touch if the specified interaction button is held down.
+
+---
+
+## Ignore Interact Touch Colliders (VRTK_IgnoreInteractTouchColliders)
+ > extends VRTK_SDKControllerReady
+
+### Overview
+
+Ignores the collisions between the given Interact Touch colliders and the colliders on the GameObject this script is attached to.
+
+**Required Components:**
+ * `Collider` - Unity Colliders on the current GameObject or child GameObjects to ignore collisions from the given Interact Touch colliders.
+
+**Script Usage:**
+ * Place the `VRTK_IgnoreInteractTouchColliders` script on the GameObject with colliders to ignore collisions from the given Interact Touch colliders.
+ * Increase the size of the `Interact Touch To Ignore` element list.
+ * Add the appropriate GameObjects that have the `VRTK_InteractTouch` script attached to use when ignoring collisions with the colliders on GameObject the script is attached to.
+
+### Inspector Parameters
+
+ * **Interact Touch To Ignore:** The Interact Touch scripts to ignore collisions with.
+ * **Skip Ignore:** A collection of GameObjects to not include when ignoring collisions with the provided Interact Touch colliders.
+
+---
+
 # Grab Attach Mechanics (VRTK/Source/Scripts/Interactions/GrabAttachMechanics)
 
-This directory contains scripts that are used to provide different mechanics to apply when grabbing an interactable object.
+A collection of scripts that are used to provide different mechanics to apply when grabbing an interactable object.
 
  * [Base Grab Attach](#base-grab-attach-vrtk_basegrabattach)
  * [Base Joint Grab Attach](#base-joint-grab-attach-vrtk_basejointgrabattach)
@@ -5113,6 +5154,9 @@ This directory contains scripts that are used to provide different mechanics to 
  * [Track Object Grab Attach](#track-object-grab-attach-vrtk_trackobjectgrabattach)
  * [Rotator Track Grab Attach](#rotator-track-grab-attach-vrtk_rotatortrackgrabattach)
  * [Climbable Grab Attach](#climbable-grab-attach-vrtk_climbablegrabattach)
+ * [Control Animation Grab Attach](#control-animation-grab-attach-vrtk_controlanimationgrabattach)
+ * [Move Transform Grab Attach](#move-transform-grab-attach-vrtk_movetransformgrabattach)
+ * [Rotate Transform Grab Attach](#rotate-transform-grab-attach-vrtk_rotatetransformgrabattach)
 
 ---
 
@@ -5261,6 +5305,17 @@ The ProcessUpdate method is run in every Update method on the Interactable Objec
    * _none_
 
 The ProcessFixedUpdate method is run in every FixedUpdate method on the Interactable Object.
+
+#### ResetState/0
+
+  > `public virtual void ResetState()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ResetState method re-initializes the grab attach.
 
 ---
 
@@ -5457,6 +5512,7 @@ Applies velocity to the grabbed Interactable Object to ensure it tracks the posi
  * **Detach Distance:** The maximum distance the grabbing object is away from the Interactable Object before it is automatically dropped.
  * **Velocity Limit:** The maximum amount of velocity magnitude that can be applied to the Interactable Object. Lowering this can prevent physics glitches if Interactable Objects are moving too fast.
  * **Angular Velocity Limit:** The maximum amount of angular velocity magnitude that can be applied to the Interactable Object. Lowering this can prevent physics glitches if Interactable Objects are moving too fast.
+ * **Max Distance Delta:** The maximum difference in distance to the tracked position.
 
 ### Class Methods
 
@@ -5581,9 +5637,474 @@ Marks the Interactable Object as being climbable.
 
 ---
 
+## Control Animation Grab Attach (VRTK_ControlAnimationGrabAttach)
+ > extends [VRTK_BaseGrabAttach](#base-grab-attach-vrtk_basegrabattach)
+
+### Overview
+
+Scrubs through the given animation based on the distance from the grabbing object to the original grabbing point.
+
+**Script Usage:**
+ * Place the `VRTK_ControlAnimationGrabAttach` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and then link that GameObject to the Interactable Objects `Grab Attach Mechanic Script` parameter to denote use of the grab mechanic.
+   * Create and apply an animation via:
+     * `Animation Timeline` parameter takes a legacy `Animation` component to use as the timeline to scrub through. The animation must be marked as `legacy` via the inspector in debug mode.
+     * `Animator Timeline` parameter takes an Animator component to use as the timeline to scrub through.
+
+### Inspector Parameters
+
+ * **Detach Distance:** The maximum distance the grabbing object is away from the Interactable Object before it is automatically released.
+ * **Animation Timeline:** An Animation with the timeline to scrub through on grab. If this is set then the `Animator Timeline` will be ignored if it is also set.
+ * **Animator Timeline:** An Animator with the timeline to scrub through on grab.
+ * **Max Frames:** The maximum amount of frames in the timeline.
+ * **Distance Multiplier:** An amount to multiply the distance by to determine the scrubbed frame to be on.
+ * **Rewind On Release:** If this is checked then the animation will rewind to the start on ungrab.
+ * **Rewind Speed Multplier:** The speed in which the animation rewind will be multiplied by.
+
+### Class Events
+
+ * `AnimationFrameAtStart` - Emitted when the Animation Frame is at the start.
+ * `AnimationFrameAtEnd` - Emitted when the Animation Frame is at the end.
+ * `AnimationFrameChanged` - Emitted when the Animation Frame has changed.
+
+### Unity Events
+
+Adding the `VRTK_ControlAnimationGrabAttach_UnityEvents` component to `VRTK_ControlAnimationGrabAttach` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `GameObject interactingObject` - The GameObject that is performing the interaction (e.g. a controller).
+ * `float currentFrame` - The current frame the animation is on.
+
+### Class Methods
+
+#### StartGrab/3
+
+  > `public override bool StartGrab(GameObject grabbingObject, GameObject givenGrabbedObject, Rigidbody givenControllerAttachPoint)`
+
+ * Parameters
+   * `GameObject grabbingObject` - The GameObject that is doing the grabbing.
+   * `GameObject givenGrabbedObject` - The GameObject that is being grabbed.
+   * `Rigidbody givenControllerAttachPoint` - The point on the grabbing object that the grabbed object should be attached to after grab occurs.
+ * Returns
+   * `bool` - Returns `true` if the grab is successful, `false` if the grab is unsuccessful.
+
+The StartGrab method sets up the grab attach mechanic as soon as an Interactable Object is grabbed.
+
+#### StopGrab/1
+
+  > `public override void StopGrab(bool applyGrabbingObjectVelocity)`
+
+ * Parameters
+   * `bool applyGrabbingObjectVelocity` - If `true` will apply the current velocity of the grabbing object to the grabbed object on release.
+ * Returns
+   * _none_
+
+The StopGrab method ends the grab of the current Interactable Object and cleans up the state.
+
+#### CreateTrackPoint/4
+
+  > `public override Transform CreateTrackPoint(Transform controllerPoint, GameObject currentGrabbedObject, GameObject currentGrabbingObject, ref bool customTrackPoint)`
+
+ * Parameters
+   * `Transform controllerPoint` - The point on the controller where the grab was initiated.
+   * `GameObject currentGrabbedObject` - The GameObject that is currently being grabbed.
+   * `GameObject currentGrabbingObject` - The GameObject that is currently doing the grabbing.
+   * `ref bool customTrackPoint` - A reference to whether the created track point is an auto generated custom object.
+ * Returns
+   * `Transform` - The Transform of the created track point.
+
+The CreateTrackPoint method sets up the point of grab to track on the grabbed object.
+
+#### ProcessUpdate/0
+
+  > `public override void ProcessUpdate()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ProcessUpdate method is run in every Update method on the Interactable Object.
+
+#### SetFrame/1
+
+  > `public virtual void SetFrame(float frame)`
+
+ * Parameters
+   * `float frame` - The frame to scrub to.
+ * Returns
+   * _none_
+
+The SetFrame method scrubs to the specific frame of the Animator timeline.
+
+#### RewindAnimation/0
+
+  > `public virtual void RewindAnimation()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The RewindAnimation method will force the animation to rewind to the start frame.
+
+---
+
+## Move Transform Grab Attach (VRTK_MoveTransformGrabAttach)
+ > extends [VRTK_BaseGrabAttach](#base-grab-attach-vrtk_basegrabattach)
+
+### Overview
+
+Moves the Transform of the Interactable Object towards the interacting object within specified limits.
+
+  > To allow unrestricted movement, set the axis limit minimum to `-infinity` and the axis limit maximum to `infinity`.
+
+**Script Usage:**
+ * Place the `VRTK_MoveTransformGrabAttach` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and then link that GameObject to the Interactable Objects `Grab Attach Mechanic Script` parameter to denote use of the grab mechanic.
+
+### Inspector Parameters
+
+ * **Detach Distance:** The maximum distance the grabbing object is away from the Interactable Object before it is automatically released.
+ * **Tracking Speed:** The speed in which to track the grabbed Interactable Object to the interacting object.
+ * **Force Kinematic On Grab:** If this is checked then it will force the rigidbody on the Interactable Object to be `Kinematic` when the grab occurs.
+ * **Release Deceleration Damper:** The damper in which to slow the Interactable Object down when released to simulate continued momentum. The higher the number, the faster the Interactable Object will come to a complete stop on release.
+ * **Reset To Orign On Release Speed:** The speed in which the Interactable Object returns to it's origin position when released. If the `Reset To Orign On Release Speed` is `0f` then the position will not be reset.
+ * **X Axis Limits:** The minimum and maximum limits the Interactable Object can be moved along the x axis.
+ * **Y Axis Limits:** The minimum and maximum limits the Interactable Object can be moved along the y axis.
+ * **Z Axis Limits:** The minimum and maximum limits the Interactable Object can be moved along the z axis.
+ * **Min Max Threshold:** The threshold the position value needs to be within to register a min or max position value.
+ * **Min Max Normalized Threshold:** The threshold the normalized position value needs to be within to register a min or max normalized position value.
+
+### Class Variables
+
+ * `public Vector3 localOrigin` - The default local position of the Interactable Object.
+
+### Class Events
+
+ * `TransformPositionChanged` - Emitted when the Transform position has changed.
+ * `XAxisMinLimitReached` - Emitted when the Transform position has reached the X Axis Min Limit.
+ * `XAxisMinLimitExited` - Emitted when the Transform position has exited the X Axis Min Limit.
+ * `XAxisMaxLimitReached` - Emitted when the Transform position has reached the X Axis Max Limit.
+ * `XAxisMaxLimitExited` - Emitted when the Transform position has exited the X Axis Max Limit.
+ * `YAxisMinLimitReached` - Emitted when the Transform position has reached the Y Axis Min Limit.
+ * `YAxisMinLimitExited` - Emitted when the Transform position has exited the Y Axis Min Limit.
+ * `YAxisMaxLimitReached` - Emitted when the Transform position has reached the Y Axis Max Limit.
+ * `YAxisMaxLimitExited` - Emitted when the Transform position has exited the Y Axis Max Limit.
+ * `ZAxisMinLimitReached` - Emitted when the Transform position has reached the Z Axis Min Limit.
+ * `ZAxisMinLimitExited` - Emitted when the Transform position has exited the Z Axis Min Limit.
+ * `ZAxisMaxLimitReached` - Emitted when the Transform position has reached the Z Axis Max Limit.
+ * `ZAxisMaxLimitExited` - Emitted when the Transform position has exited the Z Axis Max Limit.
+
+### Unity Events
+
+Adding the `VRTK_MoveTransformGrabAttach_UnityEvents` component to `VRTK_MoveTransformGrabAttach` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `GameObject interactingObject` - The GameObject that is performing the interaction (e.g. a controller).
+ * `Vector3 position` - The current position in relation to the axis limits from the origin position.
+ * `Vector3 normalizedPosition` - The normalized position (between `0f` and `1f`) of the Interactable Object in relation to the axis limits.
+ * `Vector3 currentDirection` - The direction vector that the Interactable Object is currently moving across the axes in.
+ * `Vector3 originDirection` - The direction vector that the Interactable Object is currently moving across the axes in in relation to the origin position.
+
+### Class Methods
+
+#### StartGrab/3
+
+  > `public override bool StartGrab(GameObject grabbingObject, GameObject givenGrabbedObject, Rigidbody givenControllerAttachPoint)`
+
+ * Parameters
+   * `GameObject grabbingObject` - The GameObject that is doing the grabbing.
+   * `GameObject givenGrabbedObject` - The GameObject that is being grabbed.
+   * `Rigidbody givenControllerAttachPoint` - The point on the grabbing object that the grabbed object should be attached to after grab occurs.
+ * Returns
+   * `bool` - Returns `true` if the grab is successful, `false` if the grab is unsuccessful.
+
+The StartGrab method sets up the grab attach mechanic as soon as an Interactable Object is grabbed.
+
+#### StopGrab/1
+
+  > `public override void StopGrab(bool applyGrabbingObjectVelocity)`
+
+ * Parameters
+   * `bool applyGrabbingObjectVelocity` - If `true` will apply the current velocity of the grabbing object to the grabbed object on release.
+ * Returns
+   * _none_
+
+The StopGrab method ends the grab of the current Interactable Object and cleans up the state.
+
+#### CreateTrackPoint/4
+
+  > `public override Transform CreateTrackPoint(Transform controllerPoint, GameObject currentGrabbedObject, GameObject currentGrabbingObject, ref bool customTrackPoint)`
+
+ * Parameters
+   * `Transform controllerPoint` - The point on the controller where the grab was initiated.
+   * `GameObject currentGrabbedObject` - The GameObject that is currently being grabbed.
+   * `GameObject currentGrabbingObject` - The GameObject that is currently doing the grabbing.
+   * `ref bool customTrackPoint` - A reference to whether the created track point is an auto generated custom object.
+ * Returns
+   * `Transform` - The Transform of the created track point.
+
+The CreateTrackPoint method sets up the point of grab to track on the grabbed object.
+
+#### ProcessUpdate/0
+
+  > `public override void ProcessUpdate()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ProcessUpdate method is run in every Update method on the Interactable Object.
+
+#### GetPosition/0
+
+  > `public virtual Vector3 GetPosition()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector3` - A Vector3 containing the current Transform position in relation to the axis limits.
+
+The GetPosition method returns a Vector3 of the Transform position in relation to the axis limits.
+
+#### GetNormalizedPosition/0
+
+  > `public virtual Vector3 GetNormalizedPosition()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector3` - A normalized Vector3 of the Transform position in relation to the axis limits.
+
+The GetNormalizedPosition method returns a Vector3 of the Transform position normalized between `0f` and `1f` in relation to the axis limits.;
+
+#### GetCurrentDirection/0
+
+  > `public virtual Vector3 GetCurrentDirection()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector3` - A Vector3 of the direction the Transform is moving across the relevant axis in.
+
+The GetCurrentDirection method returns a Vector3 of the current positive/negative axis direction that the Transform is moving in.
+
+#### GetDirectionFromOrigin/0
+
+  > `public virtual Vector3 GetDirectionFromOrigin()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector3` - A Vector3 of the direction the Transform is moving across the relevant axis in relation to the original position.
+
+The GetDirectionFromOrigin method returns a Vector3 of the direction across the axis from the original position.
+
+#### SetCurrentPosition/2
+
+  > `public virtual void SetCurrentPosition(Vector3 newPosition, float speed)`
+
+ * Parameters
+   * `Vector3 newPosition` - The position to move the Interactable Object to.
+   * `float speed` - The speed in which to move the Interactable Object.
+ * Returns
+   * _none_
+
+The SetCurrentPosition method sets the position of the Interactable Object to the given new position at the appropriate speed.
+
+#### ResetPosition/0
+
+  > `public virtual void ResetPosition()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ResetPosition method will move the Interactable Object back to the origin position.
+
+#### GetWorldLimits/0
+
+  > `public virtual Limits2D[] GetWorldLimits()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Limits2D[]` - An array of axis limits in world space.
+
+The GetWorldLimits method returns an array of minimum and maximum axis limits for the Interactable Object in world space.
+
+---
+
+## Rotate Transform Grab Attach (VRTK_RotateTransformGrabAttach)
+ > extends [VRTK_BaseGrabAttach](#base-grab-attach-vrtk_basegrabattach)
+
+### Overview
+
+Rotates the Transform of the Interactable Object around a specified transform local axis within the given limits.
+
+  > To allow unrestricted movement, set the angle limits minimum to `-infinity` and the angle limits maximum to `infinity`.
+
+**Script Usage:**
+ * Place the `VRTK_RotateTransformGrabAttach` script on either:
+   * The GameObject of the Interactable Object to detect interactions on.
+   * Any other scene GameObject and then link that GameObject to the Interactable Objects `Grab Attach Mechanic Script` parameter to denote use of the grab mechanic.
+
+### Inspector Parameters
+
+ * **Detach Distance:** The maximum distance the grabbing object is away from the Interactable Object before it is automatically dropped.
+ * **Origin Deadzone:** The distance between grabbing object and the centre of Interactable Object that is considered to be non grabbable. If the grabbing object is within the `Origin Deadzone` distance then it will be automatically ungrabbed.
+ * **Rotate Around:** The local axis in which to rotate the object around.
+ * **Rotation Action:** Determines how the rotation of the object is calculated based on the action of the grabbing object.
+ * **Rotation Friction:** The amount of friction to apply when rotating, simulates a tougher rotation.
+ * **Release Deceleration Damper:** The damper in which to slow the Interactable Object's rotation down when released to simulate continued momentum. The higher the number, the faster the Interactable Object will come to a complete stop on release.
+ * **Reset To Orign On Release Speed:** The speed in which the Interactable Object returns to it's origin rotation when released. If the `Reset To Orign On Release Speed` is `0f` then the rotation will not be reset.
+ * **Angle Limits:** The negative and positive limits the axis can be rotated to.
+ * **Min Max Threshold:** The threshold the rotation value needs to be within to register a min or max rotation value.
+ * **Min Max Normalized Threshold:** The threshold the normalized rotation value needs to be within to register a min or max normalized rotation value.
+
+### Class Variables
+
+ * `public enum RotationAxis` - The local axis for rotation.
+   * `xAxis` - The local X Axis of the transform.
+   * `yAxis` - The local Y Axis of the transform.
+   * `zAxis` - The local Z Axis of the transform.
+ * `public enum RotationType` - The way in which rotation from the grabbing object is applied.
+   * `FollowAttachPoint` - The angle between the Interactable Object origin and the grabbing object attach point.
+   * `FollowLongitudinalAxis` - The angular velocity across the grabbing object's longitudinal axis (the roll axis).
+   * `FollowLateralAxis` - The angular velocity across the grabbing object's lateral axis (the pitch axis).
+   * `FollowPerpendicularAxis` - The angular velocity across the grabbing object's perpendicular axis (the yaw axis).
+ * `public Quaternion originRotation` - The default local rotation of the Interactable Object.
+
+### Class Events
+
+ * `AngleChanged` - Emitted when the angle changes.
+ * `MinAngleReached` - Emitted when the angle reaches the minimum angle.
+ * `MinAngleExited` - Emitted when the angle exits the minimum angle state.
+ * `MaxAngleReached` - Emitted when the angle reaches the maximum angle.
+ * `MaxAngleExited` - Emitted when the angle exits the maximum angle state.
+
+### Unity Events
+
+Adding the `VRTK_RotateTransformGrabAttach_UnityEvents` component to `VRTK_RotateTransformGrabAttach` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `GameObject interactingObject` - The GameObject that is performing the interaction (e.g. a controller).
+ * `float currentAngle` - The current angle the Interactable Object is rotated to.
+ * `float normalizedAngle` - The normalized angle (between `0f` and `1f`) the Interactable Object is rotated to.
+ * `Vector3 rotationSpeed` - The speed in which the rotation is occuring.
+
+### Class Methods
+
+#### StartGrab/3
+
+  > `public override bool StartGrab(GameObject grabbingObject, GameObject givenGrabbedObject, Rigidbody givenControllerAttachPoint)`
+
+ * Parameters
+   * `GameObject grabbingObject` - The GameObject that is doing the grabbing.
+   * `GameObject givenGrabbedObject` - The GameObject that is being grabbed.
+   * `Rigidbody givenControllerAttachPoint` - The point on the grabbing object that the grabbed object should be attached to after grab occurs.
+ * Returns
+   * `bool` - Returns `true` if the grab is successful, `false` if the grab is unsuccessful.
+
+The StartGrab method sets up the grab attach mechanic as soon as an Interactable Object is grabbed.
+
+#### StopGrab/1
+
+  > `public override void StopGrab(bool applyGrabbingObjectVelocity)`
+
+ * Parameters
+   * `bool applyGrabbingObjectVelocity` - If `true` will apply the current velocity of the grabbing object to the grabbed object on release.
+ * Returns
+   * _none_
+
+The StopGrab method ends the grab of the current Interactable Object and cleans up the state.
+
+#### ProcessUpdate/0
+
+  > `public override void ProcessUpdate()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ProcessUpdate method is run in every Update method on the Interactable Object.
+
+#### SetRotation/2
+
+  > `public virtual void SetRotation(float newAngle, float transitionTime = 0f)`
+
+ * Parameters
+   * `float newAngle` - The angle to rotate to through the current rotation axis.
+   * `float transitionTime` - The time in which the entire rotation operation will take place.
+ * Returns
+   * _none_
+
+The SetRotation method sets the rotation on the Interactable Object to the given angle over the desired time.
+
+#### ResetRotation/1
+
+  > `public virtual void ResetRotation(bool ignoreTransition = false)`
+
+ * Parameters
+   * `bool ignoreTransition` - If this is `true` then the `Reset To Origin On Release Speed` will be ignored and the reset will occur instantly.
+ * Returns
+   * _none_
+
+The ResetRotation method will rotate the Interactable Object back to the origin rotation.
+
+#### GetAngle/0
+
+  > `public virtual float GetAngle()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The current rotated angle.
+
+The GetAngle method returns the current angle the Interactable Object is rotated to.
+
+#### GetNormalizedAngle/0
+
+  > `public virtual float GetNormalizedAngle()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized rotated angle. Will return `0f` if either limit is set to `infinity`.
+
+The GetNormalizedAngle returns the normalized current angle between the minimum and maximum angle limits.
+
+#### GetRotationSpeed/0
+
+  > `public virtual Vector3 GetRotationSpeed()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector3` - A Vector3 containing the speed each axis is rotating in.
+
+The GetRotationSpeed returns the current speed in which the Interactable Object is rotating.
+
+---
+
 # Secondary Controller Grab Actions (VRTK/Source/Scripts/Interactions/SecondaryControllerGrabActions)
 
-This directory contains scripts that are used to provide different actions when a secondary controller grabs a grabbed object.
+A collection of scripts that are used to provide different actions when a secondary controller grabs a grabbed object.
 
  * [Base Grab Action](#base-grab-action-vrtk_basegrabaction)
  * [Swap Controller Grab Action](#swap-controller-grab-action-vrtk_swapcontrollergrabaction)
@@ -5719,9 +6240,7 @@ Scales the grabbed Interactable Object along the given axes based on the positio
 ### Inspector Parameters
 
  * **Ungrab Distance:** The distance the secondary grabbing object must move away from the original grab position before the secondary grabbing object auto ungrabs the Interactable Object.
- * **Lock X Axis:** If checked the current X Axis of the Interactable Object won't be scaled
- * **Lock Y Axis:** If checked the current Y Axis of the Interactable Object won't be scaled
- * **Lock Z Axis:** If checked the current Z Axis of the Interactable Object won't be scaled
+ * **Lock Axis:** Locks the specified checked axes so they won't be scaled
  * **Uniform Scaling:** If checked all the axes will be scaled together (unless locked)
 
 ### Class Methods
@@ -5853,6 +6372,944 @@ The ProcessFixedUpdate method runs in every FixedUpdate on the Interactable Obje
 ### Example
 
 `VRTK/Examples/043_Controller_SecondaryControllerActions` demonstrates the ability to grab an object with one controller and control their direction with the second controller.
+
+---
+
+# Controllables (VRTK/Source/Scripts/Interactions/Controllables)
+
+Contains scripts that form the basis of interactable 3D controls that are either Physics based or artificially simulated.
+
+ * [Base Controllable](#base-controllable-vrtk_basecontrollable)
+
+---
+
+## Base Controllable (VRTK_BaseControllable)
+
+### Overview
+
+Provides a base that all Controllables can inherit from.
+
+**Script Usage:**
+  > This is an abstract class that is to be inherited to a concrete class that provides controllable functionality, therefore this script should not be directly used.
+
+### Inspector Parameters
+
+ * **Operate Axis:** The local axis in which the Controllable will operate through.
+ * **Ignore Collisions With:** A collection of GameObjects to ignore collision events with.
+ * **Exclude Collider Check On:** A collection of GameObjects to exclude when determining if a default collider should be created.
+ * **Equality Fidelity:** The amount of fidelity when comparing the position of the control with the previous position. Determines if it's equal above a certain decimal place threshold.
+
+### Class Variables
+
+ * `public enum OperatingAxis` - The local axis that the Controllable will be operated through.
+   * `xAxis` - The local x axis.
+   * `yAxis` - The local y axis.
+   * `zAxis` - The local z axis.
+
+### Class Events
+
+ * `ValueChanged` - Emitted when the Controllable value has changed.
+ * `RestingPointReached` - Emitted when the Controllable value has reached the resting point.
+ * `MinLimitReached` - Emitted when the Controllable value has reached the minimum limit.
+ * `MinLimitExited` - Emitted when the Controllable value has exited the minimum limit.
+ * `MaxLimitReached` - Emitted when the Controllable value has reached the maximum limit.
+ * `MaxLimitExited` - Emitted when the Controllable value has exited the maximum limit.
+
+### Unity Events
+
+Adding the `VRTK_BaseControllable_UnityEvents` component to `VRTK_BaseControllable` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+ * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
+
+### Event Payload
+
+ * `Collider interactingCollider` - The Collider that is initiating the interaction.
+ * `VRTK_InteractTouch interactingTouchScript` - The optional Interact Touch script that is initiating the interaction.
+ * `float value` - The current value being reported by the controllable.
+ * `float normalizedValue` - The normalized value being reported by the controllable.
+
+### Class Methods
+
+#### AtMinLimit/0
+
+  > `public virtual bool AtMinLimit()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Controllable is at it's minimum limit.
+
+The AtMinLimit method returns whether the Controllable is currently at it's minimum limit.
+
+#### AtMaxLimit/0
+
+  > `public virtual bool AtMaxLimit()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the Controllable is at it's maximum limit.
+
+The AtMaxLimit method returns whether the Controllable is currently at it's maximum limit.
+
+#### GetOriginalLocalPosition/0
+
+  > `public virtual Vector3 GetOriginalLocalPosition()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Vector3` - A Vector3 of the original local position.
+
+The GetOriginalLocalPosition method returns the original local position of the control.
+
+#### GetOriginalLocalRotation/0
+
+  > `public virtual Quaternion GetOriginalLocalRotation()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Quaternion` - A quaternion of the original local rotation.
+
+The GetOriginalLocalRotation method returns the original local rotation of the control.
+
+#### GetControlColliders/0
+
+  > `public virtual Collider[] GetControlColliders()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Collider[]` - The Colliders array associated with the control.
+
+The GetControlColliders method returns the Colliders array associated with the control.
+
+#### GetInteractingCollider/0
+
+  > `public virtual Collider GetInteractingCollider()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Collider` - The Collider currently interacting with the control.
+
+The GetInteractingCollider method returns the Collider of the GameObject currently interacting with the control.
+
+#### GetInteractingTouch/0
+
+  > `public virtual VRTK_InteractTouch GetInteractingTouch()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_InteractTouch` - The Interact Touch script currently interacting with the control.
+
+The GetInteractingTouch method returns the Interact Touch script of the GameObject currently interacting with the control.
+
+---
+
+# Physics Controllables (VRTK/Source/Scripts/Interactions/Controllables/Physics)
+
+A collection of scripts that provide physics based controls that mimiic real life objects.
+
+ * [Base Physics Controllable](#base-physics-controllable-vrtk_basephysicscontrollable)
+ * [Physics Pusher](#physics-pusher-vrtk_physicspusher)
+ * [Physics Rotator](#physics-rotator-vrtk_physicsrotator)
+ * [Physics Slider](#physics-slider-vrtk_physicsslider)
+
+---
+
+## Base Physics Controllable (VRTK_BasePhysicsControllable)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+Provides a base that all physics based Controllables can inherit from.
+
+**Script Usage:**
+  > This is an abstract class that is to be inherited to a concrete class that provides physics based controllable functionality, therefore this script should not be directly used.
+
+### Inspector Parameters
+
+ * **Connected To:** The Rigidbody that the Controllable is connected to.
+
+### Class Methods
+
+#### GetControlRigidbody/0
+
+  > `public virtual Rigidbody GetControlRigidbody()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `Rigidbody` - The Rigidbody associated with the control.
+
+The GetControlRigidbody method returns the rigidbody associated with the control.
+
+#### GetControlActivatorContainer/0
+
+  > `public virtual GameObject GetControlActivatorContainer()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject that contains the Controller Rigidbody Activator associated with the control.
+
+The GetControlActivatorContainer method returns the GameObject that contains the Controller Rigidbody Activator associated with the control.
+
+---
+
+## Physics Pusher (VRTK_PhysicsPusher)
+ > extends [VRTK_BasePhysicsControllable](#base-physics-controllable-vrtk_basephysicscontrollable)
+
+### Overview
+
+A physics based pushable pusher.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+ * `Rigidbody` - A Unity Rigidbody to allow the GameObject to be affected by the Unity Physics System. Will be automatically added at runtime.
+
+**Optional Components:**
+ * `VRTK_ControllerRigidbodyActivator` - A Controller Rigidbody Activator to automatically enable the controller rigidbody upon touching the pusher.
+
+**Script Usage:**
+ * Create a pusher container GameObject and set the GameObject that is to become the pusher as a child of the newly created container GameObject.
+ * Place the `VRTK_PhysicsPusher` script onto the GameObject that is to become the pusher.
+
+  > The Physics Pusher script must not be on a root level GameObject. Any runtime world positioning of the pusher must be set on the parent container GameObject.
+
+### Inspector Parameters
+
+ * **Pressed Distance:** The local space distance along the `Operate Axis` until the pusher reaches the pressed position.
+ * **Stay Pressed:** If this is checked then the pusher will stay in the pressed position when it reaches the maximum position.
+ * **Min Max Limit Threshold:** The threshold in which the pusher's current normalized position along the `Operate Axis` has to be within the minimum and maximum limits of the pusher.
+ * **Resting Position:** The normalized position of the pusher between the original position and the pressed position that will be considered as the resting position for the pusher.
+ * **Resting Position Threshold:** The normalized value that the pusher can be from the `Resting Position` before the pusher is considered to be resting when not being interacted with.
+ * **Position Target:** The normalized position of the pusher between the original position and the pressed position. `0f` will set the pusher position to the original position, `1f` will set the pusher position to the pressed position.
+ * **Target Force:** The amount of force to apply to push the pusher towards the intended target position.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual position of the pusher.
+
+The GetValue method returns the current position value of the pusher.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized position of the pusher.
+
+The GetNormalizedValue method returns the current position value of the pusher normalized between `0f` and `1f`.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the pusher is currently at the resting position.
+
+The IsResting method returns whether the pusher is currently at it's resting position.
+
+#### GetControlJoint/0
+
+  > `public virtual ConfigurableJoint GetControlJoint()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `ConfigurableJoint` - The joint associated with the control.
+
+The GetControlJoint method returns the joint associated with the control.
+
+---
+
+## Physics Rotator (VRTK_PhysicsRotator)
+ > extends [VRTK_BasePhysicsControllable](#base-physics-controllable-vrtk_basephysicscontrollable)
+
+### Overview
+
+A physics based rotatable object.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+ * `Rigidbody` - A Unity Rigidbody to allow the GameObject to be affected by the Unity Physics System. Will be automatically added at runtime.
+
+**Optional Components:**
+ * `VRTK_ControllerRigidbodyActivator` - A Controller Rigidbody Activator to automatically enable the controller rigidbody when near the rotator.
+
+**Script Usage:**
+ * Create a rotator container GameObject and set the GameObject that is to become the rotator as a child of the newly created container GameObject.
+ * Place the `VRTK_PhysicsRotator` script onto the GameObject that is to become the rotatable object and ensure the Transform rotation is `0, 0, 0`.
+ * Create a nested GameObject under the rotator GameObject and position it where the hinge should operate.
+ * Apply the nested hinge GameObject to the `Hinge Point` parameter on the Physics Rotator script.
+
+  > The rotator GameObject must not be at the root level and needs to have the Transform rotation set to `0,0,0`. This is the reason for the container GameObject requirement. Any positioning of the rotator must be set on the parent container GameObject.
+
+### Inspector Parameters
+
+ * **Hinge Point:** A Transform that denotes the position where the rotator hinge will be created.
+ * **Angle Limits:** The minimum and maximum angle the rotator can rotate to.
+ * **Min Max Threshold Angle:** The angle at which the rotator rotation can be within the minimum or maximum angle before the minimum or maximum angles are considered reached.
+ * **Resting Angle:** The angle at which will be considered as the resting position of the rotator.
+ * **Force Resting Angle Threshold:** The threshold angle from the `Resting Angle` that the current angle of the rotator needs to be within to snap the rotator back to the `Resting Angle`.
+ * **Angle Target:** The target angle to rotate the rotator to.
+ * **Is Locked:** If this is checked then the rotator Rigidbody will have all rotations frozen.
+ * **Step Value Range:** The minimum and the maximum step values for the rotator to register along the `Operate Axis`.
+ * **Step Size:** The increments the rotator value will change in between the `Step Value Range`.
+ * **Use Step As Value:** If this is checked then the value for the rotator will be the step value and not the absolute rotation of the rotator Transform.
+ * **Snap To Step:** If this is checked then the rotator will snap to the angle of the nearest step along the value range.
+ * **Snap Force:** The speed in which the rotator will snap to the relevant angle along the `Operate Axis`
+ * **Grab Mechanic:** The type of Interactable Object grab mechanic to use when operating the rotator.
+ * **Precision Grab:** If this is checked then when the Interact Grab grabs the Interactable Object, it will grab it with precision and pick it up at the particular point on the Interactable Object that the Interact Touch is touching.
+ * **Detach Distance:** The maximum distance the grabbing object is away from the rotator before it is automatically released.
+ * **Use Friction Overrides:** If this is checked then the `Grabbed Friction` value will be used as the Rigidbody drag value when the rotator is grabbed and the `Released Friction` value will be used as the Rigidbody drag value when the door is released.
+ * **Grabbed Friction:** The Rigidbody drag value when the rotator is grabbed.
+ * **Released Friction:** The Rigidbody drag value when the rotator is released.
+ * **Only Interact With:** A collection of GameObjects that will be used as the valid collisions to determine if the rotator can be interacted with.
+
+### Class Variables
+
+ * `public enum GrabMechanic` - Type of Grab Mechanic
+   * `TrackObject` - The Track Object Grab Mechanic
+   * `RotatorTrack` - The Rotator Track Grab Mechanic
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual rotation of the rotator.
+
+The GetValue method returns the current rotation value of the rotator.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized rotation of the rotator.
+
+The GetNormalizedValue method returns the current rotation value of the rotator normalized between `0f` and `1f`.
+
+#### GetStepValue/1
+
+  > `public virtual float GetStepValue(float currentValue)`
+
+ * Parameters
+   * `float currentValue` - The current angle value of the rotator to get the Step Value for.
+ * Returns
+   * `float` - The current Step Value based on the rotator angle.
+
+The GetStepValue method returns the current angle of the rotator based on the step value range.
+
+#### SetAngleTargetWithStepValue/1
+
+  > `public virtual void SetAngleTargetWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Angle Target` parameter to.
+ * Returns
+   * _none_
+
+The SetAngleTargetWithStepValue sets the `Angle Target` parameter but uses a value within the `Step Value Range`.
+
+#### SetRestingAngleWithStepValue/1
+
+  > `public virtual void SetRestingAngleWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Resting Angle` parameter to.
+ * Returns
+   * _none_
+
+The SetRestingAngleWithStepValue sets the `Resting Angle` parameter but uses a value within the `Step Value Range`.
+
+#### GetAngleFromStepValue/1
+
+  > `public virtual float GetAngleFromStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value to check the angle for.
+ * Returns
+   * `float` - The angle the rotator would be at based on the given step value.
+
+The GetAngleFromStepValue returns the angle the rotator would be at based on the given step value.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the rotator is at the resting angle or within the resting angle threshold.
+
+The IsResting method returns whether the rotator is at the resting angle or within the resting angle threshold.
+
+#### GetControlJoint/0
+
+  > `public virtual HingeJoint GetControlJoint()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `HingeJoint` - The joint associated with the control.
+
+The GetControlJoint method returns the joint associated with the control.
+
+#### GetControlInteractableObject/0
+
+  > `public virtual VRTK_InteractableObject GetControlInteractableObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_InteractableObject` - The Interactable Object associated with the control.
+
+The GetControlInteractableObject method returns the Interactable Object associated with the control.
+
+---
+
+## Physics Slider (VRTK_PhysicsSlider)
+ > extends [VRTK_BasePhysicsControllable](#base-physics-controllable-vrtk_basephysicscontrollable)
+
+### Overview
+
+A physics based slider.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+ * `Rigidbody` - A Unity Rigidbody to allow the GameObject to be affected by the Unity Physics System. Will be automatically added at runtime.
+
+**Optional Components:**
+ * `VRTK_ControllerRigidbodyActivator` - A Controller Rigidbody Activator to automatically enable the controller rigidbody when near the slider.
+
+**Script Usage:**
+ * Create a slider container GameObject and set the GameObject that is to become the slider as a child of the container.
+ * Place the `VRTK_PhysicsSlider` script onto the GameObject that is to become the slider.
+
+  > The slider GameObject must not be at the root level and needs to have it's Transform position set to `0,0,0`. This is the reason for the container GameObject requirement. Any positioning of the slider must be set on the parent GameObject.
+
+### Inspector Parameters
+
+ * **Maximum Length:** The maximum length that the slider can be moved from the origin position across the `Operate Axis`. A negative value will allow it to move the opposite way.
+ * **Min Max Threshold:** The normalized position the slider can be within the minimum or maximum slider positions before the minimum or maximum positions are considered reached.
+ * **Position Target:** The target position to move the slider towards given in a normalized value of `0f` (start point) to `1f` (end point).
+ * **Resting Position:** The position the slider when it is at the default resting point given in a normalized value of `0f` (start point) to `1f` (end point).
+ * **Force Resting Position Threshold:** The normalized threshold value the slider has to be within the `Resting Position` before the slider is forced back to the `Resting Position` if it is not grabbed.
+ * **Step Value Range:** The minimum and the maximum step values for the slider to register along the `Operate Axis`.
+ * **Step Size:** The increments the slider value will change in between the `Step Value Range`.
+ * **Use Step As Value:** If this is checked then the value for the slider will be the step value and not the absolute position of the slider Transform.
+ * **Snap To Step:** If this is checked then the slider will snap to the position of the nearest step along the value range.
+ * **Snap Force:** The speed in which the slider will snap to the relevant point along the `Operate Axis`
+ * **Precision Grab:** If this is checked then when the Interact Grab grabs the Interactable Object, it will grab it with precision and pick it up at the particular point on the Interactable Object that the Interact Touch is touching.
+ * **Detach Distance:** The maximum distance the grabbing object is away from the slider before it is automatically released.
+ * **Release Friction:** The amount of friction to the slider Rigidbody when it is released.
+ * **Only Interact With:** A collection of GameObjects that will be used as the valid collisions to determine if the door can be interacted with.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual position of the button.
+
+The GetValue method returns the current position value of the slider.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized position of the button.
+
+The GetNormalizedValue method returns the current position value of the slider normalized between `0f` and `1f`.
+
+#### GetStepValue/1
+
+  > `public virtual float GetStepValue(float currentValue)`
+
+ * Parameters
+   * `float currentValue` - The current position value of the slider to get the Step Value for.
+ * Returns
+   * `float` - The current Step Value based on the slider position.
+
+The GetStepValue method returns the current position of the slider based on the step value range.
+
+#### SetPositionTargetWithStepValue/1
+
+  > `public virtual void SetPositionTargetWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Position Target` parameter to.
+ * Returns
+   * _none_
+
+The SetTargetPositionWithStepValue sets the `Position Target` parameter but uses a value within the `Step Value Range`.
+
+#### SetRestingPositionWithStepValue/1
+
+  > `public virtual void SetRestingPositionWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Resting Position` parameter to.
+ * Returns
+   * _none_
+
+The SetRestingPositionWithStepValue sets the `Resting Position` parameter but uses a value within the `Step Value Range`.
+
+#### GetPositionFromStepValue/1
+
+  > `public virtual float GetPositionFromStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value to check the position for.
+ * Returns
+   * `float` - The position the slider would be at based on the given step value.
+
+The GetPositionFromStepValue returns the position the slider would be at based on the given step value.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the slider is at the resting position or within the resting position threshold.
+
+The IsResting method returns whether the slider is currently in a resting state at the resting position or within the resting position threshold and not grabbed.
+
+#### GetControlJoint/0
+
+  > `public virtual ConfigurableJoint GetControlJoint()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `ConfigurableJoint` - The joint associated with the control.
+
+The GetControlJoint method returns the joint associated with the control.
+
+#### GetControlInteractableObject/0
+
+  > `public virtual VRTK_InteractableObject GetControlInteractableObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_InteractableObject` - The Interactable Object associated with the control.
+
+The GetControlInteractableObject method returns the Interactable Object associated with the control.
+
+---
+
+# Artificial Controllables (VRTK/Source/Scripts/Interactions/Controllables/Artificial)
+
+A collection of scripts that provide artificial simulated controls that mimiic real life objects.
+
+ * [Artificial Pusher](#artificial-pusher-vrtk_artificialpusher)
+ * [Artificial Rotator](#artificial-rotator-vrtk_artificialrotator)
+ * [Artificial Slider](#artificial-slider-vrtk_artificialslider)
+
+---
+
+## Artificial Pusher (VRTK_ArtificialPusher)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+An artificially simulated pushable pusher.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+
+**Script Usage:**
+ * Place the `VRTK_ArtificialPusher` script onto the GameObject that is to become the pusher.
+
+### Inspector Parameters
+
+ * **Pressed Distance:** The distance along the `Operate Axis` until the pusher reaches the pressed position.
+ * **Min Max Limit Threshold:** The threshold in which the pusher's current normalized position along the `Operate Axis` has to be within the minimum and maximum limits of the pusher.
+ * **Resting Position:** The normalized position of the pusher between the original position and the pressed position that will be considered as the resting position for the pusher.
+ * **Resting Position Threshold:** The normalized value that the pusher can be from the `Resting Position` before the pusher is considered to be resting when not being interacted with.
+ * **Press Speed:** The speed in which the pusher moves towards to the `Pressed Distance` position.
+ * **Return Speed:** The speed in which the pusher will return to the `Target Position` of the pusher.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual position of the pusher.
+
+The GetValue method returns the current position value of the pusher.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized position of the pusher.
+
+The GetNormalizedValue method returns the current position value of the pusher normalized between `0f` and `1f`.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the pusher is currently at the resting position.
+
+The IsResting method returns whether the pusher is currently at it's resting position.
+
+#### SetStayPressed/1
+
+  > `public virtual void SetStayPressed(bool state)`
+
+ * Parameters
+   * `bool state` - The state to set the `Stay Pressed` parameter to.
+ * Returns
+   * _none_
+
+The SetStayPressed method sets the `Stay Pressed` parameter to the given state and if the state is false and the pusher is currently pressed then it is reset to the original position.
+
+#### SetPositionTarget/1
+
+  > `public virtual void SetPositionTarget(float normalizedTarget)`
+
+ * Parameters
+   * `float normalizedTarget` - The `Position Target` to set the pusher to between `0f` and `1f`.
+ * Returns
+   * _none_
+
+The SetPositionTarget method sets the `Position Target` parameter to the given normalized value.
+
+---
+
+## Artificial Rotator (VRTK_ArtificialRotator)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+A artificially simulated openable rotator.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+
+**Script Usage:**
+ * Create a rotator container GameObject and set the GameObject that is to become the rotator as a child of the newly created container GameObject.
+ * Place the `VRTK_ArtificialRotator` script onto the GameObject that is to become the rotatable object and ensure the Transform rotation is `0, 0, 0`.
+ * Create a nested GameObject under the rotator GameObject and position it where the hinge should operate.
+ * Apply the nested hinge GameObject to the `Hinge Point` parameter on the Artificial Rotator script.
+
+  > The rotator GameObject must not be at the root level and needs to have the Transform rotation set to `0,0,0`. This is the reason for the container GameObject requirement. Any positioning of the rotator must be set on the parent container GameObject.
+  > The Artificial Rotator script GameObject will become the child of a runtime created GameObject that determines the rotational offset for the rotator.
+
+### Inspector Parameters
+
+ * **Hinge Point:** A Transform that denotes the position where the rotator will rotate around.
+ * **Angle Limits:** The minimum and maximum angle the rotator can rotate to.
+ * **Min Max Threshold Angle:** The angle at which the rotator rotation can be within the minimum or maximum angle before the minimum or maximum angles are considered reached.
+ * **Resting Angle:** The angle at which will be considered as the resting position of the rotator.
+ * **Force Resting Angle Threshold:** The threshold angle from the `Resting Angle` that the current angle of the rotator needs to be within to snap the rotator back to the `Resting Angle`.
+ * **Is Locked:** If this is checked then the rotator Rigidbody will have all rotations frozen.
+ * **Step Value Range:** The minimum and the maximum step values for the rotator to register along the `Operate Axis`.
+ * **Step Size:** The increments the rotator value will change in between the `Step Value Range`.
+ * **Use Step As Value:** If this is checked then the value for the rotator will be the step value and not the absolute rotation of the rotator Transform.
+ * **Snap To Step:** If this is checked then the rotator will snap to the angle of the nearest step along the value range.
+ * **Snap Force:** The speed in which the rotator will snap to the relevant angle along the `Operate Axis`
+ * **Precision Grab:** If this is checked then when the Interact Grab grabs the Interactable Object, it will grab it with precision and pick it up at the particular point on the Interactable Object that the Interact Touch is touching.
+ * **Detach Distance:** The maximum distance the grabbing object is away from the rotator before it is automatically released.
+ * **Rotation Action:** Determines how the rotation of the object is calculated based on the action of the grabbing object.
+ * **Grabbed Friction:** The simulated friction when the rotator is grabbed.
+ * **Released Friction:** The simulated friction when the rotator is released.
+ * **Only Interact With:** A collection of GameObjects that will be used as the valid collisions to determine if the rotator can be interacted with.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual rotation of the rotator.
+
+The GetValue method returns the current rotation value of the rotator.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized rotation of the rotator.
+
+The GetNormalizedValue method returns the current rotation value of the rotator normalized between `0f` and `1f`.
+
+#### GetContainer/0
+
+  > `public virtual GameObject GetContainer()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `GameObject` - The GameObject container of the rotator control.
+
+The GetContainer method returns the GameObject that is generated to hold the rotator control.
+
+#### GetStepValue/1
+
+  > `public virtual float GetStepValue(float currentValue)`
+
+ * Parameters
+   * `float currentValue` - The current angle value of the rotator to get the Step Value for.
+ * Returns
+   * `float` - The current Step Value based on the rotator angle.
+
+The GetStepValue method returns the current angle of the rotator based on the step value range.
+
+#### SetAngleTargetWithStepValue/1
+
+  > `public virtual void SetAngleTargetWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Angle Target` parameter to.
+ * Returns
+   * _none_
+
+The SetAngleTargetWithStepValue sets the `Angle Target` parameter but uses a value within the `Step Value Range`.
+
+#### SetRestingAngleWithStepValue/1
+
+  > `public virtual void SetRestingAngleWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Resting Angle` parameter to.
+ * Returns
+   * _none_
+
+The SetRestingAngleWithStepValue sets the `Resting Angle` parameter but uses a value within the `Step Value Range`.
+
+#### GetAngleFromStepValue/1
+
+  > `public virtual float GetAngleFromStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value to check the angle for.
+ * Returns
+   * `float` - The angle the rotator would be at based on the given step value.
+
+The GetAngleFromStepValue returns the angle the rotator would be at based on the given step value.
+
+#### SetAngleTarget/1
+
+  > `public virtual void SetAngleTarget(float newAngle)`
+
+ * Parameters
+   * `float newAngle` - The angle in which to rotate the rotator to.
+ * Returns
+   * _none_
+
+The SetAngleTarget method sets a target angle to rotate the rotator to.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the rotator is at the resting angle or within the resting angle threshold.
+
+The IsResting method returns whether the rotator is at the resting angle or within the resting angle threshold.
+
+#### GetControlInteractableObject/0
+
+  > `public virtual VRTK_InteractableObject GetControlInteractableObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_InteractableObject` - The Interactable Object associated with the control.
+
+The GetControlInteractableObject method returns the Interactable Object associated with the control.
+
+---
+
+## Artificial Slider (VRTK_ArtificialSlider)
+ > extends [VRTK_BaseControllable](#base-controllable-vrtk_basecontrollable)
+
+### Overview
+
+A artificially simulated slider.
+
+**Required Components:**
+ * `Collider` - A Unity Collider to determine when an interaction has occured. Can be a compound collider set in child GameObjects. Will be automatically added at runtime.
+
+**Script Usage:**
+ * Create a slider container GameObject and set the GameObject that is to become the slider as a child of the container.
+ * Place the `VRTK_ArtificialSlider` script onto the GameObject that is to become the slider.
+
+  > The slider GameObject must not be at the root level and needs to have it's Transform position set to `0,0,0`. This is the reason for the container GameObject requirement. Any positioning of the slider must be set on the parent GameObject.
+
+### Inspector Parameters
+
+ * **Maximum Length:** The maximum length that the slider can be moved from the origin position across the `Operate Axis`. A negative value will allow it to move the opposite way.
+ * **Min Max Threshold:** The normalized position the slider can be within the minimum or maximum slider positions before the minimum or maximum positions are considered reached.
+ * **Resting Position:** The position the slider when it is at the default resting point given in a normalized value of `0f` (start point) to `1f` (end point).
+ * **Force Resting Position Threshold:** The normalized threshold value the slider has to be within the `Resting Position` before the slider is forced back to the `Resting Position` if it is not grabbed.
+ * **Step Value Range:** The minimum and the maximum step values for the slider to register along the `Operate Axis`.
+ * **Step Size:** The increments the slider value will change in between the `Step Value Range`.
+ * **Use Step As Value:** If this is checked then the value for the slider will be the step value and not the absolute position of the slider Transform.
+ * **Snap To Step:** If this is checked then the slider will snap to the position of the nearest step along the value range.
+ * **Snap Force:** The speed in which the slider will snap to the relevant point along the `Operate Axis`
+ * **Tracking Speed:** The speed in which to track the grabbed slider to the interacting object.
+ * **Precision Grab:** If this is checked then when the Interact Grab grabs the Interactable Object, it will grab it with precision and pick it up at the particular point on the Interactable Object that the Interact Touch is touching.
+ * **Detach Distance:** The maximum distance the grabbing object is away from the slider before it is automatically released.
+ * **Release Friction:** The amount of friction to the slider Rigidbody when it is released.
+ * **Only Interact With:** A collection of GameObjects that will be used as the valid collisions to determine if the door can be interacted with.
+
+### Class Methods
+
+#### GetValue/0
+
+  > `public override float GetValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The actual position of the button.
+
+The GetValue method returns the current position value of the slider.
+
+#### GetNormalizedValue/0
+
+  > `public override float GetNormalizedValue()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `float` - The normalized position of the button.
+
+The GetNormalizedValue method returns the current position value of the slider normalized between `0f` and `1f`.
+
+#### GetStepValue/1
+
+  > `public virtual float GetStepValue(float currentValue)`
+
+ * Parameters
+   * `float currentValue` - The current position value of the slider to get the Step Value for.
+ * Returns
+   * `float` - The current Step Value based on the slider position.
+
+The GetStepValue method returns the current position of the slider based on the step value range.
+
+#### SetPositionTarget/2
+
+  > `public virtual void SetPositionTarget(float newPositionTarget, float speed)`
+
+ * Parameters
+   * `float newPositionTarget` - The new position target value.
+   * `float speed` - The speed to move to the new position target.
+ * Returns
+   * _none_
+
+The SetPositionTarget method allows the setting of the `Position Target` parameter at runtime.
+
+#### SetPositionTargetWithStepValue/2
+
+  > `public virtual void SetPositionTargetWithStepValue(float givenStepValue, float speed)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Position Target` parameter to.
+   * `float speed` - The speed to move to the new position target.
+ * Returns
+   * _none_
+
+The SetPositionTargetWithStepValue sets the `Position Target` parameter but uses a value within the `Step Value Range`.
+
+#### SetRestingPositionWithStepValue/1
+
+  > `public virtual void SetRestingPositionWithStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value within the `Step Value Range` to set the `Resting Position` parameter to.
+ * Returns
+   * _none_
+
+The SetRestingPositionWithStepValue sets the `Resting Position` parameter but uses a value within the `Step Value Range`.
+
+#### GetPositionFromStepValue/1
+
+  > `public virtual float GetPositionFromStepValue(float givenStepValue)`
+
+ * Parameters
+   * `float givenStepValue` - The step value to check the position for.
+ * Returns
+   * `float` - The position the slider would be at based on the given step value.
+
+The GetPositionFromStepValue returns the position the slider would be at based on the given step value.
+
+#### IsResting/0
+
+  > `public override bool IsResting()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `bool` - Returns `true` if the slider is at the resting position or within the resting position threshold.
+
+The IsResting method returns whether the slider is at the resting position or within the resting position threshold.
+
+#### GetControlInteractableObject/0
+
+  > `public virtual VRTK_InteractableObject GetControlInteractableObject()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_InteractableObject` - The Interactable Object associated with the control.
+
+The GetControlInteractableObject method returns the Interactable Object associated with the control.
 
 ---
 
@@ -6034,6 +7491,7 @@ Initiates a fade of the headset view when a headset collision event is detected.
  * **Time Till Fade:** The amount of time to wait until a fade occurs.
  * **Blink Transition Speed:** The fade blink speed on collision.
  * **Fade Color:** The colour to fade the headset to on collision.
+ * **Target List Policy:** A specified VRTK_PolicyList to use to determine whether any objects will be acted upon by the Headset Collision Fade.
  * **Headset Collision:** The VRTK Headset Collision script to use when determining headset collisions. If this is left blank then the script will need to be applied to the same GameObject.
  * **Headset Fade:** The VRTK Headset Fade script to use when fading the headset. If this is left blank then the script will need to be applied to the same GameObject.
 
@@ -6566,8 +8024,10 @@ Provides the ability to interact with UICanvas elements and the contained Unity 
  * **Click Method:** Determines when the UI Click event action should happen.
  * **Attempt Click On Deactivate:** Determines whether the UI click action should be triggered when the pointer is deactivated. If the pointer is hovering over a clickable element then it will invoke the click action on that element. Note: Only works with `Click Method =  Click_On_Button_Up`
  * **Click After Hover Duration:** The amount of time the pointer can be over the same UI element before it automatically attempts to click it. 0f means no click attempt will be made.
- * **Controller:** The controller that will be used to toggle the pointer. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
- * **Pointer Origin Transform:** A custom transform to use as the origin of the pointer. If no pointer origin transform is provided then the transform the script is attached to is used.
+ * **Maximum Length:** The maximum length the UI Raycast will reach.
+ * **Attached To:** An optional GameObject that determines what the pointer is to be attached to. If this is left blank then the GameObject the script is on will be used.
+ * **Controller Events:** The Controller Events that will be used to toggle the pointer. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
+ * **Custom Origin:** A custom transform to use as the origin of the pointer. If no pointer origin transform is provided then the transform the script is attached to is used.
 
 ### Class Variables
 
@@ -6608,6 +8068,17 @@ Adding the `VRTK_UIPointer_UnityEvents` component to `VRTK_UIPointer` object all
  * `RaycastResult raycastResult` - The raw raycast result of the UI ray collision.
 
 ### Class Methods
+
+#### GetPointerLength/1
+
+  > `public static float GetPointerLength(int pointerId)`
+
+ * Parameters
+   * `int pointerId` - The pointer ID for the UI Pointer to recieve the length for.
+ * Returns
+   * `float` - The maximum length the UI Pointer will cast to.
+
+The GetPointerLength method retrieves the maximum UI Pointer length for the given pointer ID.
 
 #### SetEventSystem/1
 
@@ -6765,415 +8236,11 @@ Specifies a Unity UI Element as being a valid drop zone location for a UI Dragga
 
 ---
 
-# 3D Controls (VRTK/Source/Scripts/Controls/3D)
-
-In order to interact with the world beyond grabbing and throwing, controls can be used to mimic real-life objects.
-
-A number of controls are available which partially support auto-configuration. So can a slider for example detect its min and max points or a button the distance until a push event should be triggered. In the editor gizmos will be drawn that show the current settings. A yellow gizmo signals a valid configuration. A red one shows that the position of the object should change or switch to manual configuration mode.
-
-All 3D controls extend the `VRTK_Control` abstract class which provides common methods and events.
-
- * [Control](#control-vrtk_control)
- * [Button](#button-vrtk_button)
- * [Chest](#chest-vrtk_chest)
- * [Door](#door-vrtk_door)
- * [Drawer](#drawer-vrtk_drawer)
- * [Knob](#knob-vrtk_knob)
- * [Wheel](#wheel-vrtk_wheel)
- * [Lever](#lever-vrtk_lever)
- * [Spring Lever](#spring-lever-vrtk_springlever)
- * [Slider](#slider-vrtk_slider)
- * [Content Handler](#content-handler-vrtk_contenthandler)
-
----
-
-## Control (VRTK_Control)
-
-### Overview
-
-All 3D controls extend the `VRTK_Control` abstract class which provides a default set of methods and events that all of the subsequent controls expose.
-
-### Inspector Parameters
-
- * **Interact Without Grab:** If active the control will react to the controller without the need to push the grab button.
-
-### Class Variables
-
- * `public enum Direction` - 3D Control Directions
-   * `autodetect` - Attempt to auto detect the axis.
-   * `x` - The world x direction.
-   * `y` - The world y direction.
-   * `z` - The world z direction.
-
-### Class Events
-
- * `ValueChanged` - Emitted when the 3D Control value has changed.
-
-### Unity Events
-
-Adding the `VRTK_Control_UnityEvents` component to `VRTK_Control` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `float value` - The current value being reported by the control.
- * `float normalizedValue` - The normalized value being reported by the control.
-
-### Class Methods
-
-#### GetValue/0
-
-  > `public virtual float GetValue()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - The current value of the control.
-
-The GetValue method returns the current value/position/setting of the control depending on the control that is extending this abstract class.
-
-#### GetNormalizedValue/0
-
-  > `public virtual float GetNormalizedValue()`
-
- * Parameters
-   * _none_
- * Returns
-   * `float` - The current normalized value of the control.
-
-The GetNormalizedValue method returns the current value mapped onto a range between 0 and 100.
-
-#### SetContent/2
-
-  > `public virtual void SetContent(GameObject content, bool hideContent)`
-
- * Parameters
-   * `GameObject content` - The content to be considered within the control.
-   * `bool hideContent` - When true the content will be hidden in addition to being non-interactable in case the control is fully closed.
- * Returns
-   * _none_
-
-The SetContent method sets the given game object as the content of the control. This will then disable and optionally hide the content when a control is obscuring its view to prevent interacting with content within a control.
-
-#### GetContent/0
-
-  > `public virtual GameObject GetContent()`
-
- * Parameters
-   * _none_
- * Returns
-   * `GameObject` - The currently stored content for the control.
-
-The GetContent method returns the current game object of the control's content.
-
----
-
-## Button (VRTK_Button)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Attaching the script to a game object will allow the user to interact with it as if it were a push button. The direction into which the button should be pushable can be freely set and auto-detection is supported. Since this is physics-based there needs to be empty space in the push direction so that the button can move.
-
-The script will instantiate the required Rigidbody and ConstantForce components automatically in case they do not exist yet.
-
-### Inspector Parameters
-
- * **Connected To:** An optional game object to which the button will be connected. If the game object moves the button will follow along.
- * **Direction:** The axis on which the button should move. All other axis will be frozen.
- * **Activation Distance:** The local distance the button needs to be pushed until a push event is triggered.
- * **Button Strength:** The amount of force needed to push the button down as well as the speed with which it will go back into its original position.
-
-### Class Variables
-
- * `public enum ButtonDirection` - 3D Control Button Directions
-   * `autodetect` - Attempt to auto detect the axis.
-   * `x` - The world x direction.
-   * `y` - The world y direction.
-   * `z` - The world z direction.
-   * `negX` - The world negative x direction.
-   * `negY` - The world negative y direction.
-   * `negZ` - The world negative z direction.
-
-### Class Events
-
- * `Pushed` - Emitted when the 3D Button has reached its activation distance.
- * `Released` - Emitted when the 3D Button's position has become less than activation distance after being pressed.
-
-### Unity Events
-
-Adding the `VRTK_Button_UnityEvents` component to `VRTK_Button` object allows access to `UnityEvents` that will react identically to the Class Events.
-
- * All C# delegate events are mapped to a Unity Event with the `On` prefix. e.g. `MyEvent` -> `OnMyEvent`.
-
-### Event Payload
-
- * `float value` - The current value being reported by the control.
- * `float normalizedValue` - The normalized value being reported by the control.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` shows a collection of pressable buttons that are interacted with by activating the rigidbody on the controller by pressing the grab button without grabbing an object.
-
----
-
-## Chest (VRTK_Chest)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Transforms a game object into a chest with a lid. The direction can be auto-detected with very high reliability or set manually.
-
-The script will instantiate the required Rigidbody, Interactable and HingeJoint components automatically in case they do not exist yet. It will expect three distinct game objects: a body, a lid and a handle. These should be independent and not children of each other.
-
-### Inspector Parameters
-
- * **Direction:** The axis on which the chest should open. All other axis will be frozen.
- * **Lid:** The game object for the lid.
- * **Body:** The game object for the body.
- * **Handle:** The game object for the handle.
- * **Content:** The parent game object for the chest content elements.
- * **Hide Content:** Makes the content invisible while the chest is closed.
- * **Max Angle:** The maximum opening angle of the chest.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` shows a chest that can be open and closed, it also displays the current opening angle of the chest.
-
----
-
-## Door (VRTK_Door)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Transforms a game object into a door with an optional handle attached to an optional frame. The direction can be freely set and also very reliably auto-detected.
-
-There are situations when it can be very hard to automatically calculate the correct axis and anchor values for the hinge joint. If this situation is encountered then simply add the hinge joint manually and set these two values. All the rest will still be handled by the script.
-
-The script will instantiate the required Rigidbodies, Interactable and HingeJoint components automatically in case they do not exist yet. Gizmos will indicate the direction.
-
-### Inspector Parameters
-
- * **Direction:** The axis on which the door should open.
- * **Door:** The game object for the door. Can also be an empty parent or left empty if the script is put onto the actual door mesh. If no colliders exist yet a collider will tried to be automatically attached to all children that expose renderers.
- * **Handles:** The game object for the handles. Can also be an empty parent or left empty. If empty the door can only be moved using the rigidbody mode of the controller. If no collider exists yet a compound collider made up of all children will try to be calculated but this will fail if the door is rotated. In that case a manual collider will need to be assigned.
- * **Frame:** The game object for the frame to which the door is attached. Should only be set if the frame will move as well to ensure that the door moves along with the frame.
- * **Content:** The parent game object for the door content elements.
- * **Hide Content:** Makes the content invisible while the door is closed.
- * **Max Angle:** The maximum opening angle of the door.
- * **Open Inward:** Can the door be pulled to open.
- * **Open Outward:** Can the door be pushed to open.
- * **Min Snap Close:** The range at which the door must be to being closed before it snaps shut. Only works if either inward or outward is selected, not both.
- * **Released Friction:** The amount of friction the door will have whilst swinging when it is not grabbed.
- * **Grabbed Friction:** The amount of friction the door will have whilst swinging when it is grabbed.
- * **Handle Interactable Only:** If this is checked then only the door handle is grabbale to operate the door.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` shows a selection of door types, from a normal door and trapdoor, to a door with a cat-flap in the middle.
-
----
-
-## Drawer (VRTK_Drawer)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Transforms a game object into a drawer. The direction can be freely set and also auto-detected with very high reliability.
-
-The script will instantiate the required Rigidbody, Interactable and Joint components automatically in case they do not exist yet. There are situations when it can be very hard to automatically calculate the correct axis for the joint. If this situation is encountered simply add the configurable joint manually and set the axis. All the rest will still be handled by the script.
-
-It will expect two distinct game objects: a body and a handle. These should be independent and not children of each other. The distance to which the drawer can be pulled out will automatically set depending on the length of it. If no body is specified the current object is assumed to be the body.
-
-It is possible to supply a third game object which is the root of the contents inside the drawer. When this is specified the VRTK_InteractableObject components will be automatically deactivated in case the drawer is closed or not yet far enough open. This eliminates the issue that a user could grab an object inside a drawer although it is closed.
-
-### Inspector Parameters
-
- * **Connected To:** An optional game object to which the drawer will be connected. If the game object moves the drawer will follow along.
- * **Direction:** The axis on which the drawer should open. All other axis will be frozen.
- * **Body:** The game object for the body.
- * **Handle:** The game object for the handle.
- * **Content:** The parent game object for the drawer content elements.
- * **Hide Content:** Makes the content invisible while the drawer is closed.
- * **Min Snap Close:** If the extension of the drawer is below this percentage then the drawer will snap shut.
- * **Max Extend:** The maximum percentage of the drawer's total length that the drawer will open to.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` shows a drawer with contents that can be opened and closed freely and the contents can be removed from the drawer.
-
----
-
-## Knob (VRTK_Knob)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Attaching the script to a game object will allow the user to interact with it as if it were a radial knob. The direction can be freely set.
-
-The script will instantiate the required Rigidbody and Interactable components automatically in case they do not exist yet.
-
-### Inspector Parameters
-
- * **Connected To:** An optional game object to which the knob will be connected. If the game object moves the knob will follow along.
- * **Direction:** The axis on which the knob should rotate. All other axis will be frozen.
- * **Min:** The minimum value of the knob.
- * **Max:** The maximum value of the knob.
- * **Step Size:** The increments in which knob values can change.
-
-### Class Variables
-
- * `public enum KnobDirection` - The direction of the knob.
-   * `x` - The world x direction.
-   * `y` - The world y direction.
-   * `z` - The world z direction.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` has a couple of rotator knobs that can be rotated by grabbing with the controller and then rotating the controller in the desired direction.
-
----
-
-## Wheel (VRTK_Wheel)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Attaching the script to a game object will allow the user to interact with it as if it were a spinnable wheel.
-
-The script will instantiate the required Rigidbody and Interactable components automatically in case they do not exist yet.
-
-### Inspector Parameters
-
- * **Connected To:** An optional game object to which the wheel will be connected. If the game object moves the wheel will follow along.
- * **Grab Type:** The grab attach mechanic to use. Track Object allows for rotations of the controller, Rotator Track allows for grabbing the wheel and spinning it.
- * **Detatch Distance:** The maximum distance the grabbing controller is away from the wheel before it is automatically released.
- * **Minimum Value:** The minimum value the wheel can be set to.
- * **Maximum Value:** The maximum value the wheel can be set to.
- * **Step Size:** The increments in which values can change.
- * **Snap To Step:** If this is checked then when the wheel is released, it will snap to the step rotation.
- * **Grabbed Friction:** The amount of friction the wheel will have when it is grabbed.
- * **Released Friction:** The amount of friction the wheel will have when it is released.
- * **Max Angle:** The maximum angle the wheel has to be turned to reach it's maximum value.
- * **Lock At Limits:** If this is checked then the wheel cannot be turned beyond the minimum and maximum value.
-
-### Class Variables
-
- * `public enum GrabTypes` - The grab attach mechanic to use.
-   * `TrackObject` - Utilise the track object grab mechanic.
-   * `RotatorTrack` - Utilise the rotator track grab mechanic.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` has a collection of wheels that can be rotated by grabbing with the controller and then rotating the controller in the desired direction.
-
----
-
-## Lever (VRTK_Lever)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Attaching the script to a game object will allow the user to interact with it as if it were a lever. The direction can be freely set.
-
-The script will instantiate the required Rigidbody, Interactable and HingeJoint components automatically in case they do not exist yet. The joint is very tricky to setup automatically though and will only work in straight forward cases. If there are any issues, then create the HingeJoint component manually and configure it as needed.
-
-### Inspector Parameters
-
- * **Connected To:** An optional game object to which the lever will be connected. If the game object moves the lever will follow along.
- * **Direction:** The axis on which the lever should rotate. All other axis will be frozen.
- * **Min Angle:** The minimum angle of the lever counted from its initial position.
- * **Max Angle:** The maximum angle of the lever counted from its initial position.
- * **Step Size:** The increments in which lever values can change.
- * **Released Friction:** The amount of friction the lever will have whilst swinging when it is not grabbed.
- * **Grabbed Friction:** The amount of friction the lever will have whilst swinging when it is grabbed.
-
-### Class Variables
-
- * `public enum LeverDirection` - The direction of the lever.
-   * `x` - The world x direction.
-   * `y` - The world y direction.
-   * `z` - The world z direction.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` has a couple of levers that can be grabbed and moved. One lever is horizontal and the other is vertical.
-
----
-
-## Spring Lever (VRTK_SpringLever)
- > extends [VRTK_Lever](#lever-vrtk_lever)
-
-### Overview
-
-This script extends VRTK_Lever to add spring force toward whichever end of the lever's range it is closest to.
-
-The script will instantiate the required Rigidbody, Interactable and HingeJoint components automatically in case they do not exist yet. The joint is very tricky to setup automatically though and will only work in straight forward cases. If there are any issues, then create the HingeJoint component manually and configure it as needed.
-
-### Inspector Parameters
-
- * **Spring Strength:** The strength of the spring force that will be applied upon the lever.
- * **Spring Damper:** The damper of the spring force that will be applied upon the lever.
- * **Snap To Nearest Limit:** If this is checked then the spring will snap the lever to the nearest end point (either min or max angle). If it is unchecked, the lever will always snap to the min angle position.
- * **Always Active:** If this is checked then the spring will always be active even when grabbing the lever.
-
----
-
-## Slider (VRTK_Slider)
- > extends [VRTK_Control](#control-vrtk_control)
-
-### Overview
-
-Attaching the script to a game object will allow the user to interact with it as if it were a horizontal or vertical slider. The direction can be freely set and auto-detection is supported.
-
-The script will instantiate the required Rigidbody and Interactable components automatically in case they do not exist yet.
-
-### Inspector Parameters
-
- * **Connected To:** An optional game object to which the wheel will be connected. If the game object moves the wheel will follow along.
- * **Direction:** The axis on which the slider should move. All other axis will be frozen.
- * **Minimum Limit:** The collider to specify the minimum limit of the slider.
- * **Maximum Limit:** The collider to specify the maximum limit of the slider.
- * **Minimum Value:** The minimum value of the slider.
- * **Maximum Value:** The maximum value of the slider.
- * **Step Size:** The increments in which slider values can change.
- * **Snap To Step:** If this is checked then when the slider is released, it will snap to the nearest value position.
- * **Released Friction:** The amount of friction the slider will have when it is released.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` has a selection of sliders at various angles with different step values to demonstrate their usage.
-
----
-
-## Content Handler (VRTK_ContentHandler)
-
-### Overview
-
-Manages objects defined as content. When taking out an object from a drawer and closing the drawer this object would otherwise disappear even if outside the drawer.
-
-The script will use the boundaries of the control to determine if it is in or out and re-parent the object as necessary. It can be put onto individual objects or the parent of multiple objects. Using the latter way all interactable objects under that parent will become managed by the script.
-
-### Inspector Parameters
-
- * **Control:** The 3D control responsible for the content.
- * **Inside:** The transform containing the meshes or colliders that define the inside of the control.
- * **Outside:** Any transform that will act as the parent while the object is not inside the control.
-
-### Example
-
-`VRTK/Examples/025_Controls_Overview` has a drawer with a collection of items that adhere to this concept.
-
----
-
 # Utilities (VRTK/Source/Scripts/Utilities)
 
 A collection of scripts that provide useful functionality to aid the creation process.
 
  * [SDK Manager](#sdk-manager-scriptingdefinesymbolpredicateinfo)
- * [SDK Setup Switcher](#sdk-setup-switcher-vrtk_sdksetupswitcher)
  * [SDK Setup](#sdk-setup-vrtk_sdksetup)
  * [SDK Info](#sdk-info-vrtk_sdkinfo)
  * [Device Finder](#device-finder-vrtk_devicefinder)
@@ -7188,6 +8255,7 @@ A collection of scripts that provide useful functionality to aid the creation pr
  * [SDK Object Alias](#sdk-object-alias-vrtk_sdkobjectalias)
  * [SDK Transform Modify](#sdk-transform-modify-vrtk_sdktransformmodify)
  * [SDK Object State](#sdk-object-state-vrtk_sdkobjectstate)
+ * [SDK Input Override](#sdk-input-override-vrtk_sdkinputoverride)
  * [Velocity Estimator](#velocity-estimator-vrtk_velocityestimator)
 
 ---
@@ -7206,6 +8274,7 @@ A helper class that simply holds references to both the SDK_ScriptingDefineSymbo
  * **Auto Manage VR Settings:** Determines whether the VR settings of the Player Settings are automatically adjusted to allow for all the used SDKs in the SDK Setups list below.
  * **Auto Load Setup:** Determines whether the SDK Setups list below is used whenever the SDK Manager is enabled. The first loadable Setup is then loaded.
  * **Setups:** The list of SDK Setups to choose from.
+ * **Exclude Target Groups:** The list of Build Target Groups to exclude.
 
 ### Class Variables
 
@@ -7349,16 +8418,6 @@ Unloads the currently loaded VRTK_SDKSetup, if there is one.
 
 ---
 
-## SDK Setup Switcher (VRTK_SDKSetupSwitcher)
-
-### Overview
-
-The SDK Setup Switcher adds a GUI overlay to allow switching the loaded VRTK_SDKSetup of the the current VRTK_SDKManager.
-
-Use the `SDKSetupSwitcher` prefab to use this.
-
----
-
 ## SDK Setup (VRTK_SDKSetup)
 
 ### Overview
@@ -7435,32 +8494,32 @@ Holds all the info necessary to describe an SDK.
 
 ### Class Methods
 
-#### ActualType>/0
+#### Create<BaseType, FallbackType, ActualType>/0
 
   > `public static VRTK_SDKInfo[] Create<BaseType, FallbackType, ActualType>() where BaseType : SDK_Base where FallbackType : BaseType where ActualType : BaseType`
 
  * Type Params
-   * `FallbackType,` - The SDK base type. Must be a subclass of SDK_Base.
-   * `FallbackType,` - The SDK type to fall back on if problems occur. Must be a subclass of `BaseType`.
-   * `FallbackType,` - The SDK type to use. Must be a subclass of `BaseType`.
+   * `BaseType` - The SDK base type. Must be a subclass of SDK_Base.
+   * `FallbackType` - The SDK type to fall back on if problems occur. Must be a subclass of `BaseType`.
+   * `ActualType` - The SDK type to use. Must be a subclass of `BaseType`.
  * Parameters
    * _none_
  * Returns
-   * `FallbackType,` - Multiple newly created instances.
+   * `VRTK_SDKInfo[]` - Multiple newly created instances.
 
 Creates new SDK infos for a type that is known at compile time.
 
-#### FallbackType>/1
+#### Create<BaseType, FallbackType>/1
 
   > `public static VRTK_SDKInfo[] Create<BaseType, FallbackType>(Type actualType) where BaseType : SDK_Base where FallbackType : BaseType`
 
  * Type Params
-   * `Create<BaseType,` - The SDK base type. Must be a subclass of SDK_Base.
-   * `Create<BaseType,` - The SDK type to fall back on if problems occur. Must be a subclass of `BaseType.
+   * `BaseType` - The SDK base type. Must be a subclass of SDK_Base.
+   * `FallbackType` - The SDK type to fall back on if problems occur. Must be a subclass of `BaseType.
  * Parameters
    * `Type actualType` - The SDK type to use. Must be a subclass of `BaseType.
  * Returns
-   * `Create<BaseType,` - Multiple newly created instances.
+   * `VRTK_SDKInfo[]` - Multiple newly created instances.
 
 Creates new SDK infos for a type.
 
@@ -7600,6 +8659,39 @@ The GetControllerLeftHand method retrieves the game object for the left hand con
 
 The GetControllerRightHand method retrieves the game object for the right hand controller.
 
+#### GetControllerReferenceLeftHand/0
+
+  > `public static VRTK_ControllerReference GetControllerReferenceLeftHand()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_ControllerReference` - The Controller Reference for the left hand controller.
+
+The GetControllerReferenceLeftHand returns a Controller Reference for the left hand controller.
+
+#### GetControllerReferenceRightHand/0
+
+  > `public static VRTK_ControllerReference GetControllerReferenceRightHand()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_ControllerReference` - The Controller Reference for the right hand controller.
+
+The GetControllerReferenceRightHand returns a Controller Reference for the right hand controller.
+
+#### GetControllerReferenceForHand/1
+
+  > `public static VRTK_ControllerReference GetControllerReferenceForHand(SDK_BaseController.ControllerHand hand)`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `VRTK_ControllerReference` - The Controller Reference for the given hand controller.
+
+The GetControllerReferenceForHand returns a Controller Reference for the given hand controller.
+
 #### IsControllerOfHand/2
 
   > `public static bool IsControllerOfHand(GameObject checkController, SDK_BaseController.ControllerHand hand)`
@@ -7633,6 +8725,17 @@ The IsControllerLeftHand method is used to check if a given controller game obje
    * `bool` - Is true if the given controller is the right controller.
 
 The IsControllerRightHand method is used to check if a given controller game object is the right handed controller.
+
+#### GetOppositeHand/1
+
+  > `public static SDK_BaseController.ControllerHand GetOppositeHand(SDK_BaseController.ControllerHand currentHand)`
+
+ * Parameters
+   * `SDK_BaseController.ControllerHand currentHand` - The current hand.
+ * Returns
+   * `SDK_BaseController.ControllerHand` - The opposite hand.
+
+The GetOppositeHand method returns the other hand type from the current hand given.
 
 #### GetActualController/1
 
@@ -7744,27 +8847,27 @@ The HeadsetTransform method is used to retrieve the transform for the VR Headset
 
 The HeadsetCamera method is used to retrieve the transform for the VR Camera in the scene.
 
-#### ResetHeadsetTypeCache/0
+#### GetHeadsetTypeAsString/0
 
-  > `public static void ResetHeadsetTypeCache()`
+  > `public static string GetHeadsetTypeAsString()`
 
  * Parameters
    * _none_
  * Returns
-   * _none_
+   * `string` - The string of the headset connected.
 
-The ResetHeadsetTypeCache resets the cache holding the current headset type value.
+The GetHeadsetTypeAsString method returns a string representing the type of headset connected.
 
-#### GetHeadsetType/1
+#### GetHeadsetType/0
 
-  > `public static Headsets GetHeadsetType(bool summary = false)`
+  > `public static SDK_BaseHeadset.HeadsetType GetHeadsetType()`
 
  * Parameters
-   * `bool summary` - If this is `true`, then the generic name for the headset is returned not including the version type (e.g. OculusRift will be returned for DK2 and CV1).
+   * _none_
  * Returns
-   * `Headsets` - The Headset type that is connected.
+   * `SDK_BaseHeadset.HeadsetType` - The Headset type that is connected.
 
-The GetHeadsetType method returns the type of headset connected to the computer.
+The GetHeadsetType method returns the type of headset currently connected.
 
 #### PlayAreaTransform/0
 
@@ -7834,6 +8937,31 @@ The AddCameraFade method finds the headset camera and adds a headset fade script
 
 The CreateColliders method attempts to add box colliders to all child objects in the given object that have a renderer but no collider.
 
+#### ColliderExclude/2
+
+  > `public static Collider[] ColliderExclude(Collider[] setA, Collider[] setB)`
+
+ * Parameters
+   * `Collider[] setA` - The array that contains all of the relevant colliders.
+   * `Collider[] setB` - The array that contains the colliders to remove from setA.
+ * Returns
+   * `Collider[]` - A Collider array that is a subset of setA that doesn't contain the colliders from setB.
+
+The ColliderExclude method reduces the colliders in the setA array by those matched in the setB array.
+
+#### GetCollidersInGameObjects/3
+
+  > `public static Collider[] GetCollidersInGameObjects(GameObject[] gameObjects, bool searchChildren, bool includeInactive)`
+
+ * Parameters
+   * `GameObject[] gameObjects` - An array of GameObjects to get the colliders for.
+   * `bool searchChildren` - If this is `true` then the given GameObjects will also have their child GameObjects searched for colliders.
+   * `bool includeInactive` - If this is `true` then the inactive GameObjects in the array will also be checked for Colliders. Only relevant if `searchChildren` is `true`.
+ * Returns
+   * `Collider[]` - An array of Colliders that are found in the given GameObject array.
+
+The GetCollidersInGameObjects method iterates through a GameObject array and returns all of the unique found colliders for all GameObejcts.
+
 #### CloneComponent/3
 
   > `public static Component CloneComponent(Component source, GameObject destination, bool copyProperties = false)`
@@ -7900,7 +9028,7 @@ The Mod method is used to find the remainder of the sum a/b.
   > `public static GameObject FindEvenInactiveGameObject<T>(string gameObjectName = null) where T : Component`
 
  * Type Params
-   * `GameObject` - The component type that needs to be on an ancestor of the wanted GameObject. Must be a subclass of `Component`.
+   * `T` - The component type that needs to be on an ancestor of the wanted GameObject. Must be a subclass of `Component`.
  * Parameters
    * `string gameObjectName` - The name of the wanted GameObject. If it contains a '/' character, this method traverses the hierarchy like a path name, beginning on the game object that has a component of type `T`.
  * Returns
@@ -7913,7 +9041,7 @@ Finds the first GameObject with a given name and an ancestor that has a specific
   > `public static T[] FindEvenInactiveComponents<T>() where T : Component`
 
  * Type Params
-   * `T[]` - The component type to search for. Must be a subclass of `Component`.
+   * `T` - The component type to search for. Must be a subclass of `Component`.
  * Parameters
    * _none_
  * Returns
@@ -7966,9 +9094,22 @@ The GetGPUTimeLastFrame retrieves the time spent by the GPU last frame, in secon
    * `Vector2 vectorB` - The Vector2 to compare with
    * `int compareFidelity` - The number of decimal places to use when doing the comparison on the float elements within the Vector2.
  * Returns
-   * `bool` - Returns true if the given Vector2 objects match based on the given fidelity.
+   * `bool` - Returns `true` if the given Vector2 objects match based on the given fidelity.
 
 The Vector2ShallowCompare method compares two given Vector2 objects based on the given fidelity, which is the equivalent of comparing rounded Vector2 elements to determine if the Vector2 elements are equal.
+
+#### Vector3ShallowCompare/3
+
+  > `public static bool Vector3ShallowCompare(Vector3 vectorA, Vector3 vectorB, float threshold)`
+
+ * Parameters
+   * `Vector3 vectorA` - The Vector3 to compare against.
+   * `Vector3 vectorB` - The Vector3 to compare with
+   * `float threshold` - The distance in which the two Vector3 objects can be within to be considered true
+ * Returns
+   * `bool` - Returns `true` if the given Vector3 objects are within the given threshold distance.
+
+The Vector3ShallowCompare method compares two given Vector3 objects based on the given threshold, which is the equavelent of checking the distance between two Vector3 objects are above the threshold distance.
 
 #### NumberPercent/2
 
@@ -7993,6 +9134,134 @@ The NumberPercent method is used to determine the percentage of a given value.
    * _none_
 
 The SetGlobalScale method is used to set a transform scale based on a global scale instead of a local scale.
+
+#### VectorHeading/2
+
+  > `public static Vector3 VectorHeading(Vector3 originPosition, Vector3 targetPosition)`
+
+ * Parameters
+   * `Vector3 originPosition` - The point to use as the originating position for the heading calculation.
+   * `Vector3 targetPosition` - The point to use as the target position for the heading calculation.
+ * Returns
+   * `Vector3` - A Vector3 containing the heading changes of the target position in relation to the origin position.
+
+The VectorHeading method calculates the current heading of the target position in relation to the origin position.
+
+#### VectorDirection/2
+
+  > `public static Vector3 VectorDirection(Vector3 originPosition, Vector3 targetPosition)`
+
+ * Parameters
+   * `Vector3 originPosition` - The point to use as the originating position for the direction calculation.
+   * `Vector3 targetPosition` - The point to use as the target position for the direction calculation.
+ * Returns
+   * `Vector3` - A Vector3 containing the direction of the target position in relation to the origin position.
+
+The VectorDirection method calculates the direction the target position is in relation to the origin position.
+
+#### DividerToMultiplier/1
+
+  > `public static float DividerToMultiplier(float value)`
+
+ * Parameters
+   * `float value` - The number to convert into the multplier value.
+ * Returns
+   * `float` - The calculated number that can replace the divider number in a multiplication sum.
+
+The DividerToMultiplier method takes a number to be used in a division and converts it to be used for multiplication. (e.g. 2 / 2 becomes 2 * 0.5)
+
+#### NormalizeValue/4
+
+  > `public static float NormalizeValue(float value, float minValue, float maxValue, float threshold = 0f)`
+
+ * Parameters
+   * `float value` - The actual value to normalize.
+   * `float minValue` - The minimum value the actual value can be.
+   * `float maxValue` - The maximum value the actual value can be.
+   * `float threshold` - The threshold to force to the minimum or maximum value if the normalized value is within the threhold limits.
+ * Returns
+   * `float` -
+
+The NormalizeValue method takes a given value between a specified range and returns the normalized value between 0f and 1f.
+
+#### AxisDirection/2
+
+  > `public static Vector3 AxisDirection(int axisIndex, Transform givenTransform = null)`
+
+ * Parameters
+   * `int axisIndex` - The axis index of the axis. `0 = x` `1 = y` `2 = z`
+   * `Transform givenTransform` - An optional Transform to get the Axis Direction for. If this is `null` then the World directions will be used.
+ * Returns
+   * `Vector3` - The direction Vector3 based on the given axis index.
+
+The AxisDirection method returns the relevant direction Vector3 based on the axis index in relation to x,y,z.
+
+#### AddListValue<TValue>/3
+
+  > `public static bool AddListValue<TValue>(List<TValue> list, TValue value, bool preventDuplicates = false)`
+
+ * Type Params
+   * `TValue` - The datatype for the list value.
+ * Parameters
+   * `List<TValue> list` - The list to retrieve the value from.
+   * `TValue value` - The value to attempt to add to the list.
+   * `bool preventDuplicates` - If this is `false` then the value provided will always be appended to the list. If this is `true` the value provided will only be added to the list if it doesn't already exist.
+ * Returns
+   * `bool` - Returns `true` if the given value was successfully added to the list. Returns `false` if the given value already existed in the list and `preventDuplicates` is `true`.
+
+The AddListValue method adds the given value to the given list. If `preventDuplicates` is `true` then the given value will only be added if it doesn't already exist in the given list.
+
+#### GetDictionaryValue<TKey, TValue>/4
+
+  > `public static TValue GetDictionaryValue<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default(TValue), bool setMissingKey = false)`
+
+ * Type Params
+   * `TKey` - The datatype for the dictionary key.
+   * `TValue` - The datatype for the dictionary value.
+ * Parameters
+   * `Dictionary<TKey, TValue> dictionary` - The dictionary to retrieve the value from.
+   * `TKey key` - The key to retrieve the value for.
+   * `TValue defaultValue` - The value to utilise when either setting the missing key (if `setMissingKey` is `true`) or the default value to return when no key is found (if `setMissingKey` is `false`).
+   * `bool setMissingKey` - If this is `true` and the given key is not present, then the dictionary value for the given key will be set to the `defaultValue` parameter. If this is `false` and the given key is not present then the `defaultValue` parameter will be returned as the value.
+ * Returns
+   * `TValue` - The found value for the given key in the given dictionary, or the default value if no key is found.
+
+The GetDictionaryValue method attempts to retrieve a value from a given dictionary for the given key. It removes the need for a double dictionary lookup to ensure the key is valid and has the option of also setting the missing key value to ensure the dictionary entry is valid.
+
+#### GetDictionaryValue<TKey, TValue>/5
+
+  > `public static TValue GetDictionaryValue<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey key, out bool keyExists, TValue defaultValue = default(TValue), bool setMissingKey = false)`
+
+ * Type Params
+   * `TKey` - The datatype for the dictionary key.
+   * `TValue` - The datatype for the dictionary value.
+ * Parameters
+   * `Dictionary<TKey, TValue> dictionary` - The dictionary to retrieve the value from.
+   * `TKey key` - The key to retrieve the value for.
+   * `out bool keyExists` - Sets the given parameter to `true` if the key exists in the given dictionary or sets to `false` if the key didn't existing in the given dictionary.
+   * `TValue defaultValue` - The value to utilise when either setting the missing key (if `setMissingKey` is `true`) or the default value to return when no key is found (if `setMissingKey` is `false`).
+   * `bool setMissingKey` - If this is `true` and the given key is not present, then the dictionary value for the given key will be set to the `defaultValue` parameter. If this is `false` and the given key is not present then the `defaultValue` parameter will be returned as the value.
+ * Returns
+   * `TValue` - The found value for the given key in the given dictionary, or the default value if no key is found.
+
+The GetDictionaryValue method attempts to retrieve a value from a given dictionary for the given key. It removes the need for a double dictionary lookup to ensure the key is valid and has the option of also setting the missing key value to ensure the dictionary entry is valid.
+
+#### AddDictionaryValue<TKey, TValue>/4
+
+  > `public static bool AddDictionaryValue<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey key, TValue value, bool overwriteExisting = false)`
+
+ * Type Params
+   * `TKey` - The datatype for the dictionary key.
+   * `TValue` - The datatype for the dictionary value.
+ * Parameters
+   * `Dictionary<TKey, TValue> dictionary` - The dictionary to set the value for.
+   * `TKey key` - The key to set the value for.
+   * `TValue value` - The value to set at the given key in the given dictionary.
+   * `bool overwriteExisting` - If this is `true` then the value for the given key will always be set to the provided value. If this is `false` then the value for the given key will only be set if the given key is not found in the given dictionary.
+ * Returns
+   * `bool` - Returns `true` if the given value was successfully added to the dictionary at the given key. Returns `false` if the given key already existed in the dictionary and `overwriteExisting` is `false`.
+
+The AddDictionaryValue method attempts to add a value for the given key in the given dictionary if the key does not already exist. If `overwriteExisting` is `true` then it always set the value even if they key exists.
 
 #### GetTypeUnknownAssembly/1
 
@@ -8263,8 +9532,7 @@ In more detail:
       * `-msaa X`: Set MSAA level to X
  * **Msaa Level:** The MSAA level to use.
  * **Scale Render Viewport:** Toggles whether the render viewport scale is dynamically adjusted to maintain VR framerate. If unchecked, the renderer will render at the recommended resolution provided by the current `VRDevice`.
- * **Minimum Render Scale:** The minimum allowed render scale.
- * **Maximum Render Scale:** The maximum allowed render scale.
+ * **Render Scale Limits:** The minimum and maximum allowed render scale.
  * **Maximum Render Target Dimension:** The maximum allowed render target dimension. This puts an upper limit on the size of the render target regardless of the maximum render scale.
  * **Render Scale Fill Rate Step Size In Percent:** The fill rate step size in percent by which the render scale levels will be calculated.
  * **Scale Render Target Resolution:** Toggles whether the render target resolution is dynamically adjusted to maintain VR framerate. If unchecked, the renderer will use the maximum target resolution specified by `maximumRenderScale`.
@@ -8368,11 +9636,12 @@ Follow `gameObjectToFollow` using the current settings.
 
 ### Overview
 
-Changes one game object's rigidbody to follow another game object's rigidbody.
+Changes one GameObject's rigidbody to follow another GameObject's rigidbody.
 
 ### Inspector Parameters
 
  * **Movement Option:** Specifies how to position and rotate the rigidbody.
+ * **Track Max Distance:** The maximum distance the tracked `Game Object To Change` Rigidbody can be from the `Game Object To Follow` Rigidbody before the position is forcibly set to match the position.
 
 ### Class Variables
 
@@ -8380,6 +9649,20 @@ Changes one game object's rigidbody to follow another game object's rigidbody.
    * `Set` - Use Rigidbody.position and Rigidbody.rotation.
    * `Move` - Use Rigidbody.MovePosition and Rigidbody.MoveRotation.
    * `Add` - Use Rigidbody.AddForce(Vector3) and Rigidbody.AddTorque(Vector3).
+   * `Track` - Use velocity and angular velocity with MoveTowards.
+
+### Class Methods
+
+#### Follow/0
+
+  > `public override void Follow()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+Follow `gameObjectToFollow` using the current settings.
 
 ---
 
@@ -8388,15 +9671,29 @@ Changes one game object's rigidbody to follow another game object's rigidbody.
 
 ### Overview
 
-Changes one game object's transform to follow another game object's transform.
+Changes one GameObject's transform to follow another GameObject's transform.
 
 ### Class Variables
 
  * `public enum FollowMoment` - The moment at which to follow.
+   * `OnFixedUpdate` - Follow in the FixedUpdate method.
    * `OnUpdate` - Follow in the Update method.
    * `OnLateUpdate` - Follow in the LateUpdate method.
    * `OnPreRender` - Follow in the OnPreRender method. (This script doesn't have to be attached to a camera).
    * `OnPreCull` - Follow in the OnPreCull method. (This script doesn't have to be attached to a camera).
+
+### Class Methods
+
+#### Follow/0
+
+  > `public override void Follow()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+Follow `gameObjectToFollow` using the current settings.
 
 ---
 
@@ -8419,6 +9716,7 @@ The GameObject that the SDK Object Alias script is applied to will become a chil
 ---
 
 ## SDK Transform Modify (VRTK_SDKTransformModify)
+ > extends VRTK_SDKControllerReady
 
 ### Overview
 
@@ -8431,8 +9729,9 @@ The SDK Transform Modify can be used to change a transform orientation at runtim
  * **Position:** The new local position to change the transform to.
  * **Rotation:** The new local rotation in eular angles to change the transform to.
  * **Scale:** The new local scale to change the transform to.
- * **Target:** The target transform to modify on enable. If this is left blank then the transform the script is attached to will be used.
- * **Sdk Overrides:** A collection of SDK Transform overrides to change the given target transform for each specified SDK.
+ * **Target:** The target Transform to modify on enable. If this is left blank then the Transform the script is attached to will be used.
+ * **Reset On Disable:** If this is checked then the target Transform will be reset to the original orientation when this script is disabled.
+ * **Sdk Overrides:** A collection of SDK Transform overrides to change the given target Transform for each specified SDK.
 
 ### Class Methods
 
@@ -8447,9 +9746,21 @@ The SDK Transform Modify can be used to change a transform orientation at runtim
 
 The UpdateTransform method updates the Transform data on the current GameObject for the specified settings.
 
+#### SetOrigins/0
+
+  > `public virtual void SetOrigins()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The SetOrigins method sets the original position, rotation, scale of the target Transform.
+
 ---
 
 ## SDK Object State (VRTK_SDKObjectState)
+ > extends VRTK_SDKControllerReady
 
 ### Overview
 
@@ -8480,6 +9791,67 @@ The state can be determined by:
    * _none_
 
 The SetStateByControllerReference method sets the object state based on the controller type of the given controller reference.
+
+---
+
+## SDK Input Override (VRTK_SDKInputOverride)
+ > extends VRTK_SDKControllerReady
+
+### Overview
+
+Provides the ability to switch button mappings based on the current SDK or controller type
+
+**Script Usage:**
+ * Place the `VRTK_SDKInputOverride` script on any active scene GameObject.
+ * Customise the input button for each script type for each SDK controller type.
+
+### Inspector Parameters
+
+ * **Loaded SDK Setup:** An optional SDK Setup to use to determine when to modify the transform.
+ * **Controller Type:** An optional SDK controller type to use to determine when to modify the transform.
+ * **Override Button:** The button to override to.
+ * **Override Axis:** The Vector2 axis to override to.
+ * **Interact Grab Script:** The Interact Grab script to override the controls on.
+ * **Interact Grab Overrides:** The list of overrides.
+ * **Interact Use Script:** The Interact Use script to override the controls on.
+ * **Interact Use Overrides:** The list of overrides.
+ * **Pointer Script:** The Pointer script to override the controls on.
+ * **Pointer Activation Overrides:** The list of overrides for the activation button.
+ * **Pointer Selection Overrides:** The list of overrides for the selection button.
+ * **Ui Pointer Script:** The UI Pointer script to override the controls on.
+ * **Ui Pointer Activation Overrides:** The list of overrides for the activation button.
+ * **Ui Pointer Selection Overrides:** The list of overrides for the selection button.
+ * **Pointer Direction Indicator Script:** The Pointer Direction Indicator script to override the controls on.
+ * **Direction Indicator Coordinate Overrides:** The list of overrides for the coordinate axis.
+ * **Touchpad Control Script:** The Touchpad Control script to override the controls on.
+ * **Touchpad Control Coordinate Overrides:** The list of overrides for the Touchpad Control coordinate axis.
+ * **Touchpad Control Activation Overrides:** The list of overrides for the activation button.
+ * **Touchpad Control Modifier Overrides:** The list of overrides for the modifier button.
+ * **Button Control Script:** The ButtonControl script to override the controls on.
+ * **Button Control Forward Overrides:** The list of overrides for the forward button.
+ * **Button Control Backward Overrides:** The list of overrides for the backward button.
+ * **Button Control Left Overrides:** The list of overrides for the left button.
+ * **Button Control Right Overrides:** The list of overrides for the right button.
+ * **Slingshot Jump Script:** The SlingshotJump script to override the controls on.
+ * **Slingshot Jump Activation Overrides:** The list of overrides for the activation button.
+ * **Slingshot Jump Cancel Overrides:** The list of overrides for the cancel button.
+ * **Move In Place Script:** The MoveInPlace script to override the controls on.
+ * **Move In Place Engage Overrides:** The list of overrides for the engage button.
+ * **Step Multiplier Script:** The Step Multiplier script to override the controls on.
+ * **Step Multiplier Activation Overrides:** The list of overrides for the activation button.
+
+### Class Methods
+
+#### ForceManage/0
+
+  > `public virtual void ForceManage()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * _none_
+
+The ForceManage method forces the inputs to be updated even without an SDK change event occuring.
 
 ---
 
@@ -8773,6 +10145,21 @@ The Base Headset SDK script provides a bridge to SDK methods that deal with the 
 
 This is an abstract class to implement the interface required by all implemented SDKs.
 
+### Class Variables
+
+ * `public enum HeadsetType` - The connected headset type
+   * `Undefined` - The headset connected is unknown.
+   * `Simulator` - The headset associated with the simulator.
+   * `HTCVive` - The HTC Vive headset.
+   * `OculusRiftDK1` - The Oculus Rift DK1 headset.
+   * `OculusRiftDK2` - The Oculus Rift DK2 headset.
+   * `OculusRift` - The Oculus Rift headset.
+   * `OculusGearVR` - The Oculus GearVR headset.
+   * `GoogleDaydream` - The Google Daydream headset.
+   * `GoogleCardboard` - The Google Cardboard headset.
+   * `HyperealVR` - The HyperealVR headset.
+   * `WindowsMixedReality` - The Windows Mixed Reality headset.
+
 ### Class Methods
 
 #### ProcessUpdate/1
@@ -8818,6 +10205,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
    * `Transform` - A transform of the object holding the headset camera in the scene.
 
 The GetHeadsetCamera method returns the Transform of the object that is used to hold the headset camera in the scene.
+
+#### GetHeadsetType/0
+
+  > `public abstract string GetHeadsetType();`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
 
 #### GetHeadsetVelocity/0
 
@@ -8898,6 +10296,7 @@ This is an abstract class to implement the interface required by all implemented
    * `Trigger` - Trigger on the controller.
    * `TriggerHairline` - Trigger Hairline on the controller.
    * `Touchpad` - Touchpad on the controller.
+   * `TouchpadTwo` - Touchpad Two on the controller.
    * `MiddleFinger` - Middle Finger on the controller.
    * `RingFinger` - Ring Finger on the controller.
    * `PinkyFinger` - Pinky Finger on the controller.
@@ -8937,6 +10336,8 @@ This is an abstract class to implement the interface required by all implemented
    * `Oculus_OculusRemote` - The Oculus Remote for Oculus Utilities.
    * `Oculus_GearVRHMD` - The Oculus GearVR HMD controls for Oculus Utilities.
    * `Oculus_GearVRController` - The Oculus GearVR controller for Oculus Utilities.
+   * `WindowsMR_MotionController` - The Windows Mixed Reality Motion Controller for Windows Mixed Reality.
+   * `SteamVR_WindowsMRController` - The Windows Mixed Reality Motion Controller for SteamVR.
 
 ### Class Methods
 
@@ -9032,17 +10433,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public abstract Transform GenerateControllerPointerOrigin(GameObject parent);`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -9502,6 +10892,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -9664,17 +11065,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -10121,6 +11511,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -10281,17 +11682,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -10763,6 +12153,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera/0 method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -10923,17 +12324,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -11387,6 +12777,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -11557,17 +12958,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -12021,6 +13411,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -12191,17 +13592,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -12665,6 +14055,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera/0 method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -12824,17 +14225,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -13265,6 +14655,17 @@ The ProcessUpdate method enables an SDK to run logic for every Unity Update
 
 The ProcessFixedUpdate method enables an SDK to run logic for every Unity FixedUpdate
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -13446,17 +14847,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * _none_
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 
@@ -13909,6 +15299,17 @@ The GetHeadset method returns the Transform of the object that is used to repres
 
 The GetHeadsetCamera method returns the Transform of the object that is used to hold the headset camera in the scene.
 
+#### GetHeadsetType/0
+
+  > `public override string GetHeadsetType()`
+
+ * Parameters
+   * _none_
+ * Returns
+   * `string` - The string of the headset connected.
+
+The GetHeadsetType method returns a string representing the type of headset connected.
+
 #### GetHeadsetVelocity/0
 
   > `public override Vector3 GetHeadsetVelocity()`
@@ -14068,17 +15469,6 @@ The GetControllerByIndex method returns the GameObject of a controller with a sp
    * `Transform` - A Transform containing the origin of the controller.
 
 The GetControllerOrigin method returns the origin of the given controller.
-
-#### GenerateControllerPointerOrigin/1
-
-  > `public override Transform GenerateControllerPointerOrigin(GameObject parent)`
-
- * Parameters
-   * `GameObject parent` - The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.
- * Returns
-   * `Transform` - A generated Transform that contains the custom pointer origin.
-
-The GenerateControllerPointerOrigin method can create a custom pointer origin Transform to represent the pointer position and forward.
 
 #### GetControllerLeftHand/1
 

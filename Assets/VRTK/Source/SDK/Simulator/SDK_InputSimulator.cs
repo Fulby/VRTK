@@ -1,5 +1,4 @@
-﻿// VR Simulator CameraRig|Prefabs|0005
-namespace VRTK
+﻿namespace VRTK
 {
     using UnityEngine;
     using UnityEngine.UI;
@@ -31,36 +30,51 @@ namespace VRTK
 
         #region Public fields
 
+        [Header("General Settings")]
+
         [Tooltip("Show control information in the upper left corner of the screen.")]
         public bool showControlHints = true;
         [Tooltip("Hide hands when disabling them.")]
         public bool hideHandsAtSwitch = false;
         [Tooltip("Reset hand position and rotation when enabling them.")]
         public bool resetHandsAtSwitch = true;
-        [Tooltip("Whether mouse movement always acts as input or requires a button press.")]
-        public MouseInputMode mouseMovementInput = MouseInputMode.Always;
-        [Tooltip("Lock the mouse cursor to the game window when the mouse movement key is pressed.")]
-        public bool lockMouseToView = true;
+        [Tooltip("Displays an axis helper to show which axis the hands will be moved through.")]
+        public bool showHandAxisHelpers = true;
 
-        [Header("Adjustments")]
+        [Header("Mouse Cursor Lock Settings")]
+
+        [Tooltip("Lock the mouse cursor to the game window.")]
+        public bool lockMouseToView = true;
+        [Tooltip("Whether the mouse movement always acts as input or requires a button press.")]
+        public MouseInputMode mouseMovementInput = MouseInputMode.Always;
+
+        [Header("Manual Adjustment Settings")]
 
         [Tooltip("Adjust hand movement speed.")]
         public float handMoveMultiplier = 0.002f;
         [Tooltip("Adjust hand rotation speed.")]
         public float handRotationMultiplier = 0.5f;
         [Tooltip("Adjust player movement speed.")]
-        public float playerMoveMultiplier = 5;
+        public float playerMoveMultiplier = 5f;
         [Tooltip("Adjust player rotation speed.")]
         public float playerRotationMultiplier = 0.5f;
         [Tooltip("Adjust player sprint speed.")]
-        public float playerSprintMultiplier = 2;
+        public float playerSprintMultiplier = 2f;
+        [Tooltip("Adjust the speed of the cursor movement in locked mode.")]
+        public float lockedCursorMultiplier = 5f;
+        [Tooltip("The Colour of the GameObject representing the left hand.")]
+        public Color leftHandColor = Color.red;
+        [Tooltip("The Colour of the GameObject representing the right hand.")]
+        public Color rightHandColor = Color.green;
 
-        [Header("Operation Key Bindings")]
+        [Header("Operation Key Binding Settings")]
 
         [Tooltip("Key used to enable mouse input if a button press is required.")]
         public KeyCode mouseMovementKey = KeyCode.Mouse1;
         [Tooltip("Key used to toggle control hints on/off.")]
         public KeyCode toggleControlHints = KeyCode.F1;
+        [Tooltip("Key used to toggle control hints on/off.")]
+        public KeyCode toggleMouseLock = KeyCode.F4;
         [Tooltip("Key used to switch between left and righ hand.")]
         public KeyCode changeHands = KeyCode.Tab;
         [Tooltip("Key used to switch hands On/Off.")]
@@ -76,7 +90,7 @@ namespace VRTK
         [Tooltip("Key used to enable distance pickup.")]
         public KeyCode distancePickupModifier = KeyCode.LeftControl;
 
-        [Header("Movement Key Bindings")]
+        [Header("Movement Key Binding Settings")]
 
         [Tooltip("Key used to move forward.")]
         public KeyCode moveForward = KeyCode.W;
@@ -89,7 +103,8 @@ namespace VRTK
         [Tooltip("Key used to sprint.")]
         public KeyCode sprint = KeyCode.LeftShift;
 
-        [Header("Controller Key Bindings")]
+        [Header("Controller Key Binding Settings")]
+
         [Tooltip("Key used to simulate trigger button.")]
         public KeyCode triggerAlias = KeyCode.Mouse1;
         [Tooltip("Key used to simulate grip button.")]
@@ -108,22 +123,26 @@ namespace VRTK
         public KeyCode hairTouchModifier = KeyCode.H;
 
         #endregion
-        #region Private fields
+        #region Protected fields
 
-        private bool isHand = false;
-        private GameObject hintCanvas;
-        private Text hintText;
-        private Transform rightHand;
-        private Transform leftHand;
-        private Transform currentHand;
-        private Vector3 oldPos;
-        private Transform neck;
-        private SDK_ControllerSim rightController;
-        private SDK_ControllerSim leftController;
-        private static GameObject cachedCameraRig;
-        private static bool destroyed = false;
-        private float sprintMultiplier = 1;
-        private GameObject crossHairPanel;
+        protected bool isHand = false;
+        protected GameObject hintCanvas;
+        protected Text hintText;
+        protected Transform rightHand;
+        protected Transform leftHand;
+        protected Transform currentHand;
+        protected Vector3 oldPos;
+        protected Transform neck;
+        protected SDK_ControllerSim rightController;
+        protected SDK_ControllerSim leftController;
+        protected static GameObject cachedCameraRig;
+        protected static bool destroyed = false;
+        protected float sprintMultiplier = 1;
+        protected GameObject crossHairPanel;
+        protected Transform leftHandHorizontalAxisGuide;
+        protected Transform leftHandVerticalAxisGuide;
+        protected Transform rightHandHorizontalAxisGuide;
+        protected Transform rightHandVerticalAxisGuide;
 
         #endregion
 
@@ -144,12 +163,12 @@ namespace VRTK
             return cachedCameraRig;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange(this);
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             hintCanvas = transform.Find("Canvas/Control Hints").gameObject;
             crossHairPanel = transform.Find("Canvas/CrosshairPanel").gameObject;
@@ -159,11 +178,15 @@ namespace VRTK
             rightHand.gameObject.SetActive(false);
             leftHand = transform.Find("LeftHand");
             leftHand.gameObject.SetActive(false);
+            leftHandHorizontalAxisGuide = leftHand.Find("Guides/HorizontalPlane");
+            leftHandVerticalAxisGuide = leftHand.Find("Guides/VerticalPlane");
+            rightHandHorizontalAxisGuide = rightHand.Find("Guides/HorizontalPlane");
+            rightHandVerticalAxisGuide = rightHand.Find("Guides/VerticalPlane");
             currentHand = rightHand;
             oldPos = Input.mousePosition;
             neck = transform.Find("Neck");
-            leftHand.Find("Hand").GetComponent<Renderer>().material.color = Color.red;
-            rightHand.Find("Hand").GetComponent<Renderer>().material.color = Color.green;
+            SetHandColor(leftHand, leftHandColor);
+            SetHandColor(rightHand, rightHandColor);
             rightController = rightHand.GetComponent<SDK_ControllerSim>();
             leftController = leftHand.GetComponent<SDK_ControllerSim>();
             rightController.selected = true;
@@ -191,18 +214,23 @@ namespace VRTK
             crossHairPanel.SetActive(false);
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
             destroyed = true;
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (Input.GetKeyDown(toggleControlHints))
             {
                 showControlHints = !showControlHints;
                 hintCanvas.SetActive(showControlHints);
+            }
+
+            if (Input.GetKeyDown(toggleMouseLock))
+            {
+                lockMouseToView = !lockMouseToView;
             }
 
             if (mouseMovementInput == MouseInputMode.RequiresButtonPress)
@@ -216,12 +244,17 @@ namespace VRTK
                     oldPos = Input.mousePosition;
                 }
             }
+            else
+            {
+                Cursor.lockState = lockMouseToView ? CursorLockMode.Locked : CursorLockMode.None;
+            }
 
             if (Input.GetKeyDown(handsOnOff))
             {
                 if (isHand)
                 {
                     SetMove();
+                    ToggleGuidePlanes(false, false);
                 }
                 else
                 {
@@ -286,7 +319,20 @@ namespace VRTK
             }
         }
 
-        private void TryPickup(bool rightHand)
+        protected virtual void SetHandColor(Transform hand, Color givenColor)
+        {
+            Transform foundHand = hand.Find("Hand");
+            if (foundHand != null && givenColor != Color.clear)
+            {
+                Renderer[] renderers = foundHand.GetComponentsInChildren<Renderer>(true);
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    renderers[i].material.color = givenColor;
+                }
+            }
+        }
+
+        protected virtual void TryPickup(bool rightHand)
         {
             Ray screenRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
             RaycastHit hit;
@@ -314,15 +360,16 @@ namespace VRTK
             }
         }
 
-        private void UpdateHands()
+        protected virtual void UpdateHands()
         {
             Vector3 mouseDiff = GetMouseDelta();
 
             if (IsAcceptingMouseInput())
             {
-                if (Input.GetKey(rotationPosition)) //Rotation
+                if (Input.GetKey(changeAxis))
                 {
-                    if (Input.GetKey(changeAxis))
+                    ToggleGuidePlanes(false, true);
+                    if (Input.GetKey(rotationPosition))
                     {
                         Vector3 rot = Vector3.zero;
                         rot.x += (mouseDiff * handRotationMultiplier).y;
@@ -331,19 +378,20 @@ namespace VRTK
                     }
                     else
                     {
+                        Vector3 pos = Vector3.zero;
+                        pos += mouseDiff * handMoveMultiplier;
+                        currentHand.transform.Translate(pos * Time.deltaTime);
+                    }
+                }
+                else
+                {
+                    ToggleGuidePlanes(true, false);
+                    if (Input.GetKey(rotationPosition))
+                    {
                         Vector3 rot = Vector3.zero;
                         rot.z += (mouseDiff * handRotationMultiplier).x;
                         rot.x += (mouseDiff * handRotationMultiplier).y;
                         currentHand.transform.Rotate(rot * Time.deltaTime);
-                    }
-                }
-                else //Position
-                {
-                    if (Input.GetKey(changeAxis))
-                    {
-                        Vector3 pos = Vector3.zero;
-                        pos += mouseDiff * handMoveMultiplier;
-                        currentHand.transform.Translate(pos * Time.deltaTime);
                     }
                     else
                     {
@@ -356,7 +404,7 @@ namespace VRTK
             }
         }
 
-        private void UpdateRotation()
+        protected virtual void UpdateRotation()
         {
             Vector3 mouseDiff = GetMouseDelta();
 
@@ -382,7 +430,7 @@ namespace VRTK
             }
         }
 
-        private void UpdatePosition()
+        protected virtual void UpdatePosition()
         {
             float moveMod = Time.deltaTime * playerMoveMultiplier * sprintMultiplier;
             if (Input.GetKey(moveForward))
@@ -403,7 +451,7 @@ namespace VRTK
             }
         }
 
-        private void SetHand()
+        protected virtual void SetHand()
         {
             Cursor.visible = false;
             isHand = true;
@@ -419,7 +467,7 @@ namespace VRTK
             }
         }
 
-        private void SetMove()
+        protected virtual void SetMove()
         {
             Cursor.visible = true;
             isHand = false;
@@ -430,7 +478,7 @@ namespace VRTK
             }
         }
 
-        private void UpdateHints()
+        protected virtual void UpdateHints()
         {
             string hints = "";
             Func<KeyCode, string> key = (k) => "<b>" + k.ToString() + "</b>";
@@ -444,6 +492,7 @@ namespace VRTK
             // WASD Movement
             string movementKeys = moveForward.ToString() + moveLeft.ToString() + moveBackward.ToString() + moveRight.ToString();
             hints += "Toggle Control Hints: " + key(toggleControlHints) + "\n\n";
+            hints += "Toggle Mouse Lock: " + key(toggleMouseLock) + "\n";
             hints += "Move Player/Playspace: <b>" + movementKeys + "</b>\n";
             hints += "Sprint Modifier: (" + key(sprint) + ")\n\n";
 
@@ -501,22 +550,51 @@ namespace VRTK
             hintText.text = hints.TrimEnd();
         }
 
-        private bool IsAcceptingMouseInput()
+        protected virtual bool IsAcceptingMouseInput()
         {
             return mouseMovementInput == MouseInputMode.Always || Input.GetKey(mouseMovementKey);
         }
 
-        private Vector3 GetMouseDelta()
+        protected virtual Vector3 GetMouseDelta()
         {
             if (Cursor.lockState == CursorLockMode.Locked)
             {
-                return new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+                return new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * lockedCursorMultiplier;
             }
             else
             {
                 Vector3 mouseDiff = Input.mousePosition - oldPos;
                 oldPos = Input.mousePosition;
                 return mouseDiff;
+            }
+        }
+
+        protected virtual void ToggleGuidePlanes(bool horizontalState, bool verticalState)
+        {
+            if (!showHandAxisHelpers)
+            {
+                horizontalState = false;
+                verticalState = false;
+            }
+
+            if (leftHandHorizontalAxisGuide != null)
+            {
+                leftHandHorizontalAxisGuide.gameObject.SetActive(horizontalState);
+            }
+
+            if (leftHandVerticalAxisGuide != null)
+            {
+                leftHandVerticalAxisGuide.gameObject.SetActive(verticalState);
+            }
+
+            if (rightHandHorizontalAxisGuide != null)
+            {
+                rightHandHorizontalAxisGuide.gameObject.SetActive(horizontalState);
+            }
+
+            if (rightHandVerticalAxisGuide != null)
+            {
+                rightHandVerticalAxisGuide.gameObject.SetActive(verticalState);
             }
         }
     }

@@ -157,8 +157,8 @@ namespace VRTK
         }
         private static VRTK_SDKManager _instance;
 
-        [Tooltip("**OBSOLETE. STOP USING THIS ASAP!** If this is true then the instance of the SDK Manager won't be destroyed on every scene load.")]
         [Obsolete("`VRTK_SDKManager.persistOnLoad` has been deprecated and will be removed in a future version of VRTK. See https://github.com/thestonefox/VRTK/issues/1316 for details.")]
+        [ObsoleteInspector]
         public bool persistOnLoad;
 
         [Tooltip("Determines whether the scripting define symbols required by the installed SDKs are automatically added to and removed from the player settings.")]
@@ -180,6 +180,16 @@ namespace VRTK
         public bool autoLoadSetup = true;
         [Tooltip("The list of SDK Setups to choose from.")]
         public VRTK_SDKSetup[] setups = new VRTK_SDKSetup[0];
+#if UNITY_EDITOR
+        [Tooltip("The list of Build Target Groups to exclude.")]
+        public BuildTargetGroup[] excludeTargetGroups = new BuildTargetGroup[] {
+#if UNITY_2017_1_OR_NEWER
+            BuildTargetGroup.Switch,
+            BuildTargetGroup.Facebook
+#endif
+        };
+#endif
+
         /// <summary>
         /// The loaded SDK Setup. `null` if no setup is currently loaded.
         /// </summary>
@@ -208,7 +218,10 @@ namespace VRTK
         private Coroutine checkLeftControllerReadyRoutine = null;
         private Coroutine checkRightControllerReadyRoutine = null;
         private float checkControllerReadyDelay = 1f;
-
+        private int checkControllerValidTimer = 50;
+#if UNITY_EDITOR
+        private BuildTargetGroup[] targetGroupsToExclude;
+#endif
         /// <summary>
         /// The event invoked whenever the loaded SDK Setup changes.
         /// </summary>
@@ -357,6 +370,10 @@ namespace VRTK
 
             foreach (BuildTargetGroup targetGroup in VRTK_SharedMethods.GetValidBuildTargetGroups())
             {
+                if (targetGroupsToExclude.Contains(targetGroup))
+                {
+                    continue;
+                }
                 string[] deviceNames;
                 deviceNamesByTargetGroup.TryGetValue(targetGroup, out deviceNames);
 
@@ -777,12 +794,14 @@ namespace VRTK
         private IEnumerator CheckLeftControllerReady()
         {
             WaitForSeconds delayInstruction = new WaitForSeconds(checkControllerReadyDelay);
+            int maxCheckTime = checkControllerValidTimer;
             while (true)
             {
-                if (loadedSetup != null && loadedSetup.actualLeftController != null && loadedSetup.actualLeftController.activeInHierarchy)
+                if (loadedSetup != null && loadedSetup.actualLeftController != null && loadedSetup.actualLeftController.activeInHierarchy && (loadedSetup.controllerSDK.GetCurrentControllerType() != SDK_BaseController.ControllerType.Undefined || maxCheckTime < 0))
                 {
                     break;
                 }
+                maxCheckTime--;
                 yield return delayInstruction;
             }
             loadedSetup.controllerSDK.OnControllerReady(SDK_BaseController.ControllerHand.Left);
@@ -791,12 +810,14 @@ namespace VRTK
         private IEnumerator CheckRightControllerReady()
         {
             WaitForSeconds delayInstruction = new WaitForSeconds(checkControllerReadyDelay);
+            int maxCheckTime = checkControllerValidTimer;
             while (true)
             {
-                if (loadedSetup != null && loadedSetup.actualRightController != null && loadedSetup.actualRightController.activeInHierarchy)
+                if (loadedSetup != null && loadedSetup.actualRightController != null && loadedSetup.actualRightController.activeInHierarchy && (loadedSetup.controllerSDK.GetCurrentControllerType() != SDK_BaseController.ControllerType.Undefined || maxCheckTime < 0))
                 {
                     break;
                 }
+                maxCheckTime--;
                 yield return delayInstruction;
             }
             loadedSetup.controllerSDK.OnControllerReady(SDK_BaseController.ControllerHand.Right);
@@ -944,6 +965,7 @@ namespace VRTK
 
             if (instance != null && !instance.ManageScriptingDefineSymbols(false, false))
             {
+                instance.targetGroupsToExclude = instance.excludeTargetGroups;
                 instance.ManageVRSettings(false);
             }
         }

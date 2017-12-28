@@ -28,6 +28,8 @@ namespace VRTK
     {
         [Header("Touchpad Control Settings")]
 
+        [Tooltip("The axis to use for the direction coordinates.")]
+        public VRTK_ControllerEvents.Vector2AxisAlias coordinateAxis = VRTK_ControllerEvents.Vector2AxisAlias.Touchpad;
         [Tooltip("An optional button that has to be engaged to allow the touchpad control to activate.")]
         public VRTK_ControllerEvents.ButtonAlias primaryActivationButton = VRTK_ControllerEvents.ButtonAlias.TouchpadTouch;
         [Tooltip("An optional button that when engaged will activate the modifier on the touchpad control action.")]
@@ -37,11 +39,15 @@ namespace VRTK
 
         protected bool touchpadFirstChange;
         protected bool otherTouchpadControlEnabledState;
+        protected bool otherTouchpadControlEnabledStateSet;
+        protected VRTK_ControllerEvents.ButtonAlias coordniateButtonAlias;
 
         protected override void OnEnable()
         {
             base.OnEnable();
             touchpadFirstChange = true;
+            otherTouchpadControlEnabledStateSet = false;
+            coordniateButtonAlias = (coordinateAxis == VRTK_ControllerEvents.Vector2AxisAlias.Touchpad ? VRTK_ControllerEvents.ButtonAlias.TouchpadTouch : VRTK_ControllerEvents.ButtonAlias.TouchpadTwoTouch);
         }
 
         protected override void ControlFixedUpdate()
@@ -61,7 +67,7 @@ namespace VRTK
         protected override VRTK_ObjectControl GetOtherControl()
         {
             GameObject foundController = (VRTK_DeviceFinder.IsControllerLeftHand(gameObject) ? VRTK_DeviceFinder.GetControllerRightHand(false) : VRTK_DeviceFinder.GetControllerLeftHand(false));
-            if (foundController)
+            if (foundController != null)
             {
                 return foundController.GetComponentInChildren<VRTK_TouchpadControl>();
             }
@@ -70,17 +76,35 @@ namespace VRTK
 
         protected override void SetListeners(bool state)
         {
-            if (controllerEvents)
+            if (controllerEvents != null)
             {
                 if (state)
                 {
-                    controllerEvents.TouchpadAxisChanged += TouchpadAxisChanged;
-                    controllerEvents.TouchpadTouchEnd += TouchpadTouchEnd;
+                    switch (coordinateAxis)
+                    {
+                        case VRTK_ControllerEvents.Vector2AxisAlias.Touchpad:
+                            controllerEvents.TouchpadAxisChanged += TouchpadAxisChanged;
+                            controllerEvents.TouchpadTouchEnd += TouchpadTouchEnd;
+                            break;
+                        case VRTK_ControllerEvents.Vector2AxisAlias.TouchpadTwo:
+                            controllerEvents.TouchpadTwoAxisChanged += TouchpadAxisChanged;
+                            controllerEvents.TouchpadTwoTouchEnd += TouchpadTouchEnd;
+                            break;
+                    }
                 }
                 else
                 {
-                    controllerEvents.TouchpadAxisChanged -= TouchpadAxisChanged;
-                    controllerEvents.TouchpadTouchEnd -= TouchpadTouchEnd;
+                    switch (coordinateAxis)
+                    {
+                        case VRTK_ControllerEvents.Vector2AxisAlias.Touchpad:
+                            controllerEvents.TouchpadAxisChanged -= TouchpadAxisChanged;
+                            controllerEvents.TouchpadTouchEnd -= TouchpadTouchEnd;
+                            break;
+                        case VRTK_ControllerEvents.Vector2AxisAlias.TouchpadTwo:
+                            controllerEvents.TouchpadTwoAxisChanged -= TouchpadAxisChanged;
+                            controllerEvents.TouchpadTwoTouchEnd -= TouchpadTouchEnd;
+                            break;
+                    }
                 }
             }
         }
@@ -97,27 +121,29 @@ namespace VRTK
 
         protected virtual bool ValidPrimaryButton()
         {
-            return (controllerEvents && (primaryActivationButton == VRTK_ControllerEvents.ButtonAlias.Undefined || controllerEvents.IsButtonPressed(primaryActivationButton)));
+            return (controllerEvents != null && (primaryActivationButton == VRTK_ControllerEvents.ButtonAlias.Undefined || controllerEvents.IsButtonPressed(primaryActivationButton)));
         }
 
         protected virtual void ModifierButtonActive()
         {
-            modifierActive = (controllerEvents && actionModifierButton != VRTK_ControllerEvents.ButtonAlias.Undefined && controllerEvents.IsButtonPressed(actionModifierButton));
+            modifierActive = (controllerEvents != null && actionModifierButton != VRTK_ControllerEvents.ButtonAlias.Undefined && controllerEvents.IsButtonPressed(actionModifierButton));
         }
 
         protected virtual bool TouchpadTouched()
         {
-            return (controllerEvents && controllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TouchpadTouch));
+            return (controllerEvents != null && controllerEvents.IsButtonPressed(coordniateButtonAlias));
         }
 
         protected virtual void TouchpadAxisChanged(object sender, ControllerInteractionEventArgs e)
         {
-            if (touchpadFirstChange && otherObjectControl && disableOtherControlsOnActive && e.touchpadAxis != Vector2.zero)
+            Vector2 actualAxis = (coordinateAxis == VRTK_ControllerEvents.Vector2AxisAlias.Touchpad ? e.touchpadAxis : e.touchpadTwoAxis);
+            if (touchpadFirstChange && otherObjectControl != null && disableOtherControlsOnActive && actualAxis != Vector2.zero)
             {
                 otherTouchpadControlEnabledState = otherObjectControl.enabled;
+                otherTouchpadControlEnabledStateSet = true;
                 otherObjectControl.enabled = false;
             }
-            currentAxis = (ValidPrimaryButton() ? e.touchpadAxis : Vector2.zero);
+            currentAxis = (ValidPrimaryButton() ? actualAxis : Vector2.zero);
 
             if (currentAxis != Vector2.zero)
             {
@@ -127,7 +153,7 @@ namespace VRTK
 
         protected virtual void TouchpadTouchEnd(object sender, ControllerInteractionEventArgs e)
         {
-            if (otherObjectControl && disableOtherControlsOnActive)
+            if (otherTouchpadControlEnabledStateSet && otherObjectControl != null && disableOtherControlsOnActive)
             {
                 otherObjectControl.enabled = otherTouchpadControlEnabledState;
             }

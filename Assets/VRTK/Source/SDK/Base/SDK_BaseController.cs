@@ -57,6 +57,10 @@ namespace VRTK
             /// </summary>
             Touchpad,
             /// <summary>
+            /// Touchpad Two on the controller.
+            /// </summary>
+            TouchpadTwo,
+            /// <summary>
             /// Middle Finger on the controller.
             /// </summary>
             MiddleFinger,
@@ -223,7 +227,15 @@ namespace VRTK
             /// <summary>
             /// The Oculus GearVR controller for Oculus Utilities.
             /// </summary>
-            Oculus_GearVRController
+            Oculus_GearVRController,
+            /// <summary>
+            /// The Windows Mixed Reality Motion Controller for Windows Mixed Reality.
+            /// </summary>
+            WindowsMR_MotionController,
+            /// <summary>
+            /// The Windows Mixed Reality Motion Controller for SteamVR.
+            /// </summary>
+            SteamVR_WindowsMRController
         }
 
         public event VRTKSDKBaseControllerEventHandler LeftControllerReady;
@@ -320,6 +332,7 @@ namespace VRTK
         /// </summary>
         /// <param name="parent">The GameObject that the origin will become parent of. If it is a controller then it will also be used to determine the hand if required.</param>
         /// <returns>A generated Transform that contains the custom pointer origin.</returns>
+        [System.Obsolete("GenerateControllerPointerOrigin has been deprecated and will be removed in a future version of VRTK.")]
         public abstract Transform GenerateControllerPointerOrigin(GameObject parent);
 
         /// <summary>
